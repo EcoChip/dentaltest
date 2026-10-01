@@ -1,6 +1,8 @@
+import { brandConfig } from '@/config/brand';
+
 /**
  * CONTENIDO LEGAL CENTRALIZADO (RGPD, LOPDGDD, LSSI-CE)
- * Clínica Dental Volta & Asociados
+ * Clínica Dental Cala & Asociados
  * 
  * BORRADOR LEGAL: Todos los campos pendientes de confirmación societaria
  * están marcados inequívocamente como [COMPLETAR: ...].
@@ -13,24 +15,24 @@ export const legalConfig = {
 
   // Identificación societaria y sanitaria
   identification: {
-    companyName: '[COMPLETAR: Denominación social exacta, ej. Volta Biomecánica Dental S.L.P.]',
-    tradeName: 'Clínica Dental Volta & Asociados',
-    cif: '[COMPLETAR: CIF/NIF societario, ej. B-88991122]',
-    registeredAddress: '[COMPLETAR: Domicilio social y asistencial exacto, ej. Calle de Serrano, 42, 1º Dcha., 28001 Madrid, España]',
-    contactEmail: 'consulta@clinicavolta.es',
-    contactPhone: '+34 919 00 12 34',
-    dpoEmail: '[COMPLETAR: Correo del Delegado de Protección de Datos (DPO), ej. dpo@clinicavolta.es]',
+    companyName: brandConfig.legalName,
+    tradeName: brandConfig.tradeName,
+    cif: brandConfig.legal.cif,
+    registeredAddress: `${brandConfig.contact.address.street}, ${brandConfig.contact.address.postalCode} ${brandConfig.contact.address.city}, España`,
+    contactEmail: brandConfig.emails.contact,
+    contactPhone: brandConfig.contact.phoneFormatted,
+    dpoEmail: brandConfig.emails.dpo,
     mercantileRegistry: '[COMPLETAR: Datos de inscripción en el Registro Mercantil de Madrid: Tomo, Libro, Folio, Sección, Hoja]',
-    sanitaryRegistryCode: '[COMPLETAR: Código de Centro Sanitario Autorizado por la Comunidad de Madrid, ej. CS14299/CAM]',
-    competentAuthority: 'Consejería de Sanidad de la Comunidad de Madrid / Dirección General de Aseguramiento y Coordinación Sanitaria',
+    sanitaryRegistryCode: brandConfig.legal.sanitaryRegistry,
+    competentAuthority: brandConfig.legal.regulatoryAuthority,
   },
 
   // Cuadro Facultativo y Colegiación
   medicalGovernance: {
-    medicalDirector: 'Dr. Alejandro Volta Morales',
-    officialTitle: 'Licenciado en Odontología por la Universidad Complutense de Madrid',
-    collegiateNumber: '[COMPLETAR: Nº Colegiado oficial, ej. Col. 28004921]',
-    professionalCollege: 'Ilustre Colegio Oficial de Odontólogos y Estomatólogos de la 1ª Región (COEM)',
+    medicalDirector: brandConfig.medicalDirector.name,
+    officialTitle: 'Licenciada en Odontología por la Universidad Complutense de Madrid',
+    collegiateNumber: brandConfig.medicalDirector.colegiado,
+    professionalCollege: brandConfig.medicalDirector.college,
     deontologicalCode: 'Código Deontológico del Consejo General de Colegios Oficiales de Odontólogos y Estomatólogos de España',
   },
 
@@ -77,7 +79,7 @@ export const avisoLegalContent = {
       title: '2. Autorización Sanitaria y Ejercicio Profesional',
       paragraphs: [
         `La clínica cuenta con la preceptiva autorización sanitaria de funcionamiento: ${legalConfig.identification.sanitaryRegistryCode}, otorgada por ${legalConfig.identification.competentAuthority}.`,
-        `La Dirección Médica y la supervisión asistencial corresponden al ${legalConfig.medicalGovernance.medicalDirector}, con número de colegiación ${legalConfig.medicalGovernance.collegiateNumber} adscrito al ${legalConfig.medicalGovernance.professionalCollege}. Titulación: ${legalConfig.medicalGovernance.officialTitle}.`,
+        `La Dirección Médica y la supervisión asistencial corresponden a la ${legalConfig.medicalGovernance.medicalDirector}, con número de colegiación ${legalConfig.medicalGovernance.collegiateNumber} adscrita al ${legalConfig.medicalGovernance.professionalCollege}. Titulación: ${legalConfig.medicalGovernance.officialTitle}.`,
         `El ejercicio profesional de todo el cuadro facultativo se rige escrupulosamente por el ${legalConfig.medicalGovernance.deontologicalCode}.`,
       ],
     },
@@ -193,8 +195,8 @@ export const cookiesContent = {
       title: '3. Inventario Detallado de Tecnologías de Almacenamiento',
       cookiesTable: [
         {
-          name: 'volta_cookie_consent_v1',
-          provider: 'Propio (Clínica Volta)',
+          name: brandConfig.cookieConsentKey,
+          provider: `Propio (${brandConfig.shortName})`,
           purpose: 'Almacena las preferencias de consentimiento del usuario (técnicas, analíticas).',
           duration: '12 meses',
           type: 'Técnica / Necesaria',

@@ -3,8 +3,10 @@ import type { Metadata } from 'next';
 import { LegalPageLayout } from '@/components/legal/LegalPageLayout';
 import { privacidadContent } from '@/content/legal';
 
+import { brandConfig } from '@/config/brand';
+
 export const metadata: Metadata = {
-  title: 'Política de Privacidad y Protección de Datos (RGPD) · Clínica Dental Volta',
+  title: `Política de Privacidad y Protección de Datos (RGPD) · ${brandConfig.name}`,
   description:
     'Información sobre el tratamiento de datos de contacto y advertencia sanitaria conforme al RGPD y LOPDGDD.',
 };

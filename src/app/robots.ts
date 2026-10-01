@@ -1,8 +1,10 @@
 import type { MetadataRoute } from 'next';
+import { brandConfig } from '@/config/brand';
+import { isIndexingAllowed } from '@/lib/seo/indexing';
 
 export default function robots(): MetadataRoute.Robots {
-  // Si estamos en un entorno de staging o preview, bloquear la indexación de rastreadores
-  if (process.env.NEXT_PUBLIC_BLOCK_INDEXING === 'true' || process.env.VERCEL_ENV === 'preview') {
+  // Si estamos en un entorno de demo/staging/preview o dominio no canónico, bloquear la indexación de rastreadores
+  if (!isIndexingAllowed()) {
     return {
       rules: {
         userAgent: '*',
@@ -11,7 +13,7 @@ export default function robots(): MetadataRoute.Robots {
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://clinicavolta.es';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || brandConfig.url;
 
   return {
     rules: [

@@ -1,6 +1,8 @@
+import { brandConfig } from '@/config/brand';
+
 /**
  * ARCHIVO CENTRAL DE CONTENIDO Y PLACEHOLDERS
- * Clínica Dental Volta & Asociados (Madrid)
+ * Clínica Dental Cala & Asociados (Madrid)
  *
  * REGLA ESTRICTA DE PRODUCCIÓN:
  * No se inventan datos médicos, precios ni nombres de pacientes.
@@ -8,16 +10,15 @@
  */
 
 export const siteContent = {
-  // Configuración de Identidad y Marca
+  // Configuración de Identidad y Marca (vinculada a brandConfig)
   brand: {
-    name: 'Clínica Dental Volta',
-    legalName: 'Clínica Dental Volta S.L.P.',
-    cif: '[COMPLETAR: CIF de la sociedad sanitaria]',
-    sanitaryRegistry: '[COMPLETAR: Nº de Registro Sanitario de la CAM, ej. CS14299/CAM]',
-    claim: 'Odontología de Precisión y Ortodoncia Invisible',
-    subclaim: 'La odontología estética no transforma tu sonrisa. Revela su armonía natural.',
-    philosophy:
-      'Planificación digital computacional de fuerzas biomecánicas y mínima intervención tisular. Cada tratamiento se diseña a medida bajo supervisión facultativa continuada.',
+    name: brandConfig.name,
+    legalName: brandConfig.legalName,
+    cif: brandConfig.legal.cif,
+    sanitaryRegistry: brandConfig.legal.sanitaryRegistry,
+    claim: brandConfig.claim,
+    subclaim: brandConfig.subclaim,
+    philosophy: brandConfig.philosophy,
   },
 
   // Llamadas a la Acción Unificadas (CTAs)
@@ -32,24 +33,24 @@ export const siteContent = {
 
   // Contacto y Ubicación
   contact: {
-    phone: '919 00 12 34',
-    phoneRaw: '+34919001234',
-    whatsapp: '+34600123456',
-    whatsappMessage: 'Hola, deseo solicitar una primera visita de valoración para ortodoncia invisible.',
-    email: 'contacto@clinicavolta.es',
+    phone: brandConfig.contact.phone,
+    phoneRaw: brandConfig.contact.phoneRaw,
+    whatsapp: brandConfig.contact.whatsapp,
+    whatsappMessage: brandConfig.contact.whatsappMessage,
+    email: brandConfig.emails.contact,
     address: {
-      street: 'Calle de Serrano, 42, 1º Dcha.',
-      postalCode: '28001',
-      city: 'Madrid',
-      area: 'Barrio de Salamanca',
-      metro: 'Serrano (L4) · Velázquez (L4) · Colón (L4)',
-      parking: 'Parking público Plaza de Colón (a 120 metros de la clínica)',
-      accessDetails: 'Portal adaptado con rampa y ascensor accesible para personas con movilidad reducida.',
+      street: brandConfig.contact.address.street,
+      postalCode: brandConfig.contact.address.postalCode,
+      city: brandConfig.contact.address.city,
+      area: brandConfig.contact.address.area,
+      metro: brandConfig.contact.address.metro,
+      parking: brandConfig.contact.address.parking,
+      accessDetails: brandConfig.contact.address.accessDetails,
     },
     schedule: {
-      weekdays: 'Lunes a Jueves: 09:30 – 20:00 h',
-      friday: 'Viernes: 09:30 – 18:00 h',
-      weekend: 'Sábados y Domingos: Cerrado (atención de urgencias concertadas previa llamada)',
+      weekdays: brandConfig.contact.schedule.weekdays,
+      friday: brandConfig.contact.schedule.friday,
+      weekend: brandConfig.contact.schedule.weekend,
     },
   },
 
@@ -219,13 +220,13 @@ export const siteContent = {
   // 4. Equipo Facultativo
   team: [
     {
-      id: 'alejandro-volta',
-      name: 'Dr. Alejandro Volta Morales',
-      title: 'Director Médico · Especialista en Ortodoncia y Oclusión',
-      collegiateNumber: '[COMPLETAR: Nº Colegiado, ej. Col. 28004921]',
-      college: 'Ilustre Colegio Oficial de Odontólogos y Estomatólogos de Madrid (COEM)',
-      imagePlaceholder: '[IMAGEN REAL: Retrato editorial del Dr. Alejandro Volta en consulta]',
-      bio: 'Licenciado en Odontología por la Universidad Complutense de Madrid con Máster de Excelencia en Ortodoncia y Máster en Oclusión y ATM. Ponente clínico en ortodoncia invisible y biomecánica computacional.',
+      id: brandConfig.medicalDirector.id,
+      name: brandConfig.medicalDirector.name,
+      title: 'Directora Médica · Especialista en Ortodoncia y Oclusión',
+      collegiateNumber: brandConfig.medicalDirector.colegiado,
+      college: brandConfig.medicalDirector.college,
+      imagePlaceholder: '[IMAGEN REAL: Retrato editorial de la Dra. Elena Cala en consulta]',
+      bio: 'Licenciada en Odontología por la Universidad Complutense de Madrid con Máster de Excelencia en Ortodoncia y Máster en Oclusión y ATM. Ponente clínica en ortodoncia invisible y biomecánica computacional.',
       values: 'El rigor biomecánico precede a la estética: una sonrisa sólo es bella si es biológicamente estable y funcionalmente céntrica.',
     },
     {
@@ -292,7 +293,7 @@ export const siteContent = {
         step: '02',
         title: 'Planificación ClinCheck®',
         description:
-          'El Dr. Volta diseña la secuencia matemática de movimientos en el software de planificación, calculando las fuerzas y puntos de apoyo necesarios.',
+          'La Dra. Elena Cala diseña la secuencia matemática de movimientos en el software de planificación, calculando las fuerzas y puntos de apoyo necesarios.',
       },
       {
         step: '03',
@@ -345,9 +346,9 @@ export const siteContent = {
   form: {
     title: 'Reserva tu primera visita de valoración',
     subtitle:
-      'Diagnóstico clínico con escáner intraoral 3D y evaluación individual con el Dr. Alejandro Volta. Sin compromiso.',
+      'Diagnóstico clínico con escáner intraoral 3D y evaluación individual con la Dra. Elena Cala. Sin compromiso.',
     urgencyDisclaimer:
-      'Aviso: Este formulario no gestiona urgencias médicas inmediatas. Si presenta dolor agudo o traumatismo, llame directamente al 919 00 12 34.',
+      `Aviso: Este formulario no gestiona urgencias médicas inmediatas. Si presenta dolor agudo o traumatismo, llame directamente al ${brandConfig.contact.phone}.`,
     privacyNotice:
       'De conformidad con el RGPD y la LOPDGDD, tratamos sus datos para gestionar su cita médica. Puede ejercer sus derechos de acceso, rectificación y supresión.',
     responseTime: '[COMPLETAR: Tiempo de respuesta habitual, ej. Menos de 24 horas laborables]',

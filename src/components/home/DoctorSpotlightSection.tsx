@@ -86,7 +86,7 @@ export function DoctorSpotlightSection() {
               </span>
               <span className="flex items-center space-x-1.5">
                 <GraduationCap className="w-4 h-4 text-accent" />
-                <span>Profesor Colaborador UCM</span>
+                <span>Docencia de Posgrado UCM</span>
               </span>
             </div>
           </div>

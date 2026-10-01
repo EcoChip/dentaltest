@@ -1,7 +1,8 @@
 import { clinicConfig } from '@/config/clinic.config';
 import { siteContent } from '@/content/site';
+import { brandConfig } from '@/config/brand';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://clinicavolta.es';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || brandConfig.url;
 
 /**
  * Esquema Schema.org para la entidad local de la clínica dental.
@@ -65,7 +66,7 @@ export function getClinicSchema() {
     ],
     founder: {
       '@type': 'Physician',
-      '@id': `${siteUrl}/equipo#alejandro-volta`,
+      '@id': `${siteUrl}/equipo#${brandConfig.medicalDirector.id}`,
       name: clinicConfig.medicalDirector.name,
       jobTitle: clinicConfig.medicalDirector.title,
       medicalSpecialty: 'https://health-lifesci.schema.org/Orthodontics',

@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
+import { brandConfig } from '@/config/brand';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://clinicavolta.es';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || brandConfig.url;
   const now = new Date();
 
   return [

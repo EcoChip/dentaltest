@@ -15,18 +15,20 @@ import {
   Microscope,
 } from 'lucide-react';
 
+import { brandConfig } from '@/config/brand';
+
 export const metadata: Metadata = {
-  title: 'Cuadro Médico Odontológico en Madrid · Dr. Alejandro Volta | Clínica Volta',
+  title: `Cuadro Médico Odontológico en Madrid · ${brandConfig.medicalDirector.name} | ${brandConfig.shortName}`,
   description:
-    'Cuadro facultativo de dedicación exclusiva adscrito al COEM. Dirección médica por el Dr. Alejandro Volta en el Barrio de Salamanca, Madrid.',
+    `Cuadro facultativo de dedicación exclusiva adscrito al COEM. Dirección médica por la ${brandConfig.medicalDirector.name} en el Barrio de Salamanca, Madrid.`,
   alternates: {
-    canonical: 'https://clinicavolta.es/equipo',
+    canonical: `${brandConfig.url}/equipo`,
   },
   openGraph: {
-    title: 'Cuadro Médico Odontológico en Madrid · Dr. Alejandro Volta | Clínica Volta',
+    title: `Cuadro Médico Odontológico en Madrid · ${brandConfig.medicalDirector.name} | ${brandConfig.shortName}`,
     description:
-      'Cuadro facultativo de dedicación exclusiva adscrito al COEM. Dirección médica por el Dr. Alejandro Volta en Madrid.',
-    url: 'https://clinicavolta.es/equipo',
+      `Cuadro facultativo de dedicación exclusiva adscrito al COEM. Dirección médica por la ${brandConfig.medicalDirector.name} en Madrid.`,
+    url: `${brandConfig.url}/equipo`,
     type: 'website',
   },
 };
@@ -49,7 +51,7 @@ export default function TeamPage() {
       icon: ShieldCheck,
       title: 'Atención Directa por Especialista',
       description:
-        'Cada revisión de ortodoncia o acto clínico es ejecutado directamente por el doctor especialista colegiado, sin intermediación de operadores auxiliares.',
+        'Cada revisión de ortodoncia o acto clínico es ejecutado directamente por el especialista colegiado, sin intermediación de operadores auxiliares.',
     },
     {
       icon: HeartHandshake,

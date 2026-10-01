@@ -11,6 +11,7 @@ export interface ArchModelHandles {
   lowerHinge: THREE.Group | null;
   setAlignerReveal: (progress: number) => void;
   setScanBeam: (progress: number) => void;
+  setGhostProgress: (progress: number) => void;
   getUpperMesh: () => THREE.Object3D | null;
   getLowerMesh: () => THREE.Object3D | null;
 }
@@ -19,6 +20,8 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
   const mainRigRef = useRef<THREE.Group>(null);
   const upperHingeRef = useRef<THREE.Group>(null);
   const lowerHingeRef = useRef<THREE.Group>(null);
+  const ghostUpperOffsetRef = useRef<THREE.Group>(null);
+  const ghostLowerOffsetRef = useRef<THREE.Group>(null);
 
   const cfg = SCENES_CONFIG.models;
 
@@ -26,16 +29,14 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
   const upperGltf = useGLTF(cfg.upperPath, cfg.dracoDecoderPath);
   const lowerGltf = useGLTF(cfg.lowerPath, cfg.dracoDecoderPath);
 
-  // Material de dientes: MeshPhysicalMaterial sobrio (aspecto clínico de esmalte, no plástico)
+  // Material de dientes: MeshStandardMaterial de alto rendimiento con culling FrontSide
+  // Elimina el overhead de MeshPhysicalMaterial (clearcoat) y DoubleSide
   const teethMaterial = useMemo(() => {
-    return new THREE.MeshPhysicalMaterial({
+    return new THREE.MeshStandardMaterial({
       color: new THREE.Color(cfg.materials.teeth.color),
-      roughness: cfg.materials.teeth.roughness,
-      metalness: cfg.materials.teeth.metalness,
-      clearcoat: cfg.materials.teeth.clearcoat,
-      clearcoatRoughness: cfg.materials.teeth.clearcoatRoughness,
-      reflectivity: cfg.materials.teeth.reflectivity,
-      side: THREE.DoubleSide,
+      roughness: 0.32,
+      metalness: 0.04,
+      side: THREE.FrontSide,
     });
   }, [cfg]);
 
@@ -91,7 +92,6 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
           float normalizedX = clamp((vWorldPosition.x + 0.95) / 1.9, 0.0, 1.0);
           float scanGlow = isScanActive ? smoothstep(0.08, 0.0, abs(normalizedX - uScanBeam)) : 0.0;
 
-          // Si no hay alineador revelado en este punto y el escáner no está activo aquí, descartar
           if (!isAlignerRevealed && scanGlow <= 0.01) {
             discard;
           }
@@ -107,7 +107,6 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
 
           if (isAlignerRevealed) {
             vec3 alignerBase = mix(uColor, uFresnelColor, fresnelFactor);
-            // Borde luminoso de corte al revelar
             float edgeGlow = smoothstep(0.08, 0.0, abs(normalizedZ - uReveal));
             alignerBase += vec3(0.4, 0.85, 1.0) * edgeGlow * 1.6;
             finalColor += alignerBase;
@@ -130,52 +129,126 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
     });
   }, [alignerUniforms]);
 
+  // Shader para la sobreimpresión «fantasma» translúcida del plan ClinCheck (Beat 4)
+  const ghostUniforms = useMemo(() => {
+    return {
+      uColor: { value: new THREE.Color('#3A92C5') },
+      uGlowColor: { value: new THREE.Color('#70E0D0') },
+      uOpacity: { value: 0.0 },
+      uSnap: { value: 0.0 },
+    };
+  }, []);
+
+  const ghostMaterial = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: ghostUniforms,
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vViewPosition;
+
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          vViewPosition = -mvPosition.xyz;
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 uColor;
+        uniform vec3 uGlowColor;
+        uniform float uOpacity;
+        uniform float uSnap;
+
+        varying vec3 vNormal;
+        varying vec3 vViewPosition;
+
+        void main() {
+          if (uOpacity <= 0.005) {
+            discard;
+          }
+          vec3 normal = normalize(vNormal);
+          vec3 viewDir = normalize(vViewPosition);
+          float fresnel = clamp(1.0 - abs(dot(normal, viewDir)), 0.0, 1.0);
+          float rim = pow(fresnel, 2.2);
+
+          vec3 baseColor = mix(uColor, uGlowColor, rim);
+          baseColor += vec3(0.35, 0.85, 1.0) * (uSnap * 0.9);
+
+          float alpha = clamp(uOpacity * (0.26 + rim * 0.74) + uSnap * 0.35, 0.0, 0.95);
+          gl_FragColor = vec4(baseColor, alpha);
+        }
+      `,
+      transparent: true,
+      side: THREE.FrontSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+  }, [ghostUniforms]);
+
   // Clonar geometrías y aplicar materiales sin mutar las fuentes globales
-  const { upperTeeth, upperAligner } = useMemo(() => {
+  const { upperTeeth, upperAligner, upperGhost } = useMemo(() => {
     const teeth = upperGltf.scene.clone(true);
     teeth.traverse((c) => {
       if ((c as THREE.Mesh).isMesh) {
         const m = c as THREE.Mesh;
-        m.geometry.computeVertexNormals();
         m.material = teethMaterial;
       }
     });
 
     const aligner = upperGltf.scene.clone(true);
+    aligner.visible = false;
     aligner.traverse((c) => {
       if ((c as THREE.Mesh).isMesh) {
         const m = c as THREE.Mesh;
-        m.geometry.computeVertexNormals();
         m.material = alignerMaterial;
         m.renderOrder = 10;
       }
     });
 
-    return { upperTeeth: teeth, upperAligner: aligner };
-  }, [upperGltf, teethMaterial, alignerMaterial]);
+    const ghost = upperGltf.scene.clone(true);
+    ghost.visible = false;
+    ghost.traverse((c) => {
+      if ((c as THREE.Mesh).isMesh) {
+        const m = c as THREE.Mesh;
+        m.material = ghostMaterial;
+        m.renderOrder = 20;
+      }
+    });
 
-  const { lowerTeeth, lowerAligner } = useMemo(() => {
+    return { upperTeeth: teeth, upperAligner: aligner, upperGhost: ghost };
+  }, [upperGltf, teethMaterial, alignerMaterial, ghostMaterial]);
+
+  const { lowerTeeth, lowerAligner, lowerGhost } = useMemo(() => {
     const teeth = lowerGltf.scene.clone(true);
     teeth.traverse((c) => {
       if ((c as THREE.Mesh).isMesh) {
         const m = c as THREE.Mesh;
-        m.geometry.computeVertexNormals();
         m.material = teethMaterial;
       }
     });
 
     const aligner = lowerGltf.scene.clone(true);
+    aligner.visible = false;
     aligner.traverse((c) => {
       if ((c as THREE.Mesh).isMesh) {
         const m = c as THREE.Mesh;
-        m.geometry.computeVertexNormals();
         m.material = alignerMaterial;
         m.renderOrder = 10;
       }
     });
 
-    return { lowerTeeth: teeth, lowerAligner: aligner };
-  }, [lowerGltf, teethMaterial, alignerMaterial]);
+    const ghost = lowerGltf.scene.clone(true);
+    ghost.visible = false;
+    ghost.traverse((c) => {
+      if ((c as THREE.Mesh).isMesh) {
+        const m = c as THREE.Mesh;
+        m.material = ghostMaterial;
+        m.renderOrder = 20;
+      }
+    });
+
+    return { lowerTeeth: teeth, lowerAligner: aligner, lowerGhost: ghost };
+  }, [lowerGltf, teethMaterial, alignerMaterial, ghostMaterial]);
 
   // Exponer API imperativa para que el timeline de GSAP mute directamente sin re-renders
   useImperativeHandle(ref, () => ({
@@ -184,9 +257,39 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
     lowerHinge: lowerHingeRef.current,
     setAlignerReveal: (progress: number) => {
       alignerUniforms.uReveal.value = progress;
+      const shouldBeVisible = progress > 0.005 || alignerUniforms.uScanBeam.value >= 0.0;
+      if (upperAligner.visible !== shouldBeVisible) {
+        upperAligner.visible = shouldBeVisible;
+        lowerAligner.visible = shouldBeVisible;
+      }
     },
     setScanBeam: (progress: number) => {
       alignerUniforms.uScanBeam.value = progress;
+      const shouldBeVisible = progress >= 0.0 || alignerUniforms.uReveal.value > 0.005;
+      if (upperAligner.visible !== shouldBeVisible) {
+        upperAligner.visible = shouldBeVisible;
+        lowerAligner.visible = shouldBeVisible;
+      }
+    },
+    setGhostProgress: (progress: number) => {
+      const isVisible = progress > 0.002;
+      if (upperGhost.visible !== isVisible) {
+        upperGhost.visible = isVisible;
+        lowerGhost.visible = isVisible;
+      }
+      ghostUniforms.uOpacity.value = Math.min(1.0, progress * 1.35);
+      ghostUniforms.uSnap.value = progress > 0.91 ? Math.sin((progress - 0.91) / 0.09 * Math.PI) : 0.0;
+
+      // El plan virtual comienza desplazado y encaja con 100% de concordancia en el resultado oclusal
+      const factor = Math.max(0, 1.0 - progress);
+      if (ghostUpperOffsetRef.current) {
+        ghostUpperOffsetRef.current.position.set(0.035 * factor, 0.045 * factor, 0.05 * factor);
+        ghostUpperOffsetRef.current.rotation.set(0.03 * factor, -0.05 * factor, 0.02 * factor);
+      }
+      if (ghostLowerOffsetRef.current) {
+        ghostLowerOffsetRef.current.position.set(-0.03 * factor, -0.04 * factor, 0.045 * factor);
+        ghostLowerOffsetRef.current.rotation.set(-0.02 * factor, 0.035 * factor, -0.015 * factor);
+      }
     },
     getUpperMesh: () => upperHingeRef.current,
     getLowerMesh: () => lowerHingeRef.current,
@@ -203,6 +306,9 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
           <group position={cfg.offsets.upper}>
             <primitive object={upperTeeth} />
             <primitive object={upperAligner} />
+            <group ref={ghostUpperOffsetRef}>
+              <primitive object={upperGhost} />
+            </group>
           </group>
         </group>
       </group>
@@ -213,6 +319,9 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string }>((p
           <group position={cfg.offsets.lower}>
             <primitive object={lowerTeeth} />
             <primitive object={lowerAligner} />
+            <group ref={ghostLowerOffsetRef}>
+              <primitive object={lowerGhost} />
+            </group>
           </group>
         </group>
       </group>

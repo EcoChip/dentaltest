@@ -14,18 +14,20 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
+import { brandConfig } from '@/config/brand';
+
 export const metadata: Metadata = {
-  title: 'Tratamientos Odontológicos en Madrid · Carillas, Implantes y Estética | Clínica Volta',
+  title: `Tratamientos Odontológicos en Madrid · Carillas, Implantes y Estética | ${brandConfig.shortName}`,
   description:
     'Especialidades clínicas de preservación tisular en el Barrio de Salamanca: ortodoncia invisible Invisalign®, carillas cerámicas biomiméticas e implantología guiada en Madrid.',
   alternates: {
-    canonical: 'https://clinicavolta.es/tratamientos',
+    canonical: `${brandConfig.url}/tratamientos`,
   },
   openGraph: {
-    title: 'Tratamientos Odontológicos en Madrid · Carillas, Implantes y Estética | Clínica Volta',
+    title: `Tratamientos Odontológicos en Madrid · Carillas, Implantes y Estética | ${brandConfig.shortName}`,
     description:
       'Especialidades clínicas de preservación tisular en el Barrio de Salamanca: ortodoncia invisible, carillas cerámicas e implantología guiada.',
-    url: 'https://clinicavolta.es/tratamientos',
+    url: `${brandConfig.url}/tratamientos`,
     type: 'website',
   },
 };

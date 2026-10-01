@@ -11,6 +11,11 @@ if (typeof window !== 'undefined') {
 export interface TimelineSetupOptions {
   stageElement: HTMLElement;
   sceneHandles: SceneHandles;
+  countersRef?: {
+    cases: HTMLElement | null;
+    years: HTMLElement | null;
+    concordance: HTMLElement | null;
+  };
   onActiveSceneChange?: (sceneId: string, progress: number) => void;
   onCanvasOpacityChange?: (opacity: number) => void;
 }
@@ -18,6 +23,7 @@ export interface TimelineSetupOptions {
 export function setupMasterScrollTimeline({
   stageElement,
   sceneHandles,
+  countersRef,
   onActiveSceneChange,
   onCanvasOpacityChange,
 }: TimelineSetupOptions) {
@@ -73,33 +79,37 @@ export function setupMasterScrollTimeline({
           onUpdate: (self) => {
             const p = self.progress;
 
-            // Gestionar rotación ociosa: solo activa cuando p < 0.05
-            if (p > 0.05 && isIdleActive) {
+            // Gestionar rotación ociosa: pausar de inmediato al iniciar el scroll
+            if (p > 0.01 && isIdleActive) {
               isIdleActive = false;
-              if (idleRafId) cancelAnimationFrame(idleRafId);
-            } else if (p <= 0.05 && !isIdleActive) {
+              if (idleRafId) {
+                cancelAnimationFrame(idleRafId);
+                idleRafId = null;
+              }
+            } else if (p <= 0.01 && !isIdleActive) {
               isIdleActive = true;
               runIdleRotation();
             }
 
-            // Desvanecimiento suave del canvas hacia el HTML final (900 a 1000 svh)
-            if (p >= 0.88) {
-              const fade = Math.max(0, 1 - (p - 0.88) / 0.12);
+            // Desvanecimiento suave del canvas hacia el HTML final (DESPUÉS de S5: 1380 a 1400 svh)
+            if (p >= 0.985) {
+              const fade = Math.max(0, 1 - (p - 0.985) / 0.015);
               if (onCanvasOpacityChange) onCanvasOpacityChange(fade);
             } else {
               if (onCanvasOpacityChange) onCanvasOpacityChange(1);
             }
 
-            // Notificación de escena activa para textos HTML
+            // Notificación de escena activa para textos HTML (14 unidades de svh en total)
             if (onActiveSceneChange) {
-              if (p < 0.28) onActiveSceneChange('s1_intro', p);
-              else if (p < 0.52) onActiveSceneChange('s2_invisalign', p);
-              else if (p < 0.88) onActiveSceneChange('s3_process', p);
-              else onActiveSceneChange('s4_exit', p);
+              if (p < 0.214) onActiveSceneChange('s1_intro', p);
+              else if (p < 0.357) onActiveSceneChange('s2_invisalign', p);
+              else if (p < 0.643) onActiveSceneChange('s3_process', p);
+              else if (p < 0.714) onActiveSceneChange('s4_occlusion', p);
+              else if (p < 0.786) onActiveSceneChange('s5_beat1_cases', p);
+              else if (p < 0.857) onActiveSceneChange('s5_beat2_years', p);
+              else if (p < 0.929) onActiveSceneChange('s5_beat3_cert', p);
+              else onActiveSceneChange('s5_beat4_concordance', p);
             }
-
-            // Forzar renderizado en Three.js con demand
-            sceneHandles.invalidate();
           },
         },
       });
@@ -470,8 +480,261 @@ export function setupMasterScrollTimeline({
         8.7
       );
 
-      // Normalizar duración total a exactamente 10.0 unidades (1 unidad = 100 svh)
-      master.to({}, { duration: 1.0 }, 9.0);
+      // ====================================================================
+      // ESCENA 4 (900 a 1000 svh / unidades 9.0 a 10.0):
+      // Oclusión Perfecta Clase I y Armonía Facial
+      // ====================================================================
+      master.addLabel('s4_occlusion', 9.0);
+
+      // ====================================================================
+      // ESCENA 5 (1000 a 1400 svh / unidades 10.0 a 14.0):
+      // EVIDENCIA CLÍNICA DOCUMENTADA (4 BEATS DE SCROLL SCRUBBEADOS)
+      // - Beat 1 (10.0 a 11.0): 1.450+ Casos | Cámara se acerca lentamente
+      // - Beat 2 (11.0 a 12.0): 18 Años | Rotación lenta mostrando estabilidad
+      // - Beat 3 (12.0 a 13.0): Invisalign Apex | Encuadre frontal de sonrisa
+      // - Beat 4 (13.0 a 14.0): 98,7% Previsibilidad | Sobreimpresión fantasma
+      // ====================================================================
+      master.addLabel('s5_evidence', 10.0);
+      master.addLabel('s5_beat1_cases', 10.0);
+
+      const counterVals = {
+        cases: 0,
+        years: 0,
+        concordance: 0,
+      };
+
+      // --------------------------------------------------------------------
+      // BEAT 1 (10.0 a 11.0): 1.450+ Casos Clínicos Finalizados
+      // --------------------------------------------------------------------
+      master.to(
+        counterVals,
+        {
+          cases: 1450,
+          duration: 0.85,
+          ease: 'power1.out',
+          onUpdate: () => {
+            if (countersRef?.cases) {
+              const val = Math.round(counterVals.cases);
+              countersRef.cases.textContent = `${val.toLocaleString('es-ES')}+`;
+            }
+          },
+        },
+        10.05
+      );
+
+      // Cámara se acerca lentamente a los dientes mientras el número sube
+      if (sceneHandles.cameraRig?.camera) {
+        master.to(
+          sceneHandles.cameraRig.camera.position,
+          {
+            x: isMobile ? 0 : 0.12,
+            y: isMobile ? -0.05 : 0,
+            z: bpCfg.cameraDistance - (isMobile ? 0.65 : 0.75),
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          10.0
+        );
+      }
+
+      if (sceneHandles.archModel?.mainRig) {
+        master.to(
+          sceneHandles.archModel.mainRig.position,
+          {
+            x: isMobile ? 0 : 0.35,
+            y: isMobile ? -0.65 : 0,
+            z: 0,
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          10.0
+        );
+      }
+
+      // --------------------------------------------------------------------
+      // BEAT 2 (11.0 a 12.0): 18 Años de Ejercicio Continuado
+      // --------------------------------------------------------------------
+      master.addLabel('s5_beat2_years', 11.0);
+
+      master.to(
+        counterVals,
+        {
+          years: 18,
+          duration: 0.85,
+          ease: 'power1.out',
+          onUpdate: () => {
+            if (countersRef?.years) {
+              const val = Math.round(counterVals.years);
+              countersRef.years.textContent = `${val} años`;
+            }
+          },
+        },
+        11.05
+      );
+
+      // Rotación lenta de la arcada mostrando estabilidad
+      if (sceneHandles.archModel?.mainRig) {
+        master.to(
+          sceneHandles.archModel.mainRig.rotation,
+          {
+            y: isMobile ? 0.38 : 0.42,
+            x: isMobile ? 0.04 : 0.05,
+            duration: 0.9,
+            ease: 'power1.inOut',
+          },
+          11.0
+        );
+
+        master.to(
+          sceneHandles.archModel.mainRig.position,
+          {
+            x: isMobile ? 0 : -0.35,
+            y: isMobile ? -0.65 : 0,
+            z: 0,
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          11.0
+        );
+      }
+
+      if (sceneHandles.cameraRig?.camera) {
+        master.to(
+          sceneHandles.cameraRig.camera.position,
+          {
+            x: isMobile ? 0 : -0.15,
+            y: isMobile ? 0 : 0.02,
+            z: bpCfg.cameraDistance - (isMobile ? 0.2 : 0.25),
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          11.0
+        );
+      }
+
+      // --------------------------------------------------------------------
+      // BEAT 3 (12.0 a 13.0): Certificación Invisalign Apex (Top 1% Europa)
+      // --------------------------------------------------------------------
+      master.addLabel('s5_beat3_cert', 12.0);
+
+      // Encuadre frontal de la sonrisa
+      if (sceneHandles.archModel?.mainRig) {
+        master.to(
+          sceneHandles.archModel.mainRig.rotation,
+          {
+            y: 0,
+            x: 0.02,
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          12.0
+        );
+
+        master.to(
+          sceneHandles.archModel.mainRig.position,
+          {
+            x: isMobile ? 0 : 0.30,
+            y: isMobile ? -0.65 : 0,
+            z: 0,
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          12.0
+        );
+      }
+
+      if (sceneHandles.cameraRig?.camera) {
+        master.to(
+          sceneHandles.cameraRig.camera.position,
+          {
+            x: isMobile ? 0 : 0.1,
+            y: isMobile ? 0 : 0,
+            z: bpCfg.cameraDistance - (isMobile ? 0.35 : 0.4),
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          12.0
+        );
+      }
+
+      // --------------------------------------------------------------------
+      // BEAT 4 (13.0 a 14.0): 98,7% Previsibilidad Biomecánica & Ghost Snap
+      // --------------------------------------------------------------------
+      master.addLabel('s5_beat4_concordance', 13.0);
+
+      // Sobreimpresión tipo «fantasma» translúcido del plan original sobre el resultado con borde luminoso
+      master.to(
+        { ghost: 0 },
+        {
+          ghost: 1,
+          duration: 0.85,
+          ease: 'power2.inOut',
+          onUpdate: function () {
+            sceneHandles.archModel?.setGhostProgress(this.targets()[0].ghost);
+          },
+        },
+        13.05
+      );
+
+      // Contador scrubbeado a 98,7%
+      master.to(
+        counterVals,
+        {
+          concordance: 98.7,
+          duration: 0.85,
+          ease: 'power1.out',
+          onUpdate: () => {
+            if (countersRef?.concordance) {
+              const val = counterVals.concordance.toFixed(1).replace('.', ',');
+              countersRef.concordance.textContent = `${val}%`;
+            }
+          },
+        },
+        13.05
+      );
+
+      if (sceneHandles.archModel?.mainRig) {
+        master.to(
+          sceneHandles.archModel.mainRig.position,
+          {
+            x: isMobile ? 0 : -0.32,
+            y: isMobile ? -0.65 : 0,
+            z: 0,
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          13.0
+        );
+
+        master.to(
+          sceneHandles.archModel.mainRig.rotation,
+          {
+            y: isMobile ? 0.15 : 0.16,
+            x: isMobile ? 0.03 : 0.04,
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          13.0
+        );
+      }
+
+      if (sceneHandles.cameraRig?.camera) {
+        master.to(
+          sceneHandles.cameraRig.camera.position,
+          {
+            x: isMobile ? 0 : -0.12,
+            y: 0,
+            z: bpCfg.cameraDistance - (isMobile ? 0.4 : 0.45),
+            duration: 0.9,
+            ease: 'power2.inOut',
+          },
+          13.0
+        );
+      }
+
+      // Normalizar duración total a exactamente 14.0 unidades (1 unidad = 100 svh)
+      master.addLabel('s5_end', 14.0);
+      master.to({}, { duration: 1.0 }, 13.0);
 
       return () => {
         master.kill();

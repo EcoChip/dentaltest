@@ -2,13 +2,23 @@
 
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
-import { Environment, Lightformer, ContactShadows } from '@react-three/drei';
 import { SCENES_CONFIG } from '@/config/scenes';
 
 export interface LightingHandles {
   setGlowIntensity: (intensity: number) => void;
 }
 
+/**
+ * Sistema de Iluminación de Estudio Clínico de Alto Rendimiento.
+ * 
+ * OPTIMIZACIÓN CLAVE FASE 5:
+ * Se eliminan <Environment> dinámico y <ContactShadows> en tiempo real,
+ * los cuales generaban 2 contextos WebGL auxiliares y múltiples pases de cámara
+ * fuera de pantalla, provocando tirones y un cuello de botella de 12 segundos.
+ * 
+ * Se adopta la configuración ligera y ultra-fluida del visor interactivo:
+ * iluminación direccional balanceada con contrastes clínicos cálido/frío.
+ */
 export const Lighting = forwardRef<LightingHandles, { disableShadows?: boolean }>(
   ({ disableShadows = false }, ref) => {
     const glowLightRef = useRef<THREE.PointLight>(null);
@@ -24,26 +34,32 @@ export const Lighting = forwardRef<LightingHandles, { disableShadows?: boolean }
     const cfg = SCENES_CONFIG.lighting;
 
     return (
-      <>
-        {/* Luces Directas Clínicas */}
-        <ambientLight color={cfg.ambientLight.color} intensity={cfg.ambientLight.intensity} />
+      <group name="LightingRig">
+        {/* Luz Ambiental Base para conservar el detalle oclusal en zonas de sombra */}
+        <ambientLight color="#FFFFFF" intensity={0.75} />
+
+        {/* Luz Frontal Superior Clave (Key Light) */}
         <directionalLight
-          position={cfg.keyLight.position}
-          intensity={cfg.keyLight.intensity}
-          color={cfg.keyLight.color}
-        />
-        <directionalLight
-          position={cfg.fillLight.position}
-          intensity={cfg.fillLight.intensity}
-          color={cfg.fillLight.color}
-        />
-        <directionalLight
-          position={cfg.rimLight.position}
-          intensity={cfg.rimLight.intensity}
-          color={cfg.rimLight.color}
+          position={[3.0, 5.0, 4.0]}
+          intensity={2.0}
+          color="#FFFFFF"
         />
 
-        {/* Luz puntual de destello oclusal */}
+        {/* Luz Lateral de Relleno Cerúleo Frío (Fill Light) */}
+        <directionalLight
+          position={[-3.5, -1.5, 3.0]}
+          intensity={1.2}
+          color="#89c2d9"
+        />
+
+        {/* Luz Trasera / Cenital de Recorte Especular (Rim Light) */}
+        <directionalLight
+          position={[0.0, 3.5, -3.0]}
+          intensity={1.4}
+          color="#caf0f8"
+        />
+
+        {/* Luz puntual de destello oclusal (controlada dinámicamente por el timeline) */}
         <pointLight
           ref={glowLightRef}
           position={cfg.pointGlow.position}
@@ -51,50 +67,7 @@ export const Lighting = forwardRef<LightingHandles, { disableShadows?: boolean }
           distance={cfg.pointGlow.distance}
           intensity={0}
         />
-
-        {/* Entorno de estudio clínico con Lightformers locales (sin HDRI remotos) */}
-        <Environment resolution={128}>
-          <group rotation={[Math.PI / 4, 0, 0]}>
-            {/* Softbox superior principal */}
-            <Lightformer
-              form="rect"
-              intensity={1.5}
-              position={[0, 4, 2]}
-              scale={[5, 2, 1]}
-              target={[0, 0, 0]}
-              color="#FFFFFF"
-            />
-            {/* Reflector lateral frío */}
-            <Lightformer
-              form="rect"
-              intensity={0.8}
-              position={[-4, 1, -1]}
-              scale={[3, 3, 1]}
-              color="#B0D5F0"
-            />
-            {/* Reflector rasante inferior cálido */}
-            <Lightformer
-              form="ring"
-              intensity={0.5}
-              position={[0, -3, 2]}
-              scale={2}
-              color="#F8F6F1"
-            />
-          </group>
-        </Environment>
-
-        {/* Sombras de Contacto Suaves */}
-        {!disableShadows && (
-          <ContactShadows
-            position={cfg.shadows.position}
-            opacity={cfg.shadows.opacity}
-            scale={4}
-            blur={cfg.shadows.blur}
-            far={1.5}
-            color="#121314"
-          />
-        )}
-      </>
+      </group>
     );
   }
 );

@@ -37,14 +37,17 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+import { brandConfig } from '@/config/brand';
+import { getRobotsMetadata } from '@/lib/seo/indexing';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://clinicavolta.es'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || brandConfig.url),
   title: {
     default: `${clinicConfig.name} · Ortodoncia Invisible & Estética Dental en Madrid`,
     template: `%s | ${clinicConfig.name}`,
   },
   description:
-    'Clínica dental de alta especialización en ortodoncia invisible Invisalign®, carillas cerámicas biomiméticas e implantología guiada. Dirección médica por el Dr. Alejandro Volta.',
+    `Clínica dental de alta especialización en ortodoncia invisible Invisalign®, carillas cerámicas biomiméticas e implantología guiada. Dirección médica por la ${clinicConfig.medicalDirector.name}.`,
   keywords: [
     'ortodoncia invisible madrid',
     'invisalign madrid serrano',
@@ -54,21 +57,11 @@ export const metadata: Metadata = {
     'clinica dental barrio salamanca',
   ],
   authors: [{ name: clinicConfig.medicalDirector.name }],
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsMetadata(),
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: 'https://clinicavolta.es',
+    url: brandConfig.url,
     siteName: clinicConfig.name,
     title: `${clinicConfig.name} · Ortodoncia Invisible de Alta Precisión`,
     description: clinicConfig.claim,
@@ -82,15 +75,15 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'https://clinicavolta.es',
+    canonical: brandConfig.url,
   },
   manifest: '/manifest.webmanifest',
   twitter: {
     card: 'summary_large_image',
     title: `${clinicConfig.name} · Ortodoncia Invisible & Estética Dental en Madrid`,
     description: clinicConfig.claim,
-    site: '@clinicavolta',
-    creator: '@clinicavolta',
+    site: brandConfig.social.twitter,
+    creator: brandConfig.social.twitter,
   },
 };
 

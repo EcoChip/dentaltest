@@ -110,7 +110,7 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
           ref={(node) => {
             itemRefs.current[idx] = node;
           }}
-          className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 flex items-center space-x-2 transition-transform duration-75 ease-out"
+          className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 flex items-center space-x-2 pointer-events-none"
         >
           {/* Marcador óptico quirúrgico con halo clínico */}
           <div className="relative flex items-center justify-center">
@@ -122,7 +122,7 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
           <div className="w-4 sm:w-6 h-[1px] bg-accent/60" />
 
           {/* Tarjeta de información editorial */}
-          <div className="bg-canvas/95 border border-line-strong px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xs shadow-card backdrop-blur-md whitespace-nowrap text-left">
+          <div className="bg-canvas border border-line-strong px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xs shadow-card whitespace-nowrap text-left">
             <span className="text-[9px] sm:text-[10px] uppercase tracking-clinical font-semibold text-ink block leading-none mb-0.5">
               {item.title}
             </span>

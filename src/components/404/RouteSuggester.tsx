@@ -28,7 +28,7 @@ const KNOWN_ROUTES: RouteTarget[] = [
     path: '/equipo',
     label: 'Cuadro Facultativo y Dirección Médica',
     description: 'Trayectoria académica, colegiación oficial y filosofía biológica.',
-    keywords: ['equipo', 'doctores', 'doctor', 'doctora', 'alejandro-volta', 'facultativo', 'especialistas'],
+    keywords: ['equipo', 'doctores', 'doctor', 'doctora', 'elena-cala', 'cala', 'facultativo', 'especialistas'],
   },
   {
     path: '/contacto',

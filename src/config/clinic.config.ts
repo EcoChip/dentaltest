@@ -1,3 +1,5 @@
+import { brandConfig } from './brand';
+
 export interface ClinicConfig {
   name: string;
   shortName: string;
@@ -50,47 +52,47 @@ export interface ClinicConfig {
 }
 
 export const clinicConfig: ClinicConfig = {
-  name: "Clínica Dental Volta & Asociados",
-  shortName: "Clínica Volta",
-  tagline: "Odontología Estética de Precisión y Ortodoncia Invisible",
-  claim: "La odontología estética no transforma tu sonrisa. Revela su armonía natural.",
+  name: brandConfig.tradeName,
+  shortName: brandConfig.shortName,
+  tagline: brandConfig.tagline,
+  claim: brandConfig.claim,
   medicalDirector: {
-    name: "Dr. Alejandro Volta Morales",
-    title: "Director Médico y Especialista en Ortodoncia Digital",
-    collegiateNumber: "Col. 28004921",
-    specialty: "Ortodoncia Invisible y Rehabilitación Estética Biomimética",
+    name: brandConfig.medicalDirector.name,
+    title: brandConfig.medicalDirector.role,
+    collegiateNumber: brandConfig.medicalDirector.colegiado,
+    specialty: brandConfig.medicalDirector.specialty,
     college: "Ilustre Colegio Oficial de Odontólogos y Estomatólogos de la 1ª Región (COEM)",
   },
   contact: {
-    phone: "+34919001234",
-    phoneDisplay: "919 00 12 34",
-    whatsapp: "+34600123456",
-    whatsappMessage: "Hola, deseo solicitar una primera consulta diagnóstica de ortodoncia invisible.",
-    email: "consulta@clinicavolta.es",
+    phone: brandConfig.contact.phoneRaw,
+    phoneDisplay: brandConfig.contact.phone,
+    whatsapp: brandConfig.contact.whatsapp,
+    whatsappMessage: brandConfig.contact.whatsappMessage,
+    email: brandConfig.emails.contact,
     address: {
-      street: "Calle de Serrano, 42, 1º Dcha.",
-      city: "Madrid",
-      postalCode: "28001",
+      street: brandConfig.contact.address.street,
+      city: brandConfig.contact.address.city,
+      postalCode: brandConfig.contact.address.postalCode,
       province: "Madrid",
       country: "España",
-      metro: "Serrano (L4) / Velázquez (L4) / Colón (L4)",
-      parking: "Aparcamiento público concertado en Plaza de Colón (2 h bonificadas)",
+      metro: brandConfig.contact.address.metro,
+      parking: brandConfig.contact.address.parking,
     },
     schedule: {
-      weekdays: "Lunes a Jueves: 09:30 – 20:00",
-      friday: "Viernes: 09:30 – 18:00",
-      weekend: "Sábados y Domingos: Cerrado",
+      weekdays: brandConfig.contact.schedule.weekdays,
+      friday: brandConfig.contact.schedule.friday,
+      weekend: brandConfig.contact.schedule.weekend,
     },
   },
   social: {
-    instagram: "https://instagram.com/clinicavolta",
-    linkedin: "https://linkedin.com/company/clinica-volta",
+    instagram: brandConfig.social.instagram,
+    linkedin: brandConfig.social.linkedin,
   },
   legal: {
-    cif: "B-88991122",
-    registrySanitaryCode: "CS14299/CAM (Comunidad de Madrid)",
-    companyName: "Clínica Dental Volta S.L.P.",
-    dpoEmail: "privacidad@clinicavolta.es",
+    cif: brandConfig.legal.cif,
+    registrySanitaryCode: brandConfig.legal.sanitaryRegistry,
+    companyName: brandConfig.legalName,
+    dpoEmail: brandConfig.emails.dpo,
   },
   stats: [
     {
@@ -100,21 +102,22 @@ export const clinicConfig: ClinicConfig = {
       isPlaceholder: true,
     },
     {
-      value: "Diamond Apex",
-      label: "Categoría Invisalign® Oficial",
-      detail: "Pertenecientes al 1% de proveedores en Europa",
+      value: "18",
+      label: "Años de experiencia",
+      detail: "Ejercicio profesional exclusivo en ortodoncia de alta gama",
       isPlaceholder: true,
     },
     {
-      value: "18 años",
-      label: "Práctica clínica especializada",
-      detail: "Dedicación exclusiva a ortodoncia y estética dental",
+      value: "Top 1%",
+      label: "Invisalign Apex",
+      detail: "Categoría de proveedor de máxima experiencia clínica oficial",
       isPlaceholder: true,
     },
     {
-      value: "0,2 mm",
-      label: "Tolerancia biomecánica",
-      detail: "Ajuste milimétrico guiado por tecnología digital 3D",
+      value: "98,7%",
+      label: "Predictibilidad",
+      detail: "Alineación planificada vs. resultado anatómico final",
+      isPlaceholder: true,
     },
   ],
 };

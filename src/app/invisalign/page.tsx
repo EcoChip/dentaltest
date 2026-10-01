@@ -16,18 +16,20 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
+import { brandConfig } from '@/config/brand';
+
 export const metadata: Metadata = {
-  title: 'Invisalign en Madrid · Ortodoncia Invisible con Planificación ClinCheck® | Clínica Volta',
+  title: `Invisalign en Madrid · Ortodoncia Invisible con Planificación ClinCheck® | ${brandConfig.shortName}`,
   description:
-    'Alineadores transparentes SmartTrack® con planificación computacional 3D ClinCheck® en el Barrio de Salamanca, Madrid. Dirección por el Dr. Alejandro Volta.',
+    `Alineadores transparentes SmartTrack® con planificación computacional 3D ClinCheck® en el Barrio de Salamanca, Madrid. Dirección por la ${brandConfig.medicalDirector.name}.`,
   alternates: {
-    canonical: 'https://clinicavolta.es/invisalign',
+    canonical: `${brandConfig.url}/invisalign`,
   },
   openGraph: {
-    title: 'Invisalign en Madrid · Ortodoncia Invisible con Planificación ClinCheck® | Clínica Volta',
+    title: `Invisalign en Madrid · Ortodoncia Invisible con Planificación ClinCheck® | ${brandConfig.shortName}`,
     description:
       'Alineadores transparentes SmartTrack® con planificación computacional 3D ClinCheck® en el Barrio de Salamanca, Madrid.',
-    url: 'https://clinicavolta.es/invisalign',
+    url: `${brandConfig.url}/invisalign`,
     type: 'website',
   },
 };
@@ -102,9 +104,9 @@ export default function InvisalignPage() {
             </div>
 
             <div className="pt-6 border-t border-line-subtle mt-6 flex items-center justify-between">
-              <span className="text-xs text-ink-muted">Director Médico Certificado:</span>
+              <span className="text-xs text-ink-muted">Dirección Médica Certificada:</span>
               <span className="text-xs font-serif font-medium text-ink">
-                Dr. Alejandro Volta Morales
+                {brandConfig.medicalDirector.name}
               </span>
             </div>
           </div>
@@ -261,7 +263,7 @@ export default function InvisalignPage() {
               Comienza tu estudio de ortodoncia 3D
             </h3>
             <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-              Diagnóstico con escáner intraoral iTero, simulación digital ClinCheck® y valoración personalizada con el Dr. Alejandro Volta.
+              Diagnóstico con escáner intraoral iTero, simulación digital ClinCheck® y valoración personalizada con la {brandConfig.medicalDirector.name}.
             </p>
           </div>
 

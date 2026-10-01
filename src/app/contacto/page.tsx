@@ -7,18 +7,20 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { getBreadcrumbSchema } from '@/lib/seo/schema';
 import { MapPin, Phone, Mail, Clock, ShieldCheck, Car, Train } from 'lucide-react';
 
+import { brandConfig } from '@/config/brand';
+
 export const metadata: Metadata = {
-  title: 'Contacto y Cita Previa en Calle Serrano, Madrid · Clínica Dental Volta',
+  title: `Contacto y Cita Previa en Calle Serrano, Madrid · ${brandConfig.name}`,
   description:
     'Solicite su primera visita de diagnóstico en la Calle de Serrano, 42 (Barrio de Salamanca, Madrid). Gabinete digital, acceso adaptado y aparcamiento público bonificado.',
   alternates: {
-    canonical: 'https://clinicavolta.es/contacto',
+    canonical: `${brandConfig.url}/contacto`,
   },
   openGraph: {
-    title: 'Contacto y Cita Previa en Calle Serrano, Madrid · Clínica Dental Volta',
+    title: `Contacto y Cita Previa en Calle Serrano, Madrid · ${brandConfig.name}`,
     description:
       'Solicite su primera visita de diagnóstico en la Calle de Serrano, 42 (Barrio de Salamanca, Madrid). Gabinete digital y acceso adaptado.',
-    url: 'https://clinicavolta.es/contacto',
+    url: `${brandConfig.url}/contacto`,
     type: 'website',
   },
 };

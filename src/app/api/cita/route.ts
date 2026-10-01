@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { bookingSchema } from '@/lib/validation/bookingSchema';
 import { siteContent } from '@/content/site';
+import { brandConfig } from '@/config/brand';
 
 // Almacén en memoria para límite de peticiones por IP (Rate Limiting)
 interface RateLimitEntry {
@@ -71,7 +72,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           error:
-            'Ha alcanzado el límite de solicitudes de cita en un periodo corto. Por favor, llame directamente al 919 00 12 34 para atención inmediata.',
+            `Ha alcanzado el límite de solicitudes de cita en un periodo corto. Por favor, llame directamente al ${brandConfig.contact.phone} para atención inmediata.`,
         },
         { status: 429 }
       );
@@ -107,16 +108,16 @@ export async function POST(req: NextRequest) {
     // 4. Envío a proveedor de correo (Resend / SMTP corporativo vía variables de entorno)
     const resendApiKey = process.env.RESEND_API_KEY;
     const notificationEmail =
-      process.env.CLINIC_NOTIFICATION_EMAIL || siteContent.contact.email;
+      process.env.CLINIC_NOTIFICATION_EMAIL || brandConfig.emails.appointments;
 
     if (resendApiKey) {
       // Envío real a través de API de Resend
       const emailPayload = {
-        from: 'Clínica Volta Citas <citas@clinicavolta.es>',
+        from: `${brandConfig.shortName} Citas <${brandConfig.emails.appointments}>`,
         to: [notificationEmail],
         reply_to: data.email || undefined,
         subject: `Nueva solicitud de primera visita: ${data.name} (${data.motive.toUpperCase()})`,
-        text: `Nueva Solicitud de Cita - Clínica Dental Volta\n\nNombre: ${data.name}\nTeléfono: ${data.phone}\nEmail: ${data.email || 'No indicado'}\nMotivo: ${data.motive}\nObservaciones: ${data.message || 'Sin observaciones'}\nIP: ${clientIp}\nFecha: ${new Date().toISOString()}`,
+        text: `Nueva Solicitud de Cita - ${brandConfig.name}\n\nNombre: ${data.name}\nTeléfono: ${data.phone}\nEmail: ${data.email || 'No indicado'}\nMotivo: ${data.motive}\nObservaciones: ${data.message || 'Sin observaciones'}\nIP: ${clientIp}\nFecha: ${new Date().toISOString()}`,
       };
 
       const resendResponse = await fetch('https://api.resend.com/emails', {
@@ -153,7 +154,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Solicitud de primera visita registrada correctamente.',
-      referenceId: `VOLTA-${Date.now().toString().slice(-6)}`,
+      referenceId: `CALA-${Date.now().toString().slice(-6)}`,
       responseTime: siteContent.form.responseTime,
     });
   } catch (error) {
@@ -161,7 +162,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          'Se ha producido un error interno al registrar la solicitud. Por favor, reintente o llame al 919 00 12 34.',
+          `Se ha producido un error interno al registrar la solicitud. Por favor, reintente o llame al ${brandConfig.contact.phone}.`,
       },
       { status: 500 }
     );

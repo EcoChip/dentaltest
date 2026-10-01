@@ -62,7 +62,7 @@ export function Preloader({ onLoaded }: PreloaderProps) {
           {clinicConfig.name}
         </span>
         <span className="text-[11px] uppercase tracking-clinical text-ink-muted">
-          Entorno 3D Biomecánico
+          Visualización Tridimensional
         </span>
       </div>
 
@@ -74,7 +74,7 @@ export function Preloader({ onLoaded }: PreloaderProps) {
         </div>
 
         <p className="text-xs uppercase tracking-clinical text-ink-secondary">
-          Descifrando malla anatómica y texturas SmartTrack® (2,93 MB)
+          Preparando visualización tridimensional
         </p>
 
         {/* Barra de progreso milimétrica */}
@@ -88,8 +88,8 @@ export function Preloader({ onLoaded }: PreloaderProps) {
 
       {/* Pie del Preloader */}
       <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-ink-muted border-t border-line-subtle pt-4 gap-2">
-        <span>Draco 3D Geometry Decompressor</span>
-        <span>Alineadores ortodóncicos digitales</span>
+        <span>Modelo anatómico de alta precisión</span>
+        <span>Planificación digital ClinCheck®</span>
       </div>
     </div>
   );

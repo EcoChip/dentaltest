@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next';
+import { brandConfig } from '@/config/brand';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Clínica Dental Volta & Asociados',
-    short_name: 'Clínica Volta',
+    name: brandConfig.tradeName,
+    short_name: brandConfig.shortName,
     description:
       'Odontología estética de precisión, ortodoncia invisible Invisalign® y biomecánica computacional en Madrid.',
     start_url: '/',

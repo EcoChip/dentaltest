@@ -1,7 +1,9 @@
 'use client';
 
+import { brandConfig } from '@/config/brand';
+
 /**
- * Capa de analítica desacoplada y ética para Clínica Dental Volta.
+ * Capa de analítica desacoplada y ética para Clínica Dental Cala.
  * Cumplimiento riguroso de RGPD (UE 2016/679), LOPDGDD y LSSI-CE (Art. 22.2).
  * Integración con Google Analytics 4 Consent Mode v2 (estado 'denied' por defecto).
  */
@@ -30,7 +32,7 @@ export interface CookieConsentState {
   timestamp: string;
 }
 
-const CONSENT_STORAGE_KEY = 'volta_cookie_consent_v1';
+const CONSENT_STORAGE_KEY = brandConfig.cookieConsentKey;
 const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000; // 12 meses de validez máxima según AEPD
 
 /**
@@ -40,12 +42,13 @@ const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000; // 12 meses de validez má
 export function getCookieConsent(): CookieConsentState | null {
   if (typeof window === 'undefined') return null;
   try {
-    const raw = localStorage.getItem(CONSENT_STORAGE_KEY);
+    const raw = localStorage.getItem(CONSENT_STORAGE_KEY) || localStorage.getItem('volta_cookie_consent_v1');
     if (!raw) return null;
     const consent: CookieConsentState = JSON.parse(raw);
     const age = Date.now() - new Date(consent.timestamp).getTime();
     if (age > CONSENT_MAX_AGE_MS) {
       localStorage.removeItem(CONSENT_STORAGE_KEY);
+      localStorage.removeItem('volta_cookie_consent_v1');
       return null;
     }
     return consent;
@@ -90,7 +93,7 @@ export function saveCookieConsent(preferences: { analytics: boolean; marketing: 
   updateGoogleConsentMode(state.analytics, state.marketing);
 
   // Notificar a la aplicación para sincronizar componentes reactivos
-  window.dispatchEvent(new CustomEvent('volta_consent_updated', { detail: state }));
+  window.dispatchEvent(new CustomEvent('cala_consent_updated', { detail: state }));
 }
 
 /**
@@ -98,7 +101,7 @@ export function saveCookieConsent(preferences: { analytics: boolean; marketing: 
  */
 export function openCookieSettings() {
   if (typeof window !== 'undefined') {
-    window.dispatchEvent(new CustomEvent('volta_open_cookie_modal'));
+    window.dispatchEvent(new CustomEvent('cala_open_cookie_modal'));
   }
 }
 
@@ -140,7 +143,7 @@ export function trackEvent(
   }
 
   // 3. Despacho desacoplado de CustomEvent
-  window.dispatchEvent(new CustomEvent('volta_analytics_event', { detail: eventData }));
+  window.dispatchEvent(new CustomEvent('cala_analytics_event', { detail: eventData }));
 
   if (process.env.NODE_ENV === 'development') {
     console.debug('[Analytics Event Dispatched]', eventData);

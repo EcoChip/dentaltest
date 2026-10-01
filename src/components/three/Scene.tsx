@@ -17,22 +17,47 @@ export interface SceneHandles {
   invalidate: () => void;
 }
 
+interface SceneProps {
+  className?: string;
+  isVisible?: boolean;
+  onSceneReady?: () => void;
+}
+
 function SceneBridge({
   onInit,
+  onSceneReady,
   annotationsRef,
   cameraRigRef,
   archModelRef,
 }: {
   onInit: (inv: () => void) => void;
+  onSceneReady?: () => void;
   annotationsRef: React.RefObject<AnnotationsHandles | null>;
   cameraRigRef: React.RefObject<CameraRigHandles | null>;
   archModelRef: React.RefObject<ArchModelHandles | null>;
 }) {
-  const { invalidate, size, gl } = useThree();
+  const { invalidate, size, gl, scene, camera } = useThree();
 
   useEffect(() => {
     onInit(invalidate);
   }, [invalidate, onInit]);
+
+  // Precompilación inmediata de shaders y subida de mallas a la GPU
+  // Evita el micro-stutter y bloqueo de 2.6s en el primer movimiento de scroll
+  useEffect(() => {
+    try {
+      if (scene && camera) {
+        gl.compile(scene, camera);
+        invalidate();
+        if (onSceneReady) {
+          onSceneReady();
+        }
+      }
+    } catch (e) {
+      console.warn('Aviso: precompilación de shaders WebGL:', e);
+      if (onSceneReady) onSceneReady();
+    }
+  }, [gl, scene, camera, invalidate, onSceneReady]);
 
   // Manejador de pérdida de contexto WebGL
   useEffect(() => {
@@ -71,8 +96,8 @@ function SceneBridge({
   return null;
 }
 
-export const Scene = forwardRef<SceneHandles, { className?: string; isVisible?: boolean }>(
-  ({ className = '', isVisible = true }, ref) => {
+export const Scene = forwardRef<SceneHandles, SceneProps>(
+  ({ className = '', isVisible = true, onSceneReady }, ref) => {
     const archModelRef = useRef<ArchModelHandles>(null);
     const cameraRigRef = useRef<CameraRigHandles>(null);
     const lightingRef = useRef<LightingHandles>(null);
@@ -80,12 +105,13 @@ export const Scene = forwardRef<SceneHandles, { className?: string; isVisible?: 
 
     const invalidateFnRef = useRef<() => void>(() => {});
 
-    const [dpr, setDpr] = useState<[number, number]>([1, 2]);
+    // DPR limitado estrictamente a 1.5 en escritorio y 1.25 en móvil para evitar saturación de shaders
+    const [dpr, setDpr] = useState<[number, number]>([1, 1.5]);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
       if (typeof window !== 'undefined' && window.innerWidth < 768) {
-        setDpr([1, 1.5]);
+        setDpr([1, 1.25]);
         setIsMobile(true);
       }
     }, []);
@@ -113,17 +139,18 @@ export const Scene = forwardRef<SceneHandles, { className?: string; isVisible?: 
             alpha: true,
             powerPreference: 'high-performance',
             toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.2,
+            toneMappingExposure: 1.15,
           }}
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
-            gl.toneMappingExposure = 1.2;
+            gl.toneMappingExposure = 1.15;
           }}
         >
           <SceneBridge
             onInit={(inv) => {
               invalidateFnRef.current = inv;
             }}
+            onSceneReady={onSceneReady}
             annotationsRef={annotationsRef}
             cameraRigRef={cameraRigRef}
             archModelRef={archModelRef}

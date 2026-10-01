@@ -3,8 +3,10 @@ import type { Metadata } from 'next';
 import { LegalPageLayout } from '@/components/legal/LegalPageLayout';
 import { avisoLegalContent } from '@/content/legal';
 
+import { brandConfig } from '@/config/brand';
+
 export const metadata: Metadata = {
-  title: 'Aviso Legal e Información Societaria (LSSI-CE) · Clínica Dental Volta',
+  title: `Aviso Legal e Información Societaria (LSSI-CE) · ${brandConfig.name}`,
   description:
     'Aviso legal y condiciones generales de uso del sitio web conforme a la Ley 34/2002 (LSSI-CE) y normativa sanitaria de la Comunidad de Madrid.',
 };

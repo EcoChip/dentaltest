@@ -27,7 +27,7 @@ export default function Icon() {
             marginTop: '-10px',
           }}
         >
-          V
+          C
         </span>
       </div>
     ),

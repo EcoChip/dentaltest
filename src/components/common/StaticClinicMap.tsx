@@ -140,7 +140,7 @@ export function StaticClinicMap() {
       ) : (
         <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full">
           <iframe
-            title="Ubicación de Clínica Dental Volta en Google Maps"
+            title="Ubicación de Clínica Dental Cala en Google Maps"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.195323877969!2d-3.6894318!3d40.4266184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422899dc6a9117%3A0x6b2b516f4ad1c4e7!2sCalle%20de%20Serrano%2C%2042%2C%2028001%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses"
             width="100%"
             height="100%"

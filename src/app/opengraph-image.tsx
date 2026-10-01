@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og';
+import { brandConfig } from '@/config/brand';
 
 export const runtime = 'edge';
-export const alt = 'Clínica Dental Volta & Asociados · Ortodoncia Invisible y Estética Dental en Madrid';
+export const alt = `${brandConfig.tradeName} · Ortodoncia Invisible y Estética Dental en Madrid`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -39,14 +40,14 @@ export default async function Image() {
                 fontFamily: 'serif',
               }}
             >
-              V
+              C
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontSize: '24px', fontWeight: 600, color: '#1A1816', letterSpacing: '-0.02em', fontFamily: 'serif' }}>
-                Clínica Dental Volta
+                {brandConfig.name}
               </span>
               <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.14em', color: '#1B4958', fontWeight: 600 }}>
-                Odontología de Precisión · Madrid
+                {brandConfig.tagline}
               </span>
             </div>
           </div>
@@ -84,7 +85,7 @@ export default async function Image() {
               fontFamily: 'serif',
             }}
           >
-            La odontología estética no transforma tu sonrisa. Revela su armonía natural.
+            {brandConfig.subclaim}
           </h1>
         </div>
 
@@ -105,7 +106,7 @@ export default async function Image() {
           </div>
 
           <span style={{ fontSize: '14px', color: '#1A1816', fontWeight: 600 }}>
-            clinicavolta.es
+            {brandConfig.domain}
           </span>
         </div>
       </div>

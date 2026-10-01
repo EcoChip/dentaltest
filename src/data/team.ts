@@ -1,3 +1,5 @@
+import { brandConfig } from "@/config/brand";
+
 export interface Doctor {
   id: string;
   name: string;
@@ -11,29 +13,29 @@ export interface Doctor {
 
 export const medicalTeam: Doctor[] = [
   {
-    id: "dr-volta",
-    name: "Dr. Alejandro Volta Morales",
-    role: "Director Médico · Especialista en Ortodoncia Digital y Biomecánica",
-    collegiate: "Col. Odontólogos de Madrid Nº 28004921",
+    id: brandConfig.medicalDirector.id,
+    name: brandConfig.medicalDirector.name,
+    role: "Directora Médica · Especialista en Ortodoncia Digital y Biomecánica",
+    collegiate: `Col. Odontólogos de Madrid ${brandConfig.medicalDirector.colegiado}`,
     specialties: [
       "Ortodoncia Invisible (Invisalign® Diamond Apex Provider)",
       "Planificación Digital Tridimensional ClinCheck®",
       "Rehabilitación Oclusal Compleja"
     ],
     education: [
-      "Licenciado en Odontología por la Universidad Complutense de Madrid (UCM)",
+      "Licenciada en Odontología por la Universidad Complutense de Madrid (UCM)",
       "Máster Oficial en Ortodoncia y Ortopedia Dentofacial (3 años)",
       "Miembro Diplomado de la Sociedad Española de Ortodoncia (SEDO)",
       "Certificación Internacional Invisalign Diamond Apex (Top 1% Europa)"
     ],
-    bio: "Más de 18 años dedicados en exclusiva al estudio del movimiento dentario y la estética facial. Pionero en España en el empleo de escáneres intraorales de alta velocidad y biomecánica sin aparatología fija. Su enfoque combina la máxima precisión técnica con una conservación estricta de la estructura biológica.",
+    bio: "Más de 18 años dedicados en exclusiva al estudio del movimiento dentario y la estética facial. Pionera en España en el empleo de escáneres intraorales de alta velocidad y biomecánica sin aparatología fija. Su enfoque combina la máxima precisión técnica con una conservación estricta de la estructura biológica.",
     isPlaceholder: true
   },
   {
     id: "dra-navarro",
     name: "Dra. Beatriz Navarro Gómez",
     role: "Especialista en Estética Dental Biomimética y Prótesis Fija",
-    collegiate: "Col. Odontólogos de Madrid Nº 28006114",
+    collegiate: "Col. Odontólogos de Madrid [COMPLETAR: Nº Colegiado]",
     specialties: [
       "Carillas Cerámicas Feldespáticas de Mínima Preparación",
       "Mockup y Diseño Digital de Sonrisa (DSD)",
@@ -51,7 +53,7 @@ export const medicalTeam: Doctor[] = [
     id: "dr-alvarez",
     name: "Dr. Marcos Álvarez Serrano",
     role: "Cirujano Oral · Implantología Guiada y Periodoncia",
-    collegiate: "Col. Odontólogos de Madrid Nº 28005390",
+    collegiate: "Col. Odontólogos de Madrid [COMPLETAR: Nº Colegiado]",
     specialties: [
       "Implantología Inmediata y Regeneración Tisular",
       "Cirugía Guiada Estereolitográfica por Ordenador",

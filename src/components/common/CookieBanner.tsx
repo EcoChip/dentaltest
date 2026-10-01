@@ -38,8 +38,10 @@ export function CookieBanner() {
       setShowModal(true);
     };
 
-    window.addEventListener('volta_open_cookie_modal', handleOpenModal);
-    return () => window.removeEventListener('volta_open_cookie_modal', handleOpenModal);
+    window.addEventListener('cala_open_cookie_modal', handleOpenModal);
+    return () => {
+      window.removeEventListener('cala_open_cookie_modal', handleOpenModal);
+    };
   }, []);
 
   // Gestión de accesibilidad en el modal: Foco atrapado y tecla Escape

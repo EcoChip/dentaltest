@@ -131,9 +131,21 @@ export const SCENES_CONFIG = {
       step3Aligner: 800,
       step4Review: 900,
     },
-    fadeExit: {
+    occlusion: {
       startSvh: 900,
       endSvh: 1000,
+    },
+    evidence: {
+      startSvh: 1000,
+      beat1Cases: 1100,
+      beat2Years: 1200,
+      beat3Cert: 1300,
+      beat4Concordance: 1400,
+      endSvh: 1400,
+    },
+    fadeExit: {
+      startSvh: 1380,
+      endSvh: 1400,
     },
   },
 };

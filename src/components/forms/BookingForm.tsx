@@ -79,7 +79,7 @@ export function BookingForm({
         );
       }
 
-      setReferenceId(result.referenceId || `VOLTA-${Date.now().toString().slice(-6)}`);
+      setReferenceId(result.referenceId || `CALA-${Date.now().toString().slice(-6)}`);
       setSubmissionStatus('success');
       trackEvent('form_submit_success', {
         location: sourceLocation,

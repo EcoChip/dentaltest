@@ -3,11 +3,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { clinicConfig } from '@/config/clinic.config';
+import { siteContent } from '@/content/site';
 import { Preloader } from '@/components/common/Preloader';
 import { setupMasterScrollTimeline } from '@/lib/scroll/timeline';
 import type { SceneHandles } from '@/components/three/Scene';
-import { ArrowDown, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowDown, CheckCircle2, ShieldCheck, Sparkles, Award, FileCheck } from 'lucide-react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { TrustMetricsSection } from '@/components/home/TrustMetricsSection';
 
 // Carga diferida de la Escena 3D aislada en su propio componente
 const Scene = dynamic(() => import('@/components/three/Scene').then((mod) => mod.Scene), {
@@ -26,10 +28,23 @@ export function HomeScrollytelling() {
   const cardS3Step3Ref = useRef<HTMLDivElement>(null);
   const cardS3Step4Ref = useRef<HTMLDivElement>(null);
   const cardS4FinalRef = useRef<HTMLDivElement>(null);
+
+  // S5: Evidencia Clínica (4 beats de scroll scrubbeados)
+  const cardS5Beat1Ref = useRef<HTMLDivElement>(null);
+  const cardS5Beat2Ref = useRef<HTMLDivElement>(null);
+  const cardS5Beat3Ref = useRef<HTMLDivElement>(null);
+  const cardS5Beat4Ref = useRef<HTMLDivElement>(null);
+
+  // Elementos DOM para contadores numéricos scrubbeados por scroll
+  const casesCounterRef = useRef<HTMLSpanElement>(null);
+  const yearsCounterRef = useRef<HTMLSpanElement>(null);
+  const concordanceCounterRef = useRef<HTMLSpanElement>(null);
+
   const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [isFallbackMode, setIsFallbackMode] = useState(false);
+  const [is3DReady, setIs3DReady] = useState(false);
 
   useEffect(() => {
     // Comprobar preferencia de movimiento reducido o ausencia de soporte WebGL
@@ -49,7 +64,7 @@ export function HomeScrollytelling() {
   }, []);
 
   useEffect(() => {
-    if (!preloaderDone) return;
+    if (!preloaderDone || !is3DReady) return;
 
     const stage = stageRef.current;
     const scene = sceneRef.current;
@@ -59,6 +74,11 @@ export function HomeScrollytelling() {
     const cleanupTimeline = setupMasterScrollTimeline({
       stageElement: stage,
       sceneHandles: scene,
+      countersRef: {
+        cases: casesCounterRef.current,
+        years: yearsCounterRef.current,
+        concordance: concordanceCounterRef.current,
+      },
       onActiveSceneChange: (sceneId, progress) => {
         // Manipulación DOM directa sin setState para 0 re-renders
         const updateOpacity = (el: HTMLElement | null, visible: boolean) => {
@@ -67,17 +87,22 @@ export function HomeScrollytelling() {
           el.style.pointerEvents = visible ? 'auto' : 'none';
         };
 
-        // Card S1 (Hero) visible durante la oclusión y la apertura anatómica (0 a 140 svh)
-        // Se desvanece durante el dolly cinemático para dejar la experiencia 3D pura
-        updateOpacity(cardS1Ref.current, progress < 0.14);
-        updateOpacity(cardS2Ref.current, progress >= 0.28 && progress < 0.50);
+        // Escena 1 a 4 (escala relativa a 1400 svh / 14 unidades)
+        updateOpacity(cardS1Ref.current, progress < 0.10);
+        updateOpacity(cardS2Ref.current, progress >= 0.20 && progress < 0.35);
 
-        // Pasos del proceso clínico (100 svh por paso exacto)
-        updateOpacity(cardS3Step1Ref.current, progress >= 0.50 && progress < 0.60);
-        updateOpacity(cardS3Step2Ref.current, progress >= 0.60 && progress < 0.70);
-        updateOpacity(cardS3Step3Ref.current, progress >= 0.70 && progress < 0.80);
-        updateOpacity(cardS3Step4Ref.current, progress >= 0.80 && progress < 0.90);
-        updateOpacity(cardS4FinalRef.current, progress >= 0.90 && progress < 0.98);
+        // Pasos del proceso clínico
+        updateOpacity(cardS3Step1Ref.current, progress >= 0.35 && progress < 0.42);
+        updateOpacity(cardS3Step2Ref.current, progress >= 0.42 && progress < 0.50);
+        updateOpacity(cardS3Step3Ref.current, progress >= 0.50 && progress < 0.57);
+        updateOpacity(cardS3Step4Ref.current, progress >= 0.57 && progress < 0.64);
+        updateOpacity(cardS4FinalRef.current, progress >= 0.64 && progress < 0.71);
+
+        // Escena 5: Evidencia clínica en 4 beats
+        updateOpacity(cardS5Beat1Ref.current, progress >= 0.71 && progress < 0.785);
+        updateOpacity(cardS5Beat2Ref.current, progress >= 0.785 && progress < 0.855);
+        updateOpacity(cardS5Beat3Ref.current, progress >= 0.855 && progress < 0.925);
+        updateOpacity(cardS5Beat4Ref.current, progress >= 0.925 && progress < 0.985);
       },
       onCanvasOpacityChange: (opacity) => {
         if (canvasContainerRef.current) {
@@ -93,11 +118,12 @@ export function HomeScrollytelling() {
     return () => {
       cleanupTimeline();
     };
-  }, [preloaderDone]);
+  }, [preloaderDone, is3DReady]);
 
   if (isFallbackMode) {
     return (
-      <section className="relative w-full bg-canvas text-ink py-20 px-6 sm:px-12 max-w-7xl mx-auto">
+      <>
+        <section className="relative w-full bg-canvas text-ink py-20 px-6 sm:px-12 max-w-7xl mx-auto">
         {/* Hero Accesible */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
           <div className="lg:col-span-7">
@@ -207,26 +233,43 @@ export function HomeScrollytelling() {
           </div>
         </div>
       </section>
-    );
-  }
+      <TrustMetricsSection />
+    </>
+  );
+}
 
-  return (
-    <>
-      <Preloader onLoaded={() => setPreloaderDone(true)} />
+return (
+  <>
+    <Preloader onLoaded={() => setPreloaderDone(true)} />
 
-      {/* Escenario Maestro de Scrollytelling en svh */}
-      <section
-        ref={stageRef}
-        className="relative w-full h-[1000svh] bg-canvas"
-        aria-label="Escenario interactivo de ortodoncia invisible y biomecánica dental"
-      >
+    {/* Escenario Maestro de Scrollytelling en svh (14 unidades = 1400 svh) */}
+    <section
+      ref={stageRef}
+      className="relative w-full h-[1400svh] bg-canvas"
+      aria-label="Escenario interactivo de ortodoncia invisible y biomecánica dental"
+    >
+        {/* Póster de carga progresiva inmediato (< 0.2 s) para garantizar CERO frames en blanco */}
+        <div
+          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-0 flex items-center justify-center transition-opacity duration-700 bg-canvas"
+          style={{ opacity: is3DReady ? 0 : 1 }}
+        >
+          <div className="relative w-full max-w-4xl px-6 flex items-center justify-center">
+            <img
+              src="/images/hero-fallback-arch.png"
+              alt="Arcadas dentales en oclusión estética"
+              className="w-full max-w-md h-auto object-contain opacity-95"
+              loading="eager"
+            />
+          </div>
+        </div>
+
         {/* Canvas Fijo a Pantalla Completa (detrás del contenido con pointer-events: none) */}
         <div
           ref={canvasContainerRef}
-          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-0 transition-opacity duration-300"
-          style={{ opacity: 1 }}
+          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-0 transition-opacity duration-500 bg-transparent"
+          style={{ opacity: is3DReady ? 1 : 0 }}
         >
-          <Scene ref={sceneRef} />
+          <Scene ref={sceneRef} onSceneReady={() => setIs3DReady(true)} />
         </div>
 
         {/* Capa de Contenido HTML con scroll natural sobre el Canvas */}
@@ -255,7 +298,7 @@ export function HomeScrollytelling() {
               </h1>
 
               <p className="text-sm sm:text-base text-ink-secondary leading-relaxed max-w-xl mb-8">
-                Ortodoncia invisible planificada mediante escáner intraoral 3D y simulación computacional de fuerzas biomecánicas. Precisión milimétrica bajo la dirección médica del {clinicConfig.medicalDirector.name}.
+                Ortodoncia invisible planificada mediante escáner intraoral 3D y simulación computacional de fuerzas biomecánicas. Precisión milimétrica bajo la dirección médica de la {clinicConfig.medicalDirector.name}.
               </p>
 
               <div className="flex items-center space-x-3 text-xs tracking-clinical uppercase text-ink-muted">
@@ -273,7 +316,7 @@ export function HomeScrollytelling() {
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md pointer-events-auto bg-canvas/90 backdrop-blur-md p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-2">
                 Ingeniería de Materiales
               </span>
@@ -305,7 +348,7 @@ export function HomeScrollytelling() {
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas/90 backdrop-blur-md p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
                   Protocolo Clínico
@@ -327,7 +370,7 @@ export function HomeScrollytelling() {
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas/90 backdrop-blur-md p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
                   Protocolo Clínico
@@ -338,7 +381,7 @@ export function HomeScrollytelling() {
                 02. Planificación Digital ClinCheck®
               </h3>
               <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                El Dr. Alejandro Volta planifica cada micro-movimiento dental en software tridimensional. Visualizas el resultado final antes de comenzar.
+                La Dra. Elena Cala planifica cada micro-movimiento dental en software tridimensional. Visualizas el resultado final antes de comenzar.
               </p>
             </div>
           </div>
@@ -349,7 +392,7 @@ export function HomeScrollytelling() {
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas/90 backdrop-blur-md p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
                   Protocolo Clínico
@@ -371,7 +414,7 @@ export function HomeScrollytelling() {
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas/90 backdrop-blur-md p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
                   Protocolo Clínico
@@ -395,7 +438,7 @@ export function HomeScrollytelling() {
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center items-center text-center px-6 max-w-4xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="bg-canvas/95 backdrop-blur-md p-8 sm:p-10 border border-line-strong rounded-xs shadow-card pointer-events-auto max-w-2xl">
+            <div className="bg-canvas p-8 sm:p-10 border border-line-strong rounded-xs shadow-card pointer-events-auto max-w-2xl">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-3">
                 Oclusión Perfecta Clase I
               </span>
@@ -405,6 +448,184 @@ export function HomeScrollytelling() {
               <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed max-w-lg mx-auto">
                 Las arcadas asientan en su posición anatómica óptima. Equilibrio entre estética de la sonrisa, salud periodontal y protección articular.
               </p>
+            </div>
+          </div>
+
+          {/* ==============================================================
+              ESCENA 5: Evidencia Clínica (1000 a 1400 svh / 4 beats)
+              ============================================================== */}
+
+          {/* Beat 1: Casos Clínicos Finalizados (1000 a 1100 svh) */}
+          <div
+            ref={cardS5Beat1Ref}
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            style={{ opacity: 0 }}
+          >
+            <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-xs shadow-card">
+              <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
+                <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Evidencia Clínica · 01 / 04
+                </span>
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                  {siteContent.trustMetrics[0].sourceTag}
+                </span>
+              </div>
+
+              <div className="mb-2">
+                <span
+                  ref={casesCounterRef}
+                  className="font-serif text-5xl sm:text-7xl lg:text-8xl font-light text-ink tracking-tight tabular-numbers block leading-none"
+                >
+                  0+
+                </span>
+              </div>
+
+              <h3 className="text-xs sm:text-sm uppercase tracking-clinical font-semibold text-ink mb-3">
+                {siteContent.trustMetrics[0].label}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-4">
+                {siteContent.trustMetrics[0].detail} Todos los tratamientos cuentan con registro cefalométrico computacional previo y seguimiento oclusal postratamiento.
+              </p>
+
+              <div className="pt-3 border-t border-line-subtle text-[11px] text-ink-muted flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Cámara en aproximación lenta: macrofotografía del detalle oclusal</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Beat 2: Ejercicio Facultativo Continuado (1100 a 1200 svh) */}
+          <div
+            ref={cardS5Beat2Ref}
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center items-center sm:items-end pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            style={{ opacity: 0 }}
+          >
+            <div className="max-w-md w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-9 border border-line-strong rounded-xs shadow-card">
+              <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
+                <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold flex items-center gap-1.5">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  Trayectoria · 02 / 04
+                </span>
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                  {siteContent.trustMetrics[1].sourceTag}
+                </span>
+              </div>
+
+              <div className="mb-2">
+                <span
+                  ref={yearsCounterRef}
+                  className="font-serif text-5xl sm:text-6xl lg:text-7xl font-light text-ink tracking-tight tabular-numbers block leading-none"
+                >
+                  0 años
+                </span>
+              </div>
+
+              <h3 className="text-xs sm:text-sm uppercase tracking-clinical font-semibold text-ink mb-2">
+                {siteContent.trustMetrics[1].label}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-4">
+                {siteContent.trustMetrics[1].detail} Criterio conservador basado en la preservación del esmalte dental y la función masticatoria fisiológica.
+              </p>
+
+              <div className="pt-3 border-t border-line-subtle text-[11px] text-ink-muted flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Rotación orbital: estabilidad tridimensional de la arcada</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Beat 3: Certificación Oficial Invisalign Apex (1200 a 1300 svh) */}
+          <div
+            ref={cardS5Beat3Ref}
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            style={{ opacity: 0 }}
+          >
+            <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-gold-dark/40 rounded-xs shadow-card relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-gold/15 to-transparent pointer-events-none" />
+
+              <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface border border-gold-dark/30 rounded-xs">
+                  <Award className="w-3.5 h-3.5 text-gold-dark" />
+                  <span className="text-[10px] tracking-clinical uppercase text-gold-dark font-semibold">
+                    Certificación Oficial · 03 / 04
+                  </span>
+                </div>
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                  {siteContent.trustMetrics[2].sourceTag}
+                </span>
+              </div>
+
+              <div className="mb-2">
+                <span className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light text-ink tracking-tight block leading-tight">
+                  {siteContent.trustMetrics[2].value}
+                </span>
+              </div>
+
+              <h3 className="text-xs sm:text-sm uppercase tracking-clinical font-semibold text-ink mb-3">
+                {siteContent.trustMetrics[2].label}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-5">
+                {siteContent.trustMetrics[2].detail} Máxima categoría facultativa otorgada por Align Technology basada en volumen documentado, rigor biomecánico y predictibilidad en casos complejos.
+              </p>
+
+              <div className="p-3 bg-surface border border-line-subtle rounded-xs text-[11px] text-ink-secondary flex items-center justify-between">
+                <span className="font-medium text-ink">Supervisión facultativa continua</span>
+                <span className="text-accent font-semibold tracking-clinical uppercase text-[10px]">
+                  Encuadre frontal clínico
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Beat 4: Previsibilidad Biomecánica & Ghost Arch (1300 a 1400 svh) */}
+          <div
+            ref={cardS5Beat4Ref}
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center items-center sm:items-end pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            style={{ opacity: 0 }}
+          >
+            <div className="max-w-lg w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-xs shadow-card">
+              <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
+                <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-accent" />
+                  Previsibilidad Digital · 04 / 04
+                </span>
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                  {siteContent.trustMetrics[3].sourceTag}
+                </span>
+              </div>
+
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface border border-accent/30 rounded-xs mb-4">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                <span className="text-[10px] tracking-clinical uppercase text-accent font-semibold">
+                  Plan ClinCheck® ↔ Oclusión Real
+                </span>
+              </div>
+
+              <div className="mb-2">
+                <span
+                  ref={concordanceCounterRef}
+                  className="font-serif text-5xl sm:text-7xl lg:text-8xl font-light text-ink tracking-tight tabular-numbers block leading-none"
+                >
+                  0,0%
+                </span>
+              </div>
+
+              <h3 className="text-xs sm:text-sm uppercase tracking-clinical font-semibold text-ink mb-3">
+                {siteContent.trustMetrics[3].label}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-4">
+                {siteContent.trustMetrics[3].detail} Sobreimpresión del modelo matemático predictivo sobre el resultado oclusal alcanzado, demostrando tolerancia inferior a 0,2 mm.
+              </p>
+
+              <div className="pt-3 border-t border-line-subtle text-[11px] text-ink-muted flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Sobreimpresión fantasma con borde luminoso encajada en el modelo</span>
+              </div>
             </div>
           </div>
         </div>
