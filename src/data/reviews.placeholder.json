@@ -1,0 +1,40 @@
+{
+  "__AVISO_CONFIDENCIALIDAD__": "REEMPLAZAR POR RESEÑAS REALES: Los testimonios siguientes son marcadores técnicos para maquetación y pruebas de interfaz. Ningún nombre o valoración aquí mostrada debe publicarse sin autorización y verificación de pacientes reales.",
+  "globalRating": 4.9,
+  "totalReviewsCount": 184,
+  "source": "Google Business Profile (Verificado)",
+  "reviews": [
+    {
+      "id": "rev-ph-01",
+      "author": "[REEMPLAZAR: Paciente Inicial M. R.]",
+      "treatment": "Ortodoncia Invisible Comprehensive",
+      "rating": 5,
+      "date": "[REEMPLAZAR: Hace 2 meses]",
+      "comment": "[REEMPLAZAR POR COMENTARIO REAL DE PACIENTE: Ejemplo sobre el ajuste del alineador, la precisión del escaneado 3D iTero y la atención personalizada del equipo médico durante las revisiones periódicas.]"
+    },
+    {
+      "id": "rev-ph-02",
+      "author": "[REEMPLAZAR: Paciente Inicial C. L.]",
+      "treatment": "Invisalign Lite & Carillas Cerámicas",
+      "rating": 5,
+      "date": "[REEMPLAZAR: Hace 4 meses]",
+      "comment": "[REEMPLAZAR POR COMENTARIO REAL DE PACIENTE: Ejemplo sobre la claridad del plan ClinCheck antes de comenzar y la comodidad en la rutina diaria laboral.]"
+    },
+    {
+      "id": "rev-ph-03",
+      "author": "[REEMPLAZAR: Paciente Inicial J. G.]",
+      "treatment": "Ortodoncia Invisible & Blanqueamiento",
+      "rating": 5,
+      "date": "[REEMPLAZAR: Hace 6 meses]",
+      "comment": "[REEMPLAZAR POR COMENTARIO REAL DE PACIENTE: Ejemplo sobre la resolución de la sobremordida y el seguimiento digital sin visitas innecesarias a la clínica.]"
+    },
+    {
+      "id": "rev-ph-04",
+      "author": "[REEMPLAZAR: Paciente Inicial A. S.]",
+      "treatment": "Retenedores Vivera & Oclusión",
+      "rating": 5,
+      "date": "[REEMPLAZAR: Hace 8 meses]",
+      "comment": "[REEMPLAZAR POR COMENTARIO REAL DE PACIENTE: Ejemplo sobre la fase final de retención y la sensación de estabilidad tras retirar los alineadores activos.]"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Lienzo y Superficies */
+  --bg-canvas: #F8F6F1;          /* Hueso cálido mineral */
+  --bg-surface: #F0EDE4;         /* Hueso medio para paneles y fondos secundarios */
+  --bg-surface-elevated: #FFFFFF;/* Blanco puro para tarjetas elevadas */
+
+  /* Tinta y Tipografía */
+  --text-primary: #121314;       /* Ónice mineral / Tinta litográfica */
+  --text-secondary: #525659;     /* Pizarra clínica / Gris de lectura */
+  --text-muted: #8A8E93;         /* Grafito atenuado para metadatos */
+
+  /* Color de Acento ÚNICO */
+  --accent: #1C4E5E;             /* Azul Cerúleo Quirúrgico / Deep Baltic Slate */
+  --accent-soft: rgba(28, 78, 94, 0.08); /* Tinte suave para tags y microinteracciones */
+  --accent-light: #2A6A7F;       /* Hover de acento */
+
+  /* Bordes y Estructura */
+  --border-subtle: rgba(18, 19, 20, 0.08);
+  --border-strong: rgba(18, 19, 20, 0.22);
+}
+
+/* Base DOM */
+html {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  scroll-behavior: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Lenis smooth scrolling standard */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Grano analógico sutil de alta calidad (2.5% opacidad) */
+.analog-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.028;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Selección de texto refinada */
+::selection {
+  background-color: var(--accent);
+  color: #FFFFFF;
+}
+
+/* Foco accesible y visible (WCAG AA) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Barra de desplazamiento sobria */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(18, 19, 20, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Objetivos táctiles mínimos para móvil (44px) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tipografía tabular para números clínicos */
+.tabular-numbers {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Transición de página editorial sobria */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-enter {
+  animation: pageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
