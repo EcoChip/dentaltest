@@ -7,6 +7,7 @@ import { ArchModel, ArchModelHandles } from './ArchModel';
 import { CameraRig, CameraRigHandles } from './CameraRig';
 import { Lighting, LightingHandles } from './Lighting';
 import { Annotations, AnnotationsHandles } from './Annotations';
+import { RaycastDebugTool } from './RaycastDebugTool';
 import { SCENES_CONFIG } from '@/config/scenes';
 
 export interface SceneHandles {
@@ -82,13 +83,12 @@ function SceneBridge({
 
   // En cada renderizado, proyectar anotaciones en el espacio de pantalla
   useFrame(() => {
-    if (cameraRigRef.current?.camera && annotationsRef.current) {
-      const mainRig = archModelRef.current?.mainRig;
+    if (cameraRigRef.current?.camera && annotationsRef.current && archModelRef.current) {
       annotationsRef.current.updatePositions(
         cameraRigRef.current.camera,
         size.width,
         size.height,
-        mainRig ? mainRig.matrixWorld : undefined
+        archModelRef.current
       );
     }
   });
@@ -170,6 +170,7 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
 
           <Suspense fallback={null}>
             <ArchModel ref={archModelRef} tier={isMobile ? 'low' : 'high'} />
+            <RaycastDebugTool />
           </Suspense>
         </Canvas>
 

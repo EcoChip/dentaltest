@@ -264,9 +264,9 @@ export function setupMasterScrollTimeline({
         master.to(
           sceneHandles.cameraRig.camera.position,
           {
-            x: isMobile ? 0 : -0.45,
+            x: isMobile ? 0 : -0.72,
             z: bpCfg.cameraDistance - 0.2,
-            y: isMobile ? -0.1 : 0,
+            y: isMobile ? -0.32 : 0.05,
             duration: 1.5,
             ease: 'power2.inOut',
           },
@@ -284,6 +284,21 @@ export function setupMasterScrollTimeline({
           onUpdate: function () {
             const val = this.targets()[0].opacity;
             sceneHandles.annotations?.setGlobalOpacity(val);
+          },
+        },
+        3.3
+      );
+
+      // Sincronizar índice del anclaje móvil activo con el scrub de scroll (3.3 a 4.7)
+      master.to(
+        {},
+        {
+          duration: 1.4,
+          ease: 'none',
+          onUpdate: function () {
+            const p = this.progress();
+            const idx = p < 0.34 ? 0 : p < 0.67 ? 1 : 2;
+            sceneHandles.annotations?.setActiveAnchorIndex(idx);
           },
         },
         3.3
@@ -351,7 +366,21 @@ export function setupMasterScrollTimeline({
         5.95
       );
 
-      // Orientación sutil para el escáner
+      // Orientación sutil para el escáner y recentrado de cámara
+      if (sceneHandles.cameraRig?.camera) {
+        master.to(
+          sceneHandles.cameraRig.camera.position,
+          {
+            x: 0,
+            y: isMobile ? -0.05 : 0,
+            z: bpCfg.cameraDistance,
+            duration: 0.9,
+            ease: 'power1.inOut',
+          },
+          5.0
+        );
+      }
+
       if (sceneHandles.archModel?.mainRig) {
         master.to(
           sceneHandles.archModel.mainRig.rotation,

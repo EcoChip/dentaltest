@@ -6,6 +6,11 @@ import { useGLTF } from '@react-three/drei';
 import { SCENES_CONFIG } from '@/config/scenes';
 import { createAlignerUniforms, createAlignerMaterials } from './translucentAlignerShader';
 
+export interface AnchorWorldData {
+  position: THREE.Vector3;
+  normal: THREE.Vector3;
+}
+
 export interface ArchModelHandles {
   mainRig: THREE.Group | null;
   upperHinge: THREE.Group | null;
@@ -14,6 +19,7 @@ export interface ArchModelHandles {
   setScanBeam: (progress: number) => void;
   setGhostProgress: (progress: number) => void;
   setQualityTier: (tier: 'high' | 'low') => void;
+  getAnchorWorldData: (index: number) => AnchorWorldData | null;
   getUpperMesh: () => THREE.Object3D | null;
   getLowerMesh: () => THREE.Object3D | null;
 }
@@ -25,6 +31,13 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
     const lowerHingeRef = useRef<THREE.Group>(null);
     const ghostUpperOffsetRef = useRef<THREE.Group>(null);
     const ghostLowerOffsetRef = useRef<THREE.Group>(null);
+
+    // Refs para anclajes anatómicos vinculados al modelo
+    const anchor1Ref = useRef<THREE.Group>(null);
+    const anchor2Ref = useRef<THREE.Group>(null);
+    const anchor3Ref = useRef<THREE.Group>(null);
+    const tempAnchorPos = useRef(new THREE.Vector3());
+    const tempAnchorNormal = useRef(new THREE.Vector3());
 
     const cfg = SCENES_CONFIG.models;
 
@@ -280,6 +293,26 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
           ghostLowerOffsetRef.current.rotation.set(-0.02 * factor, 0.035 * factor, -0.015 * factor);
         }
       },
+      getAnchorWorldData: (index: number) => {
+        const anchors = [
+          { ref: anchor1Ref, normal: [0.22, 0.68, 0.70] },
+          { ref: anchor2Ref, normal: [-0.08, 0.15, 0.98] },
+          { ref: anchor3Ref, normal: [0.18, 0.94, 0.28] },
+        ];
+        const target = anchors[index];
+        if (!target || !target.ref.current) return null;
+
+        target.ref.current.getWorldPosition(tempAnchorPos.current);
+        tempAnchorNormal.current
+          .set(target.normal[0], target.normal[1], target.normal[2])
+          .transformDirection(target.ref.current.matrixWorld)
+          .normalize();
+
+        return {
+          position: tempAnchorPos.current,
+          normal: tempAnchorNormal.current,
+        };
+      },
       getUpperMesh: () => upperHingeRef.current,
       getLowerMesh: () => lowerHingeRef.current,
     }));
@@ -299,6 +332,9 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
               <group ref={ghostUpperOffsetRef}>
                 <primitive object={upperGhost} />
               </group>
+              {/* Anclajes Anatómicos Arcada Superior */}
+              <group ref={anchor1Ref} position={[0.18, 0.28, 0.44]} name="AnchorGingival" />
+              <group ref={anchor2Ref} position={[-0.06, 0.08, 0.56]} name="AnchorIncisor" />
             </group>
           </group>
         </group>
@@ -313,6 +349,8 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
               <group ref={ghostLowerOffsetRef}>
                 <primitive object={lowerGhost} />
               </group>
+              {/* Anclaje Anatómico Arcada Inferior */}
+              <group ref={anchor3Ref} position={[0.38, 0.12, 0.15]} name="AnchorOcclusal" />
             </group>
           </group>
         </group>

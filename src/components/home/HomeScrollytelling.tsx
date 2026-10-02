@@ -88,8 +88,14 @@ export function HomeScrollytelling() {
         };
 
         // Escena 1 a 4 (escala relativa a 1400 svh / 14 unidades)
+        const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
         updateOpacity(cardS1Ref.current, progress < 0.10);
-        updateOpacity(cardS2Ref.current, progress >= 0.20 && progress < 0.35);
+        updateOpacity(
+          cardS2Ref.current,
+          isDesktop
+            ? progress >= 0.20 && progress < 0.35
+            : progress >= 0.20 && progress < 0.25
+        );
 
         // Pasos del proceso clínico
         updateOpacity(cardS3Step1Ref.current, progress >= 0.35 && progress < 0.42);
@@ -313,10 +319,10 @@ return (
               ============================================================== */}
           <div
             ref={cardS2Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-24 lg:pb-0 lg:justify-center px-6 lg:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md pointer-events-auto bg-[#F8F6F1]/95 lg:bg-[#F8F6F1] backdrop-blur-sm p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-2">
                 Ingeniería de Materiales
               </span>
