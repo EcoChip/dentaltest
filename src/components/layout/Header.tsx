@@ -6,15 +6,50 @@ import { usePathname } from 'next/navigation';
 import { clinicConfig } from '@/config/clinic.config';
 import { siteContent } from '@/content/site';
 import { trackEvent } from '@/lib/analytics';
-import { Menu, X, Phone, ArrowUpRight, MessageCircle, Calendar } from 'lucide-react';
+import { Menu, X, Phone, ArrowUpRight, MessageCircle, Calendar, ChevronDown } from 'lucide-react';
+import { TreatmentsMegaMenu, TREATMENTS_NAV_DATA } from './TreatmentsMegaMenu';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [treatmentsDropdownOpen, setTreatmentsDropdownOpen] = useState(false);
+  const [mobileAccordionOpen, setMobileAccordionOpen] = useState(false);
   const pathname = usePathname();
 
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
   const menuContainerRef = useRef<HTMLDivElement>(null);
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Hover con delay de gracia (150 ms) para apertura y cierre del mega menú
+  const handleTreatmentsMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setTreatmentsDropdownOpen(true);
+  };
+
+  const handleTreatmentsMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setTreatmentsDropdownOpen(false);
+    }, 150); // 150 ms grace delay
+  };
+
+  // Cierre al hacer click fuera del encabezado
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setTreatmentsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Monitorización de scroll con debounce suave
   useEffect(() => {
@@ -26,12 +61,22 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Cerrar menú móvil al cambiar de ruta
+  // Cerrar menús al cambiar de ruta
   useEffect(() => {
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
+    setTreatmentsDropdownOpen(false);
   }, [pathname]);
+
+  // Limpiar timers pendientes al desmontar
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Gestión de accesibilidad: Focus trap, bloqueo de scroll y tecla Escape
   useEffect(() => {
@@ -95,7 +140,7 @@ export function Header() {
   const navLinks = [
     { href: '/', label: 'Inicio' },
     { href: '/invisalign', label: 'Invisalign®' },
-    { href: '/tratamientos', label: 'Tratamientos' },
+    { href: '/tratamientos', label: 'Tratamientos', hasDropdown: true },
     { href: '/equipo', label: 'Equipo Médico' },
     { href: '/contacto', label: 'Contacto' },
   ];
@@ -119,10 +164,11 @@ export function Header() {
   return (
     <>
       <header
+        ref={headerRef}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-canvas/95 backdrop-blur-md border-b border-line-subtle py-3.5 shadow-subtle'
-            : 'bg-canvas/80 backdrop-blur-sm py-4 lg:py-6 border-b border-line-subtle/40'
+            ? 'bg-[#F8F6F1] border-b border-line-subtle py-3.5 shadow-subtle'
+            : 'bg-[#F8F6F1] py-4 lg:py-6 border-b border-line-subtle/40'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
@@ -143,7 +189,45 @@ export function Header() {
           {/* Navegación Escritorio */}
           <nav className="hidden lg:flex items-center space-x-8" aria-label="Navegación principal">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive =
+                pathname === link.href ||
+                (link.hasDropdown && pathname.startsWith('/tratamientos'));
+
+              if (link.hasDropdown) {
+                return (
+                  <div
+                    key={link.href}
+                    className="relative py-1 flex items-center"
+                    onMouseEnter={handleTreatmentsMouseEnter}
+                    onMouseLeave={handleTreatmentsMouseLeave}
+                  >
+                    <button
+                      ref={dropdownTriggerRef}
+                      type="button"
+                      onClick={() => setTreatmentsDropdownOpen(!treatmentsDropdownOpen)}
+                      aria-expanded={treatmentsDropdownOpen}
+                      aria-haspopup="true"
+                      aria-controls="treatments-mega-menu"
+                      className={`text-xs uppercase tracking-clinical transition-colors duration-200 inline-flex items-center space-x-1 py-1 focus-visible:outline-accent cursor-pointer ${
+                        isActive || treatmentsDropdownOpen
+                          ? 'text-accent font-medium'
+                          : 'text-ink-secondary hover:text-ink'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          treatmentsDropdownOpen ? 'rotate-180 text-accent' : 'text-ink-muted'
+                        }`}
+                      />
+                    </button>
+                    {isActive && !treatmentsDropdownOpen && (
+                      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-accent" />
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={link.href}
@@ -200,6 +284,15 @@ export function Header() {
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+
+        {/* Mega Menú Desplegable Desktop */}
+        <TreatmentsMegaMenu
+          isOpen={treatmentsDropdownOpen}
+          onClose={() => setTreatmentsDropdownOpen(false)}
+          triggerRef={dropdownTriggerRef}
+          onMouseEnter={handleTreatmentsMouseEnter}
+          onMouseLeave={handleTreatmentsMouseLeave}
+        />
       </header>
 
       {/* Overlay Menú Móvil a Pantalla Completa con Focus Trap y Cierre con Esc */}
@@ -207,7 +300,7 @@ export function Header() {
         <div
           ref={menuContainerRef}
           id="mobile-nav-menu"
-          className="fixed inset-0 z-50 bg-canvas/98 backdrop-blur-2xl lg:hidden flex flex-col justify-between pt-24 pb-10 px-8 animate-in fade-in zoom-in-95 duration-200"
+          className="fixed inset-0 z-50 bg-[#F8F6F1] lg:hidden flex flex-col justify-between pt-24 pb-10 px-8 animate-in fade-in zoom-in-95 duration-200 overflow-y-auto"
           role="dialog"
           aria-modal="true"
           aria-label="Menú principal de navegación"
@@ -234,12 +327,88 @@ export function Header() {
             <nav className="flex flex-col space-y-4" aria-label="Enlaces del menú móvil">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
+
+                if (link.hasDropdown) {
+                  return (
+                    <div key={link.href} className="flex flex-col">
+                      <div className="flex items-center justify-between min-h-[44px]">
+                        <Link
+                          href={link.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`text-2xl sm:text-3xl font-serif tracking-tight transition-colors ${
+                            isActive ? 'text-accent italic' : 'text-ink hover:text-accent'
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setMobileAccordionOpen(!mobileAccordionOpen)}
+                          aria-expanded={mobileAccordionOpen}
+                          aria-controls="mobile-treatments-accordion"
+                          className="p-2 text-ink hover:text-accent focus-visible:outline-accent min-w-[44px] min-h-[44px] flex items-center justify-center"
+                          aria-label={
+                            mobileAccordionOpen
+                              ? 'Colapsar submenú de tratamientos'
+                              : 'Expandir submenú de tratamientos'
+                          }
+                        >
+                          <ChevronDown
+                            className={`w-5 h-5 text-accent transition-transform duration-200 ${
+                              mobileAccordionOpen ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                      </div>
+
+                      {mobileAccordionOpen && (
+                        <div
+                          id="mobile-treatments-accordion"
+                          className="pl-3.5 mt-2 mb-2 border-l-2 border-accent/30 flex flex-col space-y-4 animate-in fade-in slide-in-from-top-1 duration-200"
+                        >
+                          {TREATMENTS_NAV_DATA.map((cat) => (
+                            <div key={cat.id} className="flex flex-col space-y-1.5">
+                              <span className="text-[10px] font-mono tracking-clinical uppercase text-accent font-semibold">
+                                {cat.title}
+                              </span>
+                              <div className="flex flex-col space-y-2 pl-1">
+                                {cat.items.map((item) => (
+                                  <Link
+                                    key={item.id}
+                                    href={item.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="text-xs text-ink-secondary hover:text-accent py-1 flex items-center justify-between group"
+                                  >
+                                    <span className="font-medium group-hover:text-accent">
+                                      {item.name}
+                                    </span>
+                                    <span className="text-[10px] text-ink-muted">
+                                      {item.timeEstimate}
+                                    </span>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                          <Link
+                            href="/tratamientos"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-[11px] uppercase tracking-clinical text-accent font-medium pt-1 flex items-center space-x-1"
+                          >
+                            <span>Ver todos los tratamientos →</span>
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`min-h-[44px] flex items-center text-3xl font-serif tracking-tight transition-colors ${
+                    className={`min-h-[44px] flex items-center text-2xl sm:text-3xl font-serif tracking-tight transition-colors ${
                       isActive ? 'text-accent italic' : 'text-ink hover:text-accent'
                     }`}
                   >

@@ -15,7 +15,9 @@ export type AnalyticsEventName =
   | 'form_submit_attempt'
   | 'form_submit_success'
   | 'form_submit_error'
-  | 'map_interactive_load';
+  | 'map_interactive_load'
+  | 'nav_treatment_click'
+  | 'nav_featured_click';
 
 export interface AnalyticsEventPayload {
   event: AnalyticsEventName;
