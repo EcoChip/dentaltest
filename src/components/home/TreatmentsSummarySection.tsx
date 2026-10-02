@@ -46,7 +46,7 @@ export function TreatmentsSummarySection() {
           {treatments.map((treatment, index) => {
             const isHovered = hoveredIndex === index;
             const targetUrl =
-              treatment.slug === 'invisalign' ? '/invisalign' : `/tratamientos#${treatment.slug}`;
+              treatment.slug === 'invisalign' ? '/invisalign' : `/tratamientos/${treatment.slug}`;
 
             return (
               <Link

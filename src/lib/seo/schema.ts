@@ -158,3 +158,39 @@ export function getDoctorsSchema() {
     })),
   };
 }
+
+/**
+ * Esquema Schema.org para un procedimiento médico odontológico (MedicalProcedure).
+ */
+export function getMedicalProcedureSchema(params: {
+  name: string;
+  description: string;
+  path: string;
+  procedureType?: string;
+  bodyLocation?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalProcedure',
+    '@id': `${siteUrl}${params.path}#procedure`,
+    name: params.name,
+    description: params.description,
+    procedureType: params.procedureType || 'https://health-lifesci.schema.org/NoninvasiveProcedure',
+    url: `${siteUrl}${params.path}`,
+    bodyLocation: params.bodyLocation || 'Oral cavity and teeth',
+    performer: {
+      '@type': 'Dentist',
+      name: clinicConfig.name,
+      url: siteUrl,
+      telephone: clinicConfig.contact.phone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: clinicConfig.contact.address.street,
+        addressLocality: clinicConfig.contact.address.city,
+        postalCode: clinicConfig.contact.address.postalCode,
+        addressCountry: 'ES',
+      },
+    },
+    status: 'https://schema.org/ActiveActionStatus',
+  };
+}

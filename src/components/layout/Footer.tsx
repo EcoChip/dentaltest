@@ -41,7 +41,11 @@ export function Footer() {
               {siteContent.treatments.map((treatment) => (
                 <li key={treatment.id}>
                   <Link
-                    href={`/tratamientos#${treatment.slug}`}
+                    href={
+                      treatment.slug === 'invisalign'
+                        ? '/invisalign'
+                        : `/tratamientos/${treatment.slug}`
+                    }
                     className="hover:text-accent transition-colors flex items-center justify-between group py-0.5"
                   >
                     <span>{treatment.title}</span>

@@ -1,203 +1,270 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { brandConfig } from '@/config/brand';
 import { siteContent } from '@/content/site';
+import { TREATMENTS_DATA, TREATMENT_SLUGS } from '@/content/treatments';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { getBreadcrumbSchema } from '@/lib/seo/schema';
+import { HashRedirect } from '@/components/treatments/HashRedirect';
 import {
   ArrowUpRight,
+  Clock,
   CheckCircle2,
   Calendar,
-  HelpCircle,
-  Clock,
   Sparkles,
   ShieldCheck,
+  ChevronRight,
+  Layers,
+  Activity,
+  Scan,
 } from 'lucide-react';
 
-import { brandConfig } from '@/config/brand';
-
 export const metadata: Metadata = {
-  title: `Tratamientos Odontológicos en Madrid · Carillas, Implantes y Estética | ${brandConfig.shortName}`,
+  title: `Tratamientos Odontológicos en Madrid · Especialidades de Preservación | ${brandConfig.shortName}`,
   description:
-    'Especialidades clínicas de preservación tisular en el Barrio de Salamanca: ortodoncia invisible Invisalign®, carillas cerámicas biomiméticas e implantología guiada en Madrid.',
+    'Directorio de especialidades clínicas en el Barrio de Salamanca: ortodoncia invisible Invisalign®, carillas cerámicas, implantología guiada, periodoncia y prevención.',
   alternates: {
     canonical: `${brandConfig.url}/tratamientos`,
   },
   openGraph: {
-    title: `Tratamientos Odontológicos en Madrid · Carillas, Implantes y Estética | ${brandConfig.shortName}`,
+    title: `Tratamientos Odontológicos en Madrid · Especialidades de Preservación | ${brandConfig.shortName}`,
     description:
-      'Especialidades clínicas de preservación tisular en el Barrio de Salamanca: ortodoncia invisible, carillas cerámicas e implantología guiada.',
+      'Directorio de especialidades clínicas en el Barrio de Salamanca: ortodoncia invisible, carillas de porcelana, implantología guiada y estética biomimética.',
     url: `${brandConfig.url}/tratamientos`,
     type: 'website',
+    siteName: brandConfig.name,
+    locale: 'es_ES',
   },
 };
 
-export default function TreatmentsPage() {
-  const treatments = siteContent.treatments;
+export default function TreatmentsIndexPage() {
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'Especialidades Odontológicas', path: '/tratamientos' },
   ]);
 
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Catálogo de Especialidades Odontológicas',
+    description: 'Disciplinas clínicas de odontología de mínima intervención y preservación tisular.',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Ortodoncia Invisible Invisalign®',
+        url: `${brandConfig.url}/invisalign`,
+      },
+      ...TREATMENT_SLUGS.map((slug, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 2,
+        name: TREATMENTS_DATA[slug].title,
+        url: `${brandConfig.url}/tratamientos/${slug}`,
+      })),
+    ],
+  };
+
   return (
-    <div className="pt-28 lg:pt-36 pb-24">
+    <div className="pt-28 lg:pt-36 pb-24 bg-canvas text-ink">
+      {/* Redirección silenciosa para URLs antiguas con ancla */}
+      <HashRedirect />
+
       {/* Datos Estructurados JSON-LD */}
       <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={itemListSchema} />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        {/* Migas de Pan Visibles & Accesibles */}
+        <nav
+          aria-label="Ruta de navegación"
+          className="flex items-center space-x-2 text-xs uppercase tracking-clinical text-ink-muted mb-6"
+        >
+          <Link href="/" className="hover:text-ink transition-colors">
+            Inicio
+          </Link>
+          <ChevronRight className="w-3 h-3 text-line-strong" />
+          <span className="text-accent font-medium">Especialidades Odontológicas</span>
+        </nav>
+
         {/* Cabecera Editorial */}
-        <div className="max-w-3xl mb-12 lg:mb-16">
-          <div className="flex items-center space-x-2 text-xs uppercase tracking-clinical text-accent font-medium mb-3">
-            <Link href="/" className="text-ink-muted hover:text-ink">
-              Inicio
-            </Link>
-            <span>/</span>
-            <span>Especialidades Odontológicas</span>
+        <div className="max-w-3xl mb-16 lg:mb-20">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
+              Directorio de Disciplinas Clínicas
+            </span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-6xl text-ink tracking-tight mb-6 leading-[1.08]">
-            Disciplinas Clínicas & Protocolos de Preservación
+            Disciplinas Odontológicas & Protocolos de Preservación
           </h1>
 
           <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
-            Abordaje integral de la salud bucodental bajo el principio de mínima intervención y respeto biológico del tejido sano. Diagnóstico tridimensional asistido por ordenador y ejecución microscópica en Madrid.
+            Abordaje integral de la salud bucodental bajo el principio innegociable de mínima intervención y respeto biológico del tejido sano. Planificación tridimensional asistida por ordenador y ejecución microscópica en el Barrio de Salamanca, Madrid.
           </p>
         </div>
 
-        {/* Índice Rápido de Navegación por Hash con Scroll Suave */}
-        <div className="mb-16 p-4 sm:p-6 bg-surface border border-line-strong rounded-xs shadow-subtle">
-          <span className="text-[10px] uppercase tracking-clinical text-ink-muted font-semibold block mb-3">
-            Índice de Tratamientos Clínicos
-          </span>
-          <nav
-            aria-label="Índice de navegación por especialidad"
-            className="flex flex-wrap gap-2 sm:gap-3"
-          >
-            {treatments.map((tr, idx) => (
-              <a
-                key={tr.id}
-                href={`#${tr.slug}`}
-                className="touch-target px-3.5 py-2 bg-canvas hover:bg-ink hover:text-canvas border border-line-subtle rounded-xs text-xs text-ink transition-colors flex items-center space-x-1.5"
+        {/* TRATAMIENTO INSIGNIA DESTACADO: INVISALIGN® */}
+        <div className="mb-20 bg-surface border border-line-strong p-8 sm:p-12 lg:p-14 rounded-xs shadow-card relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-clinical font-semibold px-2.5 py-1 bg-accent-soft text-accent rounded-xs">
+                  Tratamiento Insignia
+                </span>
+                <span className="text-xs font-mono text-ink-muted">
+                  Alineadores SmartTrack® de 0,75 mm
+                </span>
+              </div>
+
+              <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
+                Ortodoncia Invisible Invisalign®
+              </h2>
+
+              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed max-w-2xl">
+                Alineación dental de alta precisión mediante férulas transparentes secuenciales y planificación computacional ClinCheck® 3D. Microdesplazamiento fisiológico continuo supervisado por la {brandConfig.medicalDirector.name}.
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-2 text-xs text-ink-secondary">
+                <div className="flex items-center space-x-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span>Escáner intraoral 3D sin pastas</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span>Sin rozaduras metálicas</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span>Simulación digital antes de iniciar</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-center items-start lg:items-end gap-4">
+              <Link
+                href="/invisalign"
+                className="touch-target w-full sm:w-auto text-center px-8 py-4 bg-ink text-canvas hover:bg-accent text-xs uppercase tracking-clinical rounded-xs font-medium transition-colors flex items-center justify-center space-x-2 shadow-subtle group"
               >
-                <span className="font-mono text-[10px] text-accent">0{idx + 1}</span>
-                <span className="font-medium">{tr.title}</span>
-              </a>
-            ))}
-          </nav>
+                <span>Explorar Protocolo 3D</span>
+                <ArrowUpRight className="w-4 h-4 text-canvas/70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
         </div>
 
-        {/* Bloques Detallados por Tratamiento con Ancla por Hash */}
-        <div className="space-y-16">
-          {treatments.map((tr, index) => (
-            <article
-              key={tr.id}
-              id={tr.slug}
-              className="bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-card scroll-mt-28"
-            >
-              {/* Encabezado del Tratamiento */}
-              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 pb-8 border-b border-line-subtle">
-                <div className="max-w-3xl">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <span className="text-[10px] uppercase tracking-clinical font-semibold px-2.5 py-1 bg-accent-soft text-accent rounded-xs">
-                      Especialidad 0{index + 1}
-                    </span>
-                    <span className="text-xs text-ink-muted font-mono">
-                      Protocolo Clínico Homologado
-                    </span>
-                  </div>
+        {/* DIRECTORIO DE ESPECIALIDADES CLÍNICAS INDIVIDUALES */}
+        <div className="space-y-8 mb-24">
+          <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
+            <span className="text-xs uppercase tracking-clinical text-ink-muted font-medium">
+              Especialidades con Protocolo Propio
+            </span>
+            <span className="text-xs font-mono text-ink-muted">
+              5 Especialidades Clínicas
+            </span>
+          </div>
 
-                  <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight mb-4">
-                    {tr.title}
-                  </h2>
-
-                  <p className="text-sm sm:text-base text-ink-secondary leading-relaxed mb-4">
-                    {tr.fullDescription}
-                  </p>
-                </div>
-
-                {/* Tarjeta Lateral de Consulta y Presupuesto */}
-                <div className="bg-canvas border border-line-subtle p-6 rounded-xs shrink-0 lg:w-80 space-y-4 shadow-subtle">
-                  <div className="flex items-start space-x-2.5">
-                    <Clock className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                    <div>
-                      <span className="text-[10px] uppercase tracking-clinical text-ink-muted block">
-                        Duración Estimada
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {TREATMENT_SLUGS.map((slug, idx) => {
+              const item = TREATMENTS_DATA[slug];
+              return (
+                <article
+                  key={slug}
+                  className="group bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle hover:shadow-card transition-all duration-200 flex flex-col justify-between"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif text-2xl text-accent tabular-numbers">
+                        0{idx + 1}
                       </span>
-                      <span className="text-xs font-medium text-ink font-mono">
-                        {tr.durationRange}
+                      <span className="text-[10px] uppercase tracking-clinical text-ink-muted bg-canvas px-2.5 py-1 rounded-xs border border-line-subtle">
+                        {item.category}
                       </span>
+                    </div>
+
+                    <h2 className="font-serif text-2xl text-ink group-hover:text-accent transition-colors tracking-tight">
+                      {item.title}
+                    </h2>
+
+                    <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed line-clamp-3">
+                      {item.heroSubtitle}
+                    </p>
+
+                    <div className="pt-2 border-t border-line-subtle flex items-center space-x-2 text-xs font-mono text-ink-muted">
+                      <Clock className="w-3.5 h-3.5 text-accent shrink-0" />
+                      <span className="truncate">{item.durationEstimated}</span>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-line-subtle">
-                    <span className="text-[10px] uppercase tracking-clinical text-ink-muted block mb-1">
-                      Criterio de Presupuesto
-                    </span>
-                    <p className="text-[11px] text-ink-secondary leading-relaxed">
-                      {tr.priceNotice}
-                    </p>
-                  </div>
-
-                  <div className="pt-2">
+                  <div className="pt-6 mt-6 border-t border-line-subtle">
                     <Link
-                      href={
-                        tr.slug === 'invisalign'
-                          ? '/invisalign'
-                          : `/contacto?tratamiento=${tr.slug}`
-                      }
-                      className="touch-target w-full text-center text-xs uppercase tracking-clinical py-3 bg-ink text-canvas hover:bg-accent rounded-xs transition-colors flex items-center justify-center space-x-2 font-medium"
+                      href={`/tratamientos/${item.slug}`}
+                      className="touch-target w-full px-4 py-2.5 bg-canvas group-hover:bg-ink group-hover:text-canvas text-ink border border-line-subtle group-hover:border-ink rounded-xs text-xs uppercase tracking-clinical font-medium transition-all duration-200 flex items-center justify-between"
                     >
-                      <Calendar className="w-3.5 h-3.5 text-canvas" />
-                      <span>{siteContent.ctas.primary}</span>
+                      <span>Ver detalles y casos</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-accent group-hover:text-canvas group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </Link>
                   </div>
-                </div>
-              </div>
-
-              {/* Fila Inferior: Qué Incluye + Cuándo se Recomienda */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-8">
-                {/* Qué Incluye */}
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2 text-ink">
-                    <ShieldCheck className="w-4 h-4 text-accent" />
-                    <h3 className="text-xs uppercase tracking-clinical font-semibold">
-                      Qué incluye el protocolo
-                    </h3>
-                  </div>
-                  <ul className="space-y-2.5 text-xs text-ink-secondary">
-                    {tr.whatIncludes.map((inc) => (
-                      <li key={inc} className="flex items-start space-x-2.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-accent mt-0.5 shrink-0" />
-                        <span>{inc}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Cuándo se Recomienda */}
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2 text-ink">
-                    <HelpCircle className="w-4 h-4 text-accent" />
-                    <h3 className="text-xs uppercase tracking-clinical font-semibold">
-                      Cuándo se recomienda clínicamente
-                    </h3>
-                  </div>
-                  <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed bg-canvas p-4 rounded-xs border border-line-subtle">
-                    {tr.recommendedWhen}
-                  </p>
-                </div>
-              </div>
-            </article>
-          ))}
+                </article>
+              );
+            })}
+          </div>
         </div>
 
-        {/* CTA Global al final de tratamientos */}
-        <div className="mt-20 bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        {/* PILARES BIOLÓGICOS Y TECNOLÓGICOS */}
+        <section className="mb-24 py-16 px-8 sm:px-12 bg-surface border border-line-strong rounded-xs shadow-subtle">
+          <div className="max-w-2xl mb-12">
+            <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-2">
+              Estándares Clínicos
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
+              Tecnología de diagnóstico y preservación tisular
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xs bg-canvas border border-line-subtle flex items-center justify-center text-accent">
+                <Scan className="w-5 h-5" />
+              </div>
+              <h3 className="font-serif text-xl text-ink">Diagnóstico 3D CBCT</h3>
+              <p className="text-xs text-ink-secondary leading-relaxed">
+                Tomografía volumétrica de haz cónico con mínima dosis de radiación para evaluar hueso, raíces y articulaciones con resolución nanométrica.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xs bg-canvas border border-line-subtle flex items-center justify-center text-accent">
+                <Layers className="w-5 h-5" />
+              </div>
+              <h3 className="font-serif text-xl text-ink">Magnificación Microscópica</h3>
+              <p className="text-xs text-ink-secondary leading-relaxed">
+                Toda intervención adhesiva, periodontal o restauradora se realiza bajo magnificación óptica para proteger cada micra de esmalte sano.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xs bg-canvas border border-line-subtle flex items-center justify-center text-accent">
+                <Activity className="w-5 h-5" />
+              </div>
+              <h3 className="font-serif text-xl text-ink">Biomateriales Certificados</h3>
+              <p className="text-xs text-ink-secondary leading-relaxed">
+                Cerámicas feldespáticas vítreas, titanio biocompatible de grado médico y composites biocompatibles libres de bisfenoles agresivos.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA FINAL DE VALORACIÓN */}
+        <div className="bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-xl">
-            <h3 className="font-serif text-2xl sm:text-3xl text-ink mb-2">
-              ¿No tienes certeza de cuál es tu necesidad diagnóstica?
-            </h3>
+            <h2 className="font-serif text-2xl sm:text-3xl text-ink mb-2">
+              ¿No tienes certeza de qué tratamiento necesitas?
+            </h2>
             <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-              En tu primera visita de valoración realizamos un examen bucodental completo con escáner intraoral 3D para definir el plan de tratamiento más conservador.
+              En tu primera visita de valoración realizamos un examen bucodental completo con escáner intraoral 3D para definir el plan más biológico y conservador.
             </p>
           </div>
 

@@ -21,7 +21,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/tratamientos`,
       lastModified: now,
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tratamientos/carillas-de-porcelana`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tratamientos/implantes-dentales`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tratamientos/blanqueamiento-dental`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tratamientos/cirugia-periodontal`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tratamientos/odontologia-conservadora`,
+      lastModified: now,
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {

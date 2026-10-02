@@ -22,7 +22,37 @@ const KNOWN_ROUTES: RouteTarget[] = [
     path: '/tratamientos',
     label: 'Disciplinas Clínicas y Tratamientos',
     description: 'Carillas cerámicas biomiméticas, implantología guiada y estética dental.',
-    keywords: ['tratamientos', 'tratamiento', 'carillas', 'implantes', 'blanqueamiento', 'periodoncia', 'estetica'],
+    keywords: ['tratamientos', 'tratamiento', 'especialidades', 'servicios', 'catalogo'],
+  },
+  {
+    path: '/tratamientos/carillas-de-porcelana',
+    label: 'Carillas de Porcelana Feldespática',
+    description: 'Láminas cerámicas de 0,2 mm biomiméticas sin tallado agresivo.',
+    keywords: ['carillas', 'carilla', 'porcelana', 'feldespatica', 'estetica-dental', 'mockup'],
+  },
+  {
+    path: '/tratamientos/implantes-dentales',
+    label: 'Implantología Guiada por TAC 3D',
+    description: 'Fijaciones de titanio con férula estereolitográfica y carga inmediata.',
+    keywords: ['implantes', 'implante', 'implantologia', 'diente-fijo', 'tornillo', 'cirugia-guiada'],
+  },
+  {
+    path: '/tratamientos/blanqueamiento-dental',
+    label: 'Blanqueamiento Dental Combinado',
+    description: 'Activación clínica con luz fría y refuerzo ambulatorio nocturno.',
+    keywords: ['blanqueamiento', 'blanquear', 'dientes-blancos', 'aclaramiento', 'peroxido'],
+  },
+  {
+    path: '/tratamientos/cirugia-periodontal',
+    label: 'Cirugía Plástica Periodontal y Gingival',
+    description: 'Microinjertos conectivos, recubrimiento radicular y corrección de encías.',
+    keywords: ['periodoncia', 'encias', 'gingival', 'recesion', 'injerto', 'sonrisa-gingival'],
+  },
+  {
+    path: '/tratamientos/odontologia-conservadora',
+    label: 'Odontología Conservadora y Profilaxis GBT',
+    description: 'Terapia guiada por biopelícula, composites biomiméticos y prevención.',
+    keywords: ['conservadora', 'limpieza', 'profilaxis', 'gbt', 'empaste', 'composite', 'caries'],
   },
   {
     path: '/equipo',

@@ -119,8 +119,8 @@ export const siteContent = {
       priceNotice: 'Presupuesto cerrado sin sorpresas tras el diagnóstico clínico inicial.',
     },
     {
-      id: 'carillas-porcelana',
-      slug: 'carillas-porcelana',
+      id: 'carillas-de-porcelana',
+      slug: 'carillas-de-porcelana',
       title: 'Carillas de Porcelana Biomimética',
       shortDescription:
         'Láminas cerámicas feldespáticas ultrafinas (0,2–0,4 mm) estratificadas artesanalmente para devolver brillo, textura y proporción a los frentes anteriores.',
@@ -138,8 +138,8 @@ export const siteContent = {
       priceNotice: 'Presupuesto cerrado según el número de piezas y complejidad reconstructiva.',
     },
     {
-      id: 'implantes-guiados',
-      slug: 'implantes-guiados',
+      id: 'implantes-dentales',
+      slug: 'implantes-dentales',
       title: 'Implantología Guiada por Ordenador',
       shortDescription:
         'Fijaciones de titanio grado médico colocadas mediante férula quirúrgica guiada por TAC 3D (CBCT). Cirugía sin colgajo con postoperatorio mínimo.',
@@ -158,8 +158,8 @@ export const siteContent = {
       priceNotice: 'Presupuesto individualizado tras evaluación radiológica tridimensional.',
     },
     {
-      id: 'blanqueamiento-combinado',
-      slug: 'blanqueamiento-combinado',
+      id: 'blanqueamiento-dental',
+      slug: 'blanqueamiento-dental',
       title: 'Blanqueamiento Dental Combinado',
       shortDescription:
         'Protocolo clínico doble: sesión en clínica mediante activación por luz fría de peróxido de hidrógeno y refuerzo ambulatorio con férulas a medida.',
@@ -178,8 +178,8 @@ export const siteContent = {
       priceNotice: 'Presupuesto que incluye fase clínica y fase ambulatoria completa.',
     },
     {
-      id: 'estetica-gingival',
-      slug: 'estetica-gingival',
+      id: 'cirugia-periodontal',
+      slug: 'cirugia-periodontal',
       title: 'Cirugía Plástica Periodontal y Gingival',
       shortDescription:
         'Remodelado microquirúrgico de la encía para corregir sonrisas gingivales, asimetrías de margen y recesiones radiculares con microinjertos.',
