@@ -10,6 +10,7 @@ import type { SceneHandles } from '@/components/three/Scene';
 import { ArrowDown, CheckCircle2, ShieldCheck, Sparkles, Award, FileCheck } from 'lucide-react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TrustMetricsSection } from '@/components/home/TrustMetricsSection';
+import { TechnicalBlueprint, TechnicalBlueprintHandles } from './TechnicalBlueprint';
 
 // Carga diferida de la Escena 3D aislada en su propio componente
 const Scene = dynamic(() => import('@/components/three/Scene').then((mod) => mod.Scene), {
@@ -19,6 +20,9 @@ const Scene = dynamic(() => import('@/components/three/Scene').then((mod) => mod
 export function HomeScrollytelling() {
   const stageRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneHandles>(null);
+  const blueprintRef = useRef<TechnicalBlueprintHandles>(null);
+  const typographyContainerRef = useRef<HTMLDivElement>(null);
+  const typographyTextRef = useRef<HTMLDivElement>(null);
 
   // Refs de las tarjetas HTML para animarlas directamente desde GSAP con 0 re-renders
   const cardS1Ref = useRef<HTMLDivElement>(null);
@@ -74,6 +78,7 @@ export function HomeScrollytelling() {
     const cleanupTimeline = setupMasterScrollTimeline({
       stageElement: stage,
       sceneHandles: scene,
+      blueprintHandles: blueprintRef.current,
       countersRef: {
         cases: casesCounterRef.current,
         years: yearsCounterRef.current,
@@ -269,14 +274,44 @@ return (
           </div>
         </div>
 
-        {/* Canvas Fijo a Pantalla Completa (detrás del contenido con pointer-events: none) */}
+        {/* Capa de Fondo (Detrás del 3D): Cifra Tipográfica Gigante 0,75 mm con Parallax (Bloque C) */}
+        <div
+          ref={typographyContainerRef}
+          className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center transition-opacity duration-300 overflow-hidden"
+          style={{ opacity: 0, visibility: 'hidden' }}
+          aria-hidden="true"
+        >
+          <div ref={typographyTextRef} className="relative text-center will-change-transform">
+            <span
+              className="font-serif text-[22vw] lg:text-[18vw] font-light leading-none tracking-tighter block select-none"
+              style={{
+                color: 'transparent',
+                WebkitTextStroke: '1.2px rgba(27, 78, 94, 0.18)',
+              }}
+            >
+              0,75 mm
+            </span>
+            <span className="font-mono text-[10px] lg:text-xs tracking-clinical uppercase text-accent/50 block mt-2">
+              Calibración de espesor biomecánico · SmartTrack®
+            </span>
+          </div>
+        </div>
+
+        {/* Canvas Fijo a Pantalla Completa (z-1, detrás del contenido con pointer-events: none) */}
         <div
           ref={canvasContainerRef}
-          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-0 transition-opacity duration-500 bg-transparent"
+          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-1 transition-opacity duration-500 bg-transparent"
           style={{ opacity: is3DReady ? 1 : 0 }}
         >
           <Scene ref={sceneRef} onSceneReady={() => setIs3DReady(true)} />
         </div>
+
+        {/* Esquema Técnico SVG Frontal (Bloque C) */}
+        <TechnicalBlueprint
+          ref={blueprintRef}
+          typographyContainerRef={typographyContainerRef}
+          typographyTextRef={typographyTextRef}
+        />
 
         {/* Capa de Contenido HTML con scroll natural sobre el Canvas */}
         <div className="relative z-10 w-full pointer-events-none">

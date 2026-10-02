@@ -2,6 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SCENES_CONFIG } from '@/config/scenes';
 import type { SceneHandles } from '@/components/three/Scene';
+import type { TechnicalBlueprintHandles } from '@/components/home/TechnicalBlueprint';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -11,6 +12,7 @@ if (typeof window !== 'undefined') {
 export interface TimelineSetupOptions {
   stageElement: HTMLElement;
   sceneHandles: SceneHandles;
+  blueprintHandles?: TechnicalBlueprintHandles | null;
   countersRef?: {
     cases: HTMLElement | null;
     years: HTMLElement | null;
@@ -23,6 +25,7 @@ export interface TimelineSetupOptions {
 export function setupMasterScrollTimeline({
   stageElement,
   sceneHandles,
+  blueprintHandles,
   countersRef,
   onActiveSceneChange,
   onCanvasOpacityChange,
@@ -238,6 +241,100 @@ export function setupMasterScrollTimeline({
             2.5
           );
         }
+      }
+
+      // ====================================================================
+      // BLOQUE C: CONTENIDO EN EL TRAMO VACÍO PREVIO A LAS ANOTACIONES (1.4 a 3.2)
+      // 1. Cifra tipográfica gigante "0,75 mm" detrás del modelo con parallax
+      // 2. Esquema técnico SVG con cota y trazado en scrub (stroke-dashoffset)
+      // 3. Partículas sutiles de profundidad en el travelling (Points)
+      // ====================================================================
+      if (sceneHandles.depthParticles) {
+        // Aparición sutil de partículas durante el travelling (1.4 a 1.8)
+        master.to(
+          { opacity: 0 },
+          {
+            opacity: 0.38,
+            duration: 0.4,
+            ease: 'power1.out',
+            onUpdate: function () {
+              sceneHandles.depthParticles?.setOpacity(this.targets()[0].opacity);
+            },
+          },
+          1.4
+        );
+
+        // Desvanecimiento al acercarse a Escena 2 (2.7 a 3.1)
+        master.to(
+          { opacity: 0.38 },
+          {
+            opacity: 0,
+            duration: 0.4,
+            ease: 'power1.in',
+            onUpdate: function () {
+              sceneHandles.depthParticles?.setOpacity(this.targets()[0].opacity);
+            },
+          },
+          2.7
+        );
+      }
+
+      if (blueprintHandles) {
+        // Revelado suave del esquema técnico y cifra tipográfica (1.45 a 1.85)
+        master.to(
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: 'power1.out',
+            onUpdate: function () {
+              blueprintHandles?.setOpacity(this.targets()[0].opacity);
+            },
+          },
+          1.45
+        );
+
+        // Trazado del esquema técnico sincronizado al scrub de scroll (1.5 a 2.7)
+        master.to(
+          { progress: 0 },
+          {
+            progress: 1,
+            duration: 1.2,
+            ease: 'power1.inOut',
+            onUpdate: function () {
+              blueprintHandles?.setDrawProgress(this.targets()[0].progress);
+            },
+          },
+          1.5
+        );
+
+        // Parallax vertical de la cifra tipográfica respecto a la cámara (1.4 a 3.0)
+        master.to(
+          { y: 35 },
+          {
+            y: -45,
+            duration: 1.6,
+            ease: 'none',
+            onUpdate: function () {
+              blueprintHandles?.setParallaxY(this.targets()[0].y);
+            },
+          },
+          1.4
+        );
+
+        // Fundido de salida completo antes de que comiencen las anotaciones (2.8 a 3.2)
+        master.to(
+          { opacity: 1 },
+          {
+            opacity: 0,
+            duration: 0.4,
+            ease: 'power1.in',
+            onUpdate: function () {
+              blueprintHandles?.setOpacity(this.targets()[0].opacity);
+            },
+          },
+          2.8
+        );
       }
 
       // ====================================================================

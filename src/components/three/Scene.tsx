@@ -7,6 +7,7 @@ import { ArchModel, ArchModelHandles } from './ArchModel';
 import { CameraRig, CameraRigHandles } from './CameraRig';
 import { Lighting, LightingHandles } from './Lighting';
 import { Annotations, AnnotationsHandles } from './Annotations';
+import { DepthParticles, DepthParticlesHandles } from './DepthParticles';
 import { RaycastDebugTool } from './RaycastDebugTool';
 import { SCENES_CONFIG } from '@/config/scenes';
 
@@ -15,6 +16,7 @@ export interface SceneHandles {
   cameraRig: CameraRigHandles | null;
   lighting: LightingHandles | null;
   annotations: AnnotationsHandles | null;
+  depthParticles: DepthParticlesHandles | null;
   invalidate: () => void;
 }
 
@@ -102,6 +104,7 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
     const cameraRigRef = useRef<CameraRigHandles>(null);
     const lightingRef = useRef<LightingHandles>(null);
     const annotationsRef = useRef<AnnotationsHandles>(null);
+    const depthParticlesRef = useRef<DepthParticlesHandles>(null);
 
     const invalidateFnRef = useRef<() => void>(() => {});
 
@@ -121,6 +124,7 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
       cameraRig: cameraRigRef.current,
       lighting: lightingRef.current,
       annotations: annotationsRef.current,
+      depthParticles: depthParticlesRef.current,
       invalidate: () => {
         invalidateFnRef.current();
       },
@@ -171,6 +175,7 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
           <Suspense fallback={null}>
             <ArchModel ref={archModelRef} tier={isMobile ? 'low' : 'high'} />
             <RaycastDebugTool />
+            <DepthParticles ref={depthParticlesRef} />
           </Suspense>
         </Canvas>
 
