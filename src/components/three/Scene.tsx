@@ -144,6 +144,15 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.15;
+            if (typeof window !== 'undefined') {
+              (window as unknown as { __getGlInfo: () => Record<string, unknown> }).__getGlInfo = () => ({
+                calls: gl.info.render.calls,
+                triangles: gl.info.render.triangles,
+                textures: gl.info.memory.textures,
+                geometries: gl.info.memory.geometries,
+                programs: gl.info.programs ? gl.info.programs.length : 0,
+              });
+            }
           }}
         >
           <SceneBridge
@@ -160,7 +169,7 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
           <Lighting ref={lightingRef} disableShadows={isMobile} />
 
           <Suspense fallback={null}>
-            <ArchModel ref={archModelRef} />
+            <ArchModel ref={archModelRef} tier={isMobile ? 'low' : 'high'} />
           </Suspense>
         </Canvas>
 

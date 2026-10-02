@@ -35,11 +35,15 @@ export const SCENES_CONFIG = {
         reflectivity: 0.5,
       },
       aligner: {
-        color: '#3A92C5',
-        fresnelColor: '#F0FAFF',
-        opacity: 0.42,
-        fresnelPower: 2.4,
-        extrusion: 0.007, // Extrusión a lo largo de las normales en vertex shader
+        color: '#DCEEF9', // Tinte cerúleo médico ultra-sutil (casi transparente)
+        fresnelColor: '#F6FBFF', // Blanco diamante para reflejos especulares y borde
+        deepColor: '#13384D', // Azul marino médico profundo para la cara interior (volumen)
+        backColor: '#235E7E', // Matiz cerúleo interior
+        opacity: 0.85,
+        fresnelPower: 2.6,
+        baseAlpha: 0.07, // Translucidez central: 7% permite ver los dientes con total nitidez
+        edgeAlpha: 0.74, // Opacidad en tangentes: 74% simula policarbonato SmartTrack
+        extrusion: 0.007, // Extrusión a lo largo de las normales (0.75 mm escala)
       },
     },
   },

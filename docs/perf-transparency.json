@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-10-02T21:35:19.073Z",
+  "desktopNative": {
+    "sampleCount": 174,
+    "avgFps": 57.6,
+    "minFps": 20,
+    "avgFrameTimeMs": 17.36,
+    "maxFrameTimeMs": 50.1,
+    "longTasks": 0,
+    "maxLongTaskMs": 0,
+    "totalLongTaskMs": 0,
+    "glInfo": {
+      "calls": 84,
+      "triangles": 3641664,
+      "textures": 0,
+      "geometries": 28,
+      "programs": 4
+    }
+  },
+  "mobile4xThrottle": {
+    "sampleCount": 168,
+    "avgFps": 54.4,
+    "minFps": 15,
+    "avgFrameTimeMs": 18.37,
+    "maxFrameTimeMs": 66.7,
+    "longTasks": 0,
+    "maxLongTaskMs": 0,
+    "totalLongTaskMs": 0,
+    "glInfo": {
+      "calls": 56,
+      "triangles": 2427776,
+      "textures": 0,
+      "geometries": 28,
+      "programs": 4
+    }
+  }
+}
