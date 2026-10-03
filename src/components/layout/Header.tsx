@@ -167,8 +167,8 @@ export function Header() {
         ref={headerRef}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#F8F6F1] border-b border-line-subtle py-3.5 shadow-subtle'
-            : 'bg-[#F8F6F1] py-4 lg:py-6 border-b border-line-subtle/40'
+            ? 'bg-canvas/95 backdrop-blur-md border-b border-line-subtle py-3.5 shadow-subtle'
+            : 'bg-canvas/95 backdrop-blur-md py-4 lg:py-6 border-b border-line-subtle/40'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
@@ -260,14 +260,10 @@ export function Header() {
             <Link
               href="/contacto"
               onClick={handleCtaClick}
-              className={`touch-target px-5 py-2.5 rounded-xs transition-all duration-200 flex items-center space-x-2 text-xs uppercase tracking-clinical shadow-subtle group ${
-                scrolled
-                  ? 'bg-ink text-canvas hover:bg-accent'
-                  : 'bg-ink text-canvas hover:bg-accent'
-              }`}
+              className="touch-target px-5 py-2.5 rounded-btn transition-all duration-200 flex items-center space-x-2 text-xs uppercase tracking-clinical shadow-subtle group bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover"
             >
               <span>{siteContent.ctas.primary}</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-canvas/70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-btn-primary-text/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
             </Link>
           </div>
 
@@ -300,7 +296,7 @@ export function Header() {
         <div
           ref={menuContainerRef}
           id="mobile-nav-menu"
-          className="fixed inset-0 z-50 bg-[#F8F6F1] lg:hidden flex flex-col justify-between pt-24 pb-10 px-8 animate-in fade-in zoom-in-95 duration-200 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-canvas lg:hidden flex flex-col justify-between pt-24 pb-10 px-8 animate-in fade-in zoom-in-95 duration-200 overflow-y-auto"
           role="dialog"
           aria-modal="true"
           aria-label="Menú principal de navegación"
@@ -456,7 +452,7 @@ export function Header() {
                 setMobileMenuOpen(false);
                 handleCtaClick();
               }}
-              className="touch-target min-h-[48px] w-full flex items-center justify-center bg-accent text-canvas text-xs uppercase tracking-clinical py-3 rounded-xs font-medium hover:bg-ink transition-colors shadow-subtle"
+              className="touch-target min-h-[48px] w-full flex items-center justify-center bg-btn-primary text-btn-primary-text text-xs uppercase tracking-clinical py-3 rounded-btn font-medium hover:bg-btn-primary-hover transition-colors shadow-subtle"
             >
               <Calendar className="w-4 h-4 mr-2" />
               <span>{siteContent.ctas.primary}</span>

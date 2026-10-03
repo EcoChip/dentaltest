@@ -119,6 +119,32 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
       });
     }, [ghostUniforms]);
 
+    // Sombra de contacto óptica difusa para anclar el modelo sobre el lienzo luminoso
+    const contactShadowMaterial = useMemo(() => {
+      return new THREE.ShaderMaterial({
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          varying vec2 vUv;
+          void main() {
+            vec2 center = vUv - vec2(0.5);
+            center.x *= 0.82;
+            float dist = length(center);
+            float alpha = smoothstep(0.48, 0.04, dist) * 0.12;
+            gl_FragColor = vec4(vec3(0.08, 0.12, 0.13), alpha);
+          }
+        `,
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+    }, []);
+
     // Clonar geometrías y aplicar materiales con orden determinista de renderizado:
     // Dientes (0) -> Inferior Back (10) -> Superior Back (11) -> Inferior Front (12) -> Superior Front (13) -> Ghost (20)
     const { upperTeeth, upperAlignerBack, upperAlignerFront, upperGhost } = useMemo(() => {
@@ -354,6 +380,11 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
             </group>
           </group>
         </group>
+
+        {/* Sombra de Contacto Óptica Suave */}
+        <mesh position={[0, -0.62, 0.12]} rotation={[-Math.PI / 2, 0, 0]} material={contactShadowMaterial}>
+          <planeGeometry args={[3.2, 2.5]} />
+        </mesh>
       </group>
     );
   }

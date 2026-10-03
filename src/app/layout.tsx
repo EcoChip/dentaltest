@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
+import { Suspense } from 'react';
+import { Newsreader, Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { clinicConfig } from '@/config/clinic.config';
 import { SmoothScrollProvider } from '@/components/layout/SmoothScrollProvider';
@@ -11,15 +12,27 @@ import { CookieBanner } from '@/components/common/CookieBanner';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { getClinicSchema, getWebSiteSchema } from '@/lib/seo/schema';
+import { ThemeSwitcherPreview } from '@/components/common/ThemeSwitcherPreview';
 
-const playfair = Playfair_Display({
+// TEMA A: Serif cálido de bajo contraste, orgánico y humano (Newsreader)
+const newsreader = Newsreader({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
-  variable: '--font-serif',
+  variable: '--font-serif-warm',
   display: 'swap',
 });
 
+// TEMA B: Serif editorial clásico aligerado (Playfair Display)
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif-editorial',
+  display: 'swap',
+});
+
+// Tipografía Sans médica humanista y legible para ambos temas
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -29,8 +42,8 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F8F6F1' },
-    { media: '(prefers-color-scheme: dark)', color: '#1A1816' },
+    { media: '(prefers-color-scheme: light)', color: '#FAFAF7' },
+    { media: '(prefers-color-scheme: dark)', color: '#162022' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -96,8 +109,34 @@ export default function RootLayout({
   const webSiteSchema = getWebSiteSchema();
 
   return (
-    <html lang="es" className={`${playfair.variable} ${plusJakarta.variable}`}>
+    <html
+      lang="es"
+      className={`${newsreader.variable} ${playfair.variable} ${plusJakarta.variable}`}
+      data-theme="A"
+    >
       <head>
+        {/* Sincronización Inmediata del Tema Visual (?theme=A o ?theme=B) sin parpadeo */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var params = new URLSearchParams(window.location.search);
+                  var theme = params.get('theme');
+                  if (theme === 'A' || theme === 'B') {
+                    localStorage.setItem('cala_theme_choice', theme);
+                    document.documentElement.setAttribute('data-theme', theme);
+                  } else {
+                    var saved = localStorage.getItem('cala_theme_choice');
+                    document.documentElement.setAttribute('data-theme', (saved === 'B' ? 'B' : 'A'));
+                  }
+                } catch (e) {
+                  document.documentElement.setAttribute('data-theme', 'A');
+                }
+              })();
+            `,
+          }}
+        />
         {/* Google Analytics 4 Consent Mode v2 (Estado 'denied' por defecto según RGPD / AEPD) */}
         <script
           dangerouslySetInnerHTML={{
@@ -119,7 +158,7 @@ export default function RootLayout({
         <JsonLd data={clinicSchema} />
         <JsonLd data={webSiteSchema} />
       </head>
-      <body className="font-sans bg-canvas text-ink antialiased selection:bg-accent selection:text-canvas">
+      <body className="font-sans bg-canvas text-ink antialiased selection:bg-accent selection:text-white">
         {/* Capa de textura analógica sutil */}
         <div className="analog-grain" aria-hidden="true" />
 
@@ -137,6 +176,9 @@ export default function RootLayout({
           <Footer />
           <PersistentMobileCTA />
           <CookieBanner />
+          <Suspense fallback={null}>
+            <ThemeSwitcherPreview />
+          </Suspense>
         </SmoothScrollProvider>
       </body>
     </html>

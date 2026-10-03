@@ -148,7 +148,7 @@ export function TreatmentsMegaMenu({
       aria-label="Menú desplegable de tratamientos clínicos"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className="absolute top-full left-0 w-full bg-[#F8F6F1] border-b border-line-subtle shadow-2xl transition-all duration-200 z-50 animate-in fade-in slide-in-from-top-2"
+      className="absolute top-full left-0 w-full bg-canvas border-b border-line-subtle shadow-2xl transition-all duration-200 z-50 animate-in fade-in slide-in-from-top-2"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -221,7 +221,7 @@ export function TreatmentsMegaMenu({
                 Corrección preventiva de arcadas en crecimiento con tecnología SmartTrack®. Férulas transparentes extraíbles con guía eruptiva para adolescentes.
               </p>
 
-              <div className="bg-[#F8F6F1] p-3 rounded-2xs border border-line-subtle/80 flex items-center space-x-2.5 mb-4">
+              <div className="bg-canvas p-3 rounded-card border border-line-subtle/80 flex items-center space-x-2.5 mb-4">
                 <ShieldCheck className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-[10px] text-ink-secondary leading-tight">
                   Supervisado por la Dra. Elena Cala · Proveedora Oficial Apex

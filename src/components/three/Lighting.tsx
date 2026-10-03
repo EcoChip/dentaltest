@@ -36,27 +36,27 @@ export const Lighting = forwardRef<LightingHandles, { disableShadows?: boolean }
     return (
       <group name="LightingRig">
         {/* Luz Ambiental Base para conservar el detalle oclusal en zonas de sombra */}
-        <ambientLight color="#FFFFFF" intensity={0.75} />
+        <ambientLight color={cfg.ambientLight.color} intensity={cfg.ambientLight.intensity} />
 
         {/* Luz Frontal Superior Clave (Key Light) */}
         <directionalLight
-          position={[3.0, 5.0, 4.0]}
-          intensity={2.0}
-          color="#FFFFFF"
+          position={cfg.keyLight.position}
+          intensity={cfg.keyLight.intensity}
+          color={cfg.keyLight.color}
         />
 
-        {/* Luz Lateral de Relleno Cerúleo Frío (Fill Light) */}
+        {/* Luz Lateral de Relleno Neutro Diurno (Fill Light) */}
         <directionalLight
-          position={[-3.5, -1.5, 3.0]}
-          intensity={1.2}
-          color="#89c2d9"
+          position={cfg.fillLight.position}
+          intensity={cfg.fillLight.intensity}
+          color={cfg.fillLight.color}
         />
 
-        {/* Luz Trasera / Cenital de Recorte Especular (Rim Light) */}
+        {/* Luz Trasera / Cenital de Recorte Blanco Especular (Rim Light) */}
         <directionalLight
-          position={[0.0, 3.5, -3.0]}
-          intensity={1.4}
-          color="#caf0f8"
+          position={cfg.rimLight.position}
+          intensity={cfg.rimLight.intensity}
+          color={cfg.rimLight.color}
         />
 
         {/* Luz puntual de destello oclusal (controlada dinámicamente por el timeline) */}

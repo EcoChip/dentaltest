@@ -19,7 +19,7 @@ export const CLINICAL_ANCHORS: AnnotationAnchor[] = [
   {
     id: 'gingival-margin',
     orderNumber: 1,
-    badge: 'Ajuste Gingival',
+    badge: 'Margen gingival',
     title: 'Borde recortado a medida',
     description: 'Ajuste milimétrico al festoneado de la encía sin presiones ni rozaduras.',
     targetMesh: 'upper',
@@ -32,7 +32,7 @@ export const CLINICAL_ANCHORS: AnnotationAnchor[] = [
   {
     id: 'vestibular-incisor',
     orderNumber: 2,
-    badge: 'Transmisión Bioelástica',
+    badge: 'Presión suave',
     title: 'Fuerza suave y constante',
     description: 'Micro-desplazamiento fisiológico continuo de 0,2 mm por férula.',
     targetMesh: 'upper',
@@ -45,7 +45,7 @@ export const CLINICAL_ANCHORS: AnnotationAnchor[] = [
   {
     id: 'occlusal-plane',
     orderNumber: 3,
-    badge: 'Guía Funcional',
+    badge: 'Tu mordida',
     title: 'Encaje con tu mordida',
     description: 'Contacto oclusal equilibrado y preservación de la función masticatoria.',
     targetMesh: 'lower',

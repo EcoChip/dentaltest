@@ -331,15 +331,15 @@ return (
                 </span>
               </div>
 
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-light text-ink tracking-tight leading-[1.05] mb-6">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-ink tracking-tight leading-[1.15] mb-6">
                 La odontología estética no transforma tu sonrisa.{' '}
-                <span className="italic font-normal text-accent block sm:inline">
+                <span className="italic text-accent block sm:inline">
                   Revela su armonía natural.
                 </span>
               </h1>
 
-              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed max-w-xl mb-8">
-                Ortodoncia invisible planificada mediante escáner intraoral 3D y simulación computacional de fuerzas biomecánicas. Precisión milimétrica bajo la dirección médica de la {clinicConfig.medicalDirector.name}.
+              <p className="text-base text-ink-secondary leading-relaxed max-w-xl mb-8">
+                Ortodoncia invisible planificada mediante escáner intraoral 3D y simulación de fuerzas biomecánicas. Precisión milimétrica bajo la dirección médica de la {clinicConfig.medicalDirector.name}.
               </p>
 
               <div className="flex items-center space-x-3 text-xs tracking-clinical uppercase text-ink-muted">
@@ -357,15 +357,15 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-24 lg:pb-0 lg:justify-center px-6 lg:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md pointer-events-auto bg-[#F8F6F1]/95 lg:bg-[#F8F6F1] backdrop-blur-sm p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md pointer-events-auto bg-canvas/95 lg:bg-canvas backdrop-blur-sm p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-2">
-                Ingeniería de Materiales
+                El material
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl text-ink tracking-tight mb-4">
-                SmartTrack®: Polímero termomoldeado de 0,75 mm
+                Alineadores SmartTrack: precisión de 0,75 mm
               </h2>
-              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed mb-4">
-                Material multicapa patentado que ofrece elasticidad constante de baja intensidad. Se adapta íntimamente a las crestas dentales y reproduce la línea del margen gingival mediante corte por láser individualizado.
+              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed mb-4">
+                Plástico biomédico multicapa que aplica una presión suave y continua sobre cada diente. Se recorta con precisión láser siguiendo la línea natural de tu encía para evitar cualquier molestia.
               </p>
               <div className="space-y-2 pt-2 border-t border-line-subtle text-xs text-ink-muted">
                 <div className="flex items-center space-x-2">
@@ -389,18 +389,18 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
-                  Protocolo Clínico
+                  El proceso
                 </span>
                 <span className="font-serif text-sm text-ink-muted">01 / 04</span>
               </div>
               <h3 className="font-serif text-2xl text-ink mb-3">
-                01. Escaneado Intraoral 3D iTero
+                01. Escáner intraoral 3D
               </h3>
-              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                Registro óptico de 6.000 fotogramas por segundo. Sin pastas de impresión ni molestias, capturando la microanatomía dental en 3 minutos.
+              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed">
+                Registro óptico de alta precisión en solo 3 minutos. Sin pastas de impresión ni molestias, capturando cada detalle anatómico con total exactitud.
               </p>
             </div>
           </div>
@@ -411,18 +411,18 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
-                  Protocolo Clínico
+                  El proceso
                 </span>
                 <span className="font-serif text-sm text-ink-muted">02 / 04</span>
               </div>
               <h3 className="font-serif text-2xl text-ink mb-3">
-                02. Planificación Digital ClinCheck®
+                02. Plan digital a tu medida
               </h3>
-              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                La Dra. Elena Cala planifica cada micro-movimiento dental en software tridimensional. Visualizas el resultado final antes de comenzar.
+              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed">
+                La Dra. Elena Cala diseña cada fase del movimiento dental en 3D. Podrás ver cómo evolucionará y cómo quedará tu sonrisa antes de empezar.
               </p>
             </div>
           </div>
@@ -433,40 +433,40 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
-                  Protocolo Clínico
+                  El proceso
                 </span>
                 <span className="font-serif text-sm text-ink-muted">03 / 04</span>
               </div>
               <h3 className="font-serif text-2xl text-ink mb-3">
-                03. Fabricación & Férulas Seriadas
+                03. Tus alineadores personalizados
               </h3>
-              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                Recibes tu serie personalizada de alineadores transparentes. Cada juego se utiliza de 7 a 10 días, desplazando de forma milimétrica cada pieza.
+              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed">
+                Recibes tu serie de férulas transparentes. Cada juego se utiliza entre 7 y 10 días, guiando tus dientes a su posición de forma gradual y cómoda.
               </p>
             </div>
           </div>
 
-          {/* Paso 4: Retención Vivera */}
+          {/* Paso 4: Retención */}
           <div
             ref={cardS3Step4Ref}
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
-                  Protocolo Clínico
+                  El proceso
                 </span>
                 <span className="font-serif text-sm text-ink-muted">04 / 04</span>
               </div>
               <h3 className="font-serif text-2xl text-ink mb-3">
-                04. Retención & Estabilidad Vivera®
+                04. Revisiones y retención
               </h3>
-              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                Al concluir el movimiento activo, colocamos retenedores nocturnos de alta durabilidad para garantizar que la alineación permanezca inalterable.
+              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed">
+                Al concluir el movimiento activo, fijamos retenedores nocturnos a medida para mantener la alineación y armonía de tu sonrisa a lo largo de los años.
               </p>
             </div>
           </div>
@@ -479,9 +479,9 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center items-center text-center px-6 max-w-4xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
-            <div className="bg-canvas p-8 sm:p-10 border border-line-strong rounded-xs shadow-card pointer-events-auto max-w-2xl">
+            <div className="bg-canvas p-8 sm:p-10 border border-line-strong rounded-card shadow-card pointer-events-auto max-w-2xl">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-3">
-                Oclusión Perfecta Clase I
+                Oclusión en armonía
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight mb-4">
                 Función masticatoria y armonía facial en equilibrio
@@ -502,13 +502,13 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  Evidencia Clínica · 01 / 04
+                  Evidencia clínica · 01 / 04
                 </span>
-                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-card border border-line-subtle font-mono">
                   {siteContent.trustMetrics[0].sourceTag}
                 </span>
               </div>
@@ -516,7 +516,7 @@ return (
               <div className="mb-2">
                 <span
                   ref={casesCounterRef}
-                  className="font-serif text-5xl sm:text-7xl lg:text-8xl font-light text-ink tracking-tight tabular-numbers block leading-none"
+                  className="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal text-ink tracking-tight tabular-numbers block leading-none"
                 >
                   0+
                 </span>
@@ -543,13 +543,13 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center items-center sm:items-end pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-md w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-9 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-md w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-9 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold flex items-center gap-1.5">
                   <FileCheck className="w-3.5 h-3.5" />
                   Trayectoria · 02 / 04
                 </span>
-                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-card border border-line-subtle font-mono">
                   {siteContent.trustMetrics[1].sourceTag}
                 </span>
               </div>
@@ -557,7 +557,7 @@ return (
               <div className="mb-2">
                 <span
                   ref={yearsCounterRef}
-                  className="font-serif text-5xl sm:text-6xl lg:text-7xl font-light text-ink tracking-tight tabular-numbers block leading-none"
+                  className="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal text-ink tracking-tight tabular-numbers block leading-none"
                 >
                   0 años
                 </span>
@@ -584,23 +584,21 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-gold-dark/40 rounded-xs shadow-card relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-gold/15 to-transparent pointer-events-none" />
-
+            <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-card shadow-card relative overflow-hidden">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface border border-gold-dark/30 rounded-xs">
-                  <Award className="w-3.5 h-3.5 text-gold-dark" />
-                  <span className="text-[10px] tracking-clinical uppercase text-gold-dark font-semibold">
-                    Certificación Oficial · 03 / 04
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface border border-line-subtle rounded-card">
+                  <Award className="w-3.5 h-3.5 text-accent" />
+                  <span className="text-[10px] tracking-clinical uppercase text-accent font-semibold">
+                    Certificación oficial · 03 / 04
                   </span>
                 </div>
-                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-card border border-line-subtle font-mono">
                   {siteContent.trustMetrics[2].sourceTag}
                 </span>
               </div>
 
               <div className="mb-2">
-                <span className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light text-ink tracking-tight block leading-tight">
+                <span className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-ink tracking-tight block leading-tight">
                   {siteContent.trustMetrics[2].value}
                 </span>
               </div>
@@ -613,7 +611,7 @@ return (
                 {siteContent.trustMetrics[2].detail} Máxima categoría facultativa otorgada por Align Technology basada en volumen documentado, rigor biomecánico y predictibilidad en casos complejos.
               </p>
 
-              <div className="p-3 bg-surface border border-line-subtle rounded-xs text-[11px] text-ink-secondary flex items-center justify-between">
+              <div className="p-3 bg-surface border border-line-subtle rounded-card text-[11px] text-ink-secondary flex items-center justify-between">
                 <span className="font-medium text-ink">Supervisión facultativa continua</span>
                 <span className="text-accent font-semibold tracking-clinical uppercase text-[10px]">
                   Encuadre frontal clínico
@@ -628,28 +626,28 @@ return (
             className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center items-center sm:items-end pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
-            <div className="max-w-lg w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-xs shadow-card">
+            <div className="max-w-lg w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-card shadow-card">
               <div className="flex items-center justify-between mb-4 border-b border-line-subtle pb-3">
                 <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-accent" />
-                  Previsibilidad Digital · 04 / 04
+                  Previsibilidad digital · 04 / 04
                 </span>
-                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-xs border border-line-subtle font-mono">
+                <span className="text-[9px] uppercase tracking-clinical text-ink-muted bg-surface px-2 py-0.5 rounded-card border border-line-subtle font-mono">
                   {siteContent.trustMetrics[3].sourceTag}
                 </span>
               </div>
 
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface border border-accent/30 rounded-xs mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface border border-accent/30 rounded-card mb-4">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                 <span className="text-[10px] tracking-clinical uppercase text-accent font-semibold">
-                  Plan ClinCheck® ↔ Oclusión Real
+                  Plan ClinCheck ↔ Oclusión Real
                 </span>
               </div>
 
               <div className="mb-2">
                 <span
                   ref={concordanceCounterRef}
-                  className="font-serif text-5xl sm:text-7xl lg:text-8xl font-light text-ink tracking-tight tabular-numbers block leading-none"
+                  className="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal text-ink tracking-tight tabular-numbers block leading-none"
                 >
                   0,0%
                 </span>

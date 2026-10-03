@@ -27,22 +27,22 @@ export const SCENES_CONFIG = {
     // Materiales de alta fidelidad clínica (MeshPhysicalMaterial)
     materials: {
       teeth: {
-        color: '#F4F0E8', // Esmalte dental natural de alta gama
-        roughness: 0.35,
+        color: '#FBF8F2', // Esmalte dental natural, luminoso y limpio
+        roughness: 0.32,
         metalness: 0.0,
         clearcoat: 0.45,
         clearcoatRoughness: 0.18,
         reflectivity: 0.5,
       },
       aligner: {
-        color: '#DCEEF9', // Tinte cerúleo médico ultra-sutil (casi transparente)
-        fresnelColor: '#F6FBFF', // Blanco diamante para reflejos especulares y borde
-        deepColor: '#13384D', // Azul marino médico profundo para la cara interior (volumen)
-        backColor: '#235E7E', // Matiz cerúleo interior
-        opacity: 0.85,
-        fresnelPower: 2.6,
-        baseAlpha: 0.07, // Translucidez central: 7% permite ver los dientes con total nitidez
-        edgeAlpha: 0.74, // Opacidad en tangentes: 74% simula policarbonato SmartTrack
+        color: '#F4F9FB', // Plástico médico casi incoloro, cristalino y transparente
+        fresnelColor: '#FFFFFF', // Blanco diamante para reflejos especulares de clínica diáfana
+        deepColor: '#A8C7D2', // Tinte claro y suave de poliuretano (se elimina el azul oscuro #13384D)
+        backColor: '#D2E4EB', // Cara interior clara con volumen sutil
+        opacity: 0.65, // Ligero y transparente
+        fresnelPower: 2.8,
+        baseAlpha: 0.035, // Transparencia central casi pura (3.5%): esmalte visible nítido
+        edgeAlpha: 0.52, // Opacidad suave en tangentes: 52% (silueta fina sin pesadez)
         extrusion: 0.007, // Extrusión a lo largo de las normales (0.75 mm escala)
       },
     },
@@ -86,22 +86,22 @@ export const SCENES_CONFIG = {
   lighting: {
     keyLight: {
       color: '#FFFFFF',
-      intensity: 1.8,
+      intensity: 2.2,
       position: [3.0, 5.0, 4.0] as [number, number, number],
     },
     fillLight: {
-      color: '#A0C4E2', // Relleno frío
-      intensity: 1.0,
+      color: '#F6F9FA', // Relleno blanco clínico neutro y suave
+      intensity: 1.2,
       position: [-3.5, -1.0, 3.0] as [number, number, number],
     },
     rimLight: {
-      color: '#DCEEFF',
-      intensity: 1.5,
+      color: '#FFFFFF', // Luz de contorno blanca brillante
+      intensity: 1.4,
       position: [0.0, 4.0, -3.5] as [number, number, number],
     },
     ambientLight: {
       color: '#FFFFFF',
-      intensity: 0.6,
+      intensity: 0.85,
     },
     pointGlow: {
       color: '#70E0D0',

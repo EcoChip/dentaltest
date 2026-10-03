@@ -179,7 +179,7 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
               pathRefs.current[idx] = node;
             }}
             fill="none"
-            stroke="#1C4E5E"
+            stroke="var(--accent)"
             strokeWidth="1.2"
             strokeDasharray="3 2"
             className="transition-opacity duration-150"
@@ -207,7 +207,7 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
           <div
             className={`lg:hidden relative flex items-center justify-center w-7 h-7 rounded-full text-xs font-mono font-bold shadow-card transition-all ${
               activeMobileAnchor === idx
-                ? 'bg-accent text-canvas ring-2 ring-accent ring-offset-2 scale-110'
+                ? 'bg-accent text-white ring-2 ring-accent ring-offset-2 scale-110'
                 : 'bg-canvas text-ink border border-line-strong'
             }`}
           >
@@ -223,10 +223,10 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
           ref={(node) => {
             cardRefs.current[idx] = node;
           }}
-          className="hidden lg:block absolute top-0 left-0 bg-[#F8F6F1] border border-line-strong p-3.5 rounded-xs shadow-card max-w-[220px] pointer-events-auto text-left"
+          className="hidden lg:block absolute top-0 left-0 bg-canvas border border-line-strong p-3.5 rounded-card shadow-card max-w-[220px] pointer-events-auto text-left"
         >
           <div className="flex items-center space-x-1.5 mb-1">
-            <span className="text-[9px] uppercase tracking-clinical font-mono font-semibold text-accent">
+            <span className="text-[10px] tracking-clinical font-mono font-medium text-accent">
               0{item.orderNumber} · {item.badge}
             </span>
           </div>
@@ -240,7 +240,7 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
       ))}
 
       {/* Pie de Escena Fijo en Móvil / Tablet (< 1024px) (No flotante, situado al pie sin tapar el alineador) */}
-      <div className="lg:hidden absolute bottom-20 left-4 right-4 max-w-md mx-auto pointer-events-auto bg-[#F8F6F1] border border-line-strong p-4 rounded-xs shadow-lifted">
+      <div className="lg:hidden absolute bottom-20 left-4 right-4 max-w-md mx-auto pointer-events-auto bg-canvas border border-line-strong p-4 rounded-card shadow-lifted">
         <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-line-subtle">
           <div className="flex items-center space-x-2">
             <span className="w-5 h-5 rounded-full bg-accent text-canvas text-[11px] font-mono font-bold flex items-center justify-center">

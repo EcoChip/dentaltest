@@ -53,7 +53,7 @@ function LightArchModels() {
 
 export function InvisalignLightViewer() {
   return (
-    <div className="w-full h-full relative bg-surface border border-line-strong rounded-xs overflow-hidden shadow-card">
+    <div className="w-full h-full relative bg-surface border border-line-strong rounded-card overflow-hidden shadow-card">
       <Canvas
         camera={{ position: [0, 0.2, 3.8], fov: 32 }}
         dpr={[1, 1.75]}
@@ -64,10 +64,10 @@ export function InvisalignLightViewer() {
           toneMapping: THREE.ACESFilmicToneMapping,
         }}
       >
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[3.0, 5.0, 4.0]} intensity={2.0} color="#FFFFFF" />
-        <directionalLight position={[-3.0, -2.0, 3.0]} intensity={1.2} color="#89c2d9" />
-        <directionalLight position={[0, 3, -3]} intensity={1.5} color="#caf0f8" />
+        <ambientLight intensity={0.9} color="#FFFFFF" />
+        <directionalLight position={[3.0, 5.0, 4.0]} intensity={2.2} color="#FFFFFF" />
+        <directionalLight position={[-3.0, -1.5, 3.0]} intensity={1.2} color="#F6F9FA" />
+        <directionalLight position={[0, 3.5, -3]} intensity={1.4} color="#FFFFFF" />
 
         <Suspense fallback={null}>
           <LightArchModels />

@@ -113,14 +113,14 @@ export function NewsletterForm({
               disabled={status === 'loading'}
               required
               aria-label="Dirección de correo electrónico para suscripción al boletín"
-              className="touch-target w-full pl-10 pr-4 py-3 bg-canvas border border-line-subtle rounded-xs text-xs text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
+              className="touch-target w-full pl-10 pr-4 py-3 bg-canvas border border-line-subtle rounded-input text-xs text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
             />
           </div>
 
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="touch-target px-6 py-3 bg-ink hover:bg-accent text-canvas text-xs uppercase tracking-clinical rounded-xs font-medium transition-colors flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 group"
+            className="touch-target px-6 py-3 bg-btn-primary hover:bg-btn-primary-hover text-btn-primary-text text-xs uppercase tracking-clinical rounded-btn font-medium transition-colors flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 group"
           >
             {status === 'loading' ? (
               <>

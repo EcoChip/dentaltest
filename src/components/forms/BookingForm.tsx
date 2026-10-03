@@ -397,15 +397,15 @@ export function BookingForm({
           <button
             type="submit"
             disabled={isSubmitting || submissionStatus === 'submitting'}
-            className="touch-target w-full min-h-[50px] bg-ink hover:bg-accent text-canvas text-xs uppercase tracking-clinical py-4 px-6 rounded-xs font-medium transition-colors shadow-subtle flex items-center justify-center space-x-2 group disabled:opacity-50"
+            className="touch-target w-full min-h-[50px] bg-btn-primary hover:bg-btn-primary-hover text-btn-primary-text text-xs uppercase tracking-clinical py-4 px-6 rounded-btn font-medium transition-colors shadow-subtle flex items-center justify-center space-x-2 group disabled:opacity-50"
           >
-            <Calendar className="w-4 h-4 text-canvas" />
+            <Calendar className="w-4 h-4 text-btn-primary-text" />
             <span>
               {isSubmitting || submissionStatus === 'submitting'
                 ? 'Procesando solicitud...'
                 : siteContent.ctas.primary}
             </span>
-            <Send className="w-3.5 h-3.5 text-canvas/70 group-hover:translate-x-1 transition-transform" />
+            <Send className="w-3.5 h-3.5 text-btn-primary-text/80 group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
       )}

@@ -101,11 +101,11 @@ export function PersistentMobileCTA() {
         <Link
           href="/contacto"
           onClick={() => trackEvent('cta_primary_click', { location: 'sticky_mobile_bar' })}
-          className="col-span-6 min-h-[44px] py-2 px-2 bg-ink text-canvas hover:bg-accent rounded-xs flex items-center justify-center text-center transition-colors focus-visible:outline-accent shadow-subtle group active:scale-[0.99]"
+          className="col-span-6 min-h-[44px] py-2 px-2 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover rounded-btn flex items-center justify-center text-center transition-colors focus-visible:outline-accent shadow-subtle group active:scale-[0.99]"
           aria-label="Ir al formulario de reserva de visita"
         >
-          <Calendar className="w-3.5 h-3.5 text-canvas mr-1.5 shrink-0" />
-          <span className="text-[10px] tracking-clinical uppercase text-canvas font-medium whitespace-nowrap">
+          <Calendar className="w-3.5 h-3.5 text-btn-primary-text mr-1.5 shrink-0" />
+          <span className="text-[10px] tracking-clinical uppercase text-btn-primary-text font-medium whitespace-nowrap">
             {siteContent.ctas.primaryShort}
           </span>
         </Link>

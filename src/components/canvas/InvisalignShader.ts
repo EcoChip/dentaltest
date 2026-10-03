@@ -2,13 +2,13 @@ import * as THREE from 'three';
 
 export function createInvisalignShaderMaterial() {
   const uniforms = {
-    uBaseColor: { value: new THREE.Color(0x2d82b7) },     // Azul cerúleo médico translúcido
-    uFresnelColor: { value: new THREE.Color(0xf2faff) },  // Blanco diamante en los bordes
-    uDeepColor: { value: new THREE.Color(0x0e3a5d) },     // Azul marino en las partes profundas
-    uFresnelPower: { value: 2.2 },
-    uOpacity: { value: 0.82 },
+    uBaseColor: { value: new THREE.Color('#F2F9FB') },     // Plástico casi incoloro, cristalino
+    uFresnelColor: { value: new THREE.Color('#FFFFFF') },  // Blanco diamante en los bordes
+    uDeepColor: { value: new THREE.Color('#98BAC6') },     // Matiz claro de poliuretano suave
+    uFresnelPower: { value: 2.8 },
+    uOpacity: { value: 0.65 },
     uLightPos1: { value: new THREE.Vector3(3.0, 5.0, 5.0) },
-    uLightPos2: { value: new THREE.Vector3(-3.0, -2.0, 3.5) },
+    uLightPos2: { value: new THREE.Vector3(-3.0, -1.0, 3.5) },
   };
 
   const vertexShader = `
@@ -70,7 +70,7 @@ export function createInvisalignShaderMaterial() {
       color += uFresnelColor * (spec1 * 0.9 + spec2 * 0.45);
 
       // Transparencia física con densidad en ángulos tangentes
-      float alpha = clamp(uOpacity * (0.45 + fresnelFactor * 0.55 + spec1 * 0.4), 0.25, 0.96);
+      float alpha = clamp(uOpacity * (0.15 + fresnelFactor * 0.65 + spec1 * 0.3), 0.05, 0.85);
 
       gl_FragColor = vec4(color, alpha);
     }

@@ -80,7 +80,7 @@ export const siteContent = {
     {
       id: 'satisfaction',
       value: '98,7%',
-      label: 'Previsibilidad en ClinCheck®',
+      label: 'Previsibilidad en simulación digital',
       detail: 'Concordancia entre la simulación digital 3D y el resultado oclusal final.',
       sourceTag: '[COMPLETAR: Métrica de concordancia del software]',
     },
@@ -225,7 +225,7 @@ export const siteContent = {
       title: 'Directora Médica · Especialista en Ortodoncia y Oclusión',
       collegiateNumber: brandConfig.medicalDirector.colegiado,
       college: brandConfig.medicalDirector.college,
-      imagePlaceholder: '[IMAGEN REAL: Retrato editorial de la Dra. Elena Cala en consulta]',
+      imagePlaceholder: '[IMAGEN REAL: Fotografía luminosa y cercana de la Dra. Elena Cala sonriendo en consulta]',
       bio: 'Licenciada en Odontología por la Universidad Complutense de Madrid con Máster de Excelencia en Ortodoncia y Máster en Oclusión y ATM. Ponente clínica en ortodoncia invisible y biomecánica computacional.',
       values: 'El rigor biomecánico precede a la estética: una sonrisa sólo es bella si es biológicamente estable y funcionalmente céntrica.',
     },
@@ -235,7 +235,7 @@ export const siteContent = {
       title: 'Especialista en Estética Dental y Rehabilitación Biomimética',
       collegiateNumber: '[COMPLETAR: Nº Colegiado, ej. Col. 28005312]',
       college: 'COEM Madrid',
-      imagePlaceholder: '[IMAGEN REAL: Retrato editorial de la Dra. Elena Carrasco en gabinete]',
+      imagePlaceholder: '[IMAGEN REAL: Fotografía editorial y cálida de la Dra. Elena Carrasco en gabinete con luz natural]',
       bio: 'Especialista en odontología conservadora y carillas cerámicas de mínima invasión. Máster en Odontología Restauradora y Biomateriales con formación clínica en Suiza y Alemania.',
       values: 'Preservar el tejido original intacto es el mayor acto de respeto hacia la salud futura del paciente.',
     },
@@ -245,7 +245,7 @@ export const siteContent = {
       title: 'Cirujano Oral, Periodoncia e Implantología Guiada',
       collegiateNumber: '[COMPLETAR: Nº Colegiado, ej. Col. 28006180]',
       college: 'COEM Madrid',
-      imagePlaceholder: '[IMAGEN REAL: Retrato editorial del Dr. Marcos Serrano]',
+      imagePlaceholder: '[IMAGEN REAL: Fotografía del Dr. Marcos Serrano en gabinete quirúrgico diáfano]',
       bio: 'Especialista en periodoncia clínica, cirugía plástica gingival y regeneración tisular guiada. Dedicación exclusiva a la implantología y microcirugía reconstructiva.',
       values: 'La precisión milimétrica en la base ósea y gingival es la garantía silenciosa de un tratamiento de por vida.',
     },
@@ -253,9 +253,9 @@ export const siteContent = {
 
   // 5. Página Especializada: Invisalign®
   invisalignPage: {
-    heroTitle: 'Ortodoncia Invisible con Planificación Digital ClinCheck®',
+    heroTitle: 'Ortodoncia invisible con un plan digital a tu medida',
     heroSubtitle:
-      'Alineadores transparentes SmartTrack® fabricados a medida para corregir la posición de tus dientes de forma discreta, predecible y sin rozaduras metálicas.',
+      'Alineadores transparentes de alta precisión fabricados a medida para alinear tus dientes de forma cómoda, discreta y predecible.',
     comparison: {
       title: 'Comparativa Clínica: Alineadores Transparentes frente a Ortodoncia con Brackets',
       disclaimer: 'La elección de la técnica ortodóncica corresponde al ortodoncista tras el diagnóstico cefalométrico y oclusal individual.',

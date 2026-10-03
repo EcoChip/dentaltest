@@ -34,16 +34,16 @@ export function CategoryFilter({ posts }: CategoryFilterProps) {
               role="tab"
               aria-selected={isSelected}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`touch-target px-4 py-2 text-xs uppercase tracking-clinical rounded-xs font-medium transition-all duration-200 flex items-center space-x-2 border ${
+              className={`touch-target px-4 py-2 text-xs uppercase tracking-clinical rounded-btn font-medium transition-all duration-200 flex items-center space-x-2 border ${
                 isSelected
-                  ? 'bg-ink text-canvas border-ink shadow-subtle'
+                  ? 'bg-btn-primary text-btn-primary-text border-btn-primary shadow-subtle'
                   : 'bg-surface text-ink-secondary border-line-subtle hover:border-line-strong hover:text-ink'
               }`}
             >
               <span>{cat.name}</span>
               <span
-                className={`font-mono text-[10px] px-1.5 py-0.5 rounded-xs ${
-                  isSelected ? 'bg-canvas/20 text-canvas' : 'bg-canvas text-ink-muted'
+                className={`font-mono text-[10px] px-1.5 py-0.5 rounded-badge ${
+                  isSelected ? 'bg-white/20 text-white' : 'bg-canvas text-ink-muted'
                 }`}
               >
                 {count}

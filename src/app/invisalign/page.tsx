@@ -60,7 +60,7 @@ export default function InvisalignPage() {
             <span>Ortodoncia Invisible</span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl text-ink tracking-tight mb-6 leading-[1.08]">
+          <h1 className="font-serif text-3xl sm:text-5xl text-ink tracking-tight mb-6 leading-snug">
             {invisalign.heroTitle}
           </h1>
 
@@ -75,13 +75,13 @@ export default function InvisalignPage() {
             <InvisalignViewerSection />
           </div>
 
-          <div className="lg:col-span-5 bg-surface border border-line-strong p-8 sm:p-10 rounded-xs shadow-subtle flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-surface border border-line-strong p-8 sm:p-10 rounded-card shadow-subtle flex flex-col justify-between">
             <div className="space-y-4">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block">
-                Ingeniería de Polímeros
+                El material
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl text-ink tracking-tight">
-                SmartTrack®: Fuerza suave y constante de 0,75 mm
+                SmartTrack: fuerza suave y constante de 0,75 mm
               </h2>
               <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
                 A diferencia de los acetatos termoformados genéricos, el material multicapa patentado SmartTrack® presenta una tasa superior de elasticidad continua. Permite un control milimétrico sobre el centro de rotación y traslación dental sin fuerzas traumáticas.
@@ -257,23 +257,23 @@ export default function InvisalignPage() {
         </div>
 
         {/* CTA Primario Unificado */}
-        <div className="bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="bg-surface border border-line-strong p-8 sm:p-12 rounded-card shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-xl">
             <h3 className="font-serif text-2xl sm:text-3xl text-ink mb-2">
               Comienza tu estudio de ortodoncia 3D
             </h3>
             <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-              Diagnóstico con escáner intraoral iTero, simulación digital ClinCheck® y valoración personalizada con la {brandConfig.medicalDirector.name}.
+              Diagnóstico con escáner intraoral 3D, simulación digital ClinCheck® y valoración personalizada con la {brandConfig.medicalDirector.name}.
             </p>
           </div>
 
           <Link
             href="/contacto"
-            className="touch-target px-8 py-4 bg-ink text-canvas hover:bg-accent text-xs uppercase tracking-clinical rounded-xs font-medium transition-colors shrink-0 flex items-center space-x-2 shadow-subtle group"
+            className="touch-target px-8 py-4 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover text-xs uppercase tracking-clinical rounded-btn font-medium transition-colors shrink-0 flex items-center space-x-2 shadow-subtle group"
           >
-            <Calendar className="w-4 h-4 text-canvas" />
+            <Calendar className="w-4 h-4 text-btn-primary-text" />
             <span>{siteContent.ctas.primary}</span>
-            <ArrowUpRight className="w-4 h-4 text-canvas/70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <ArrowUpRight className="w-4 h-4 text-btn-primary-text/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>
       </div>
