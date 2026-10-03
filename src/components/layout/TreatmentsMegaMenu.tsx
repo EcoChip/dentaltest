@@ -27,14 +27,14 @@ export const TREATMENTS_NAV_DATA: TreatmentCategory[] = [
     items: [
       {
         id: 'invisalign-comprehensive',
-        name: 'Invisalign® Comprehensive',
-        shortDesc: 'Alineación de alta precisión para maloclusiones y apiñamiento con SmartTrack®.',
+        name: 'Invisalign Comprehensive',
+        shortDesc: 'Alineación de alta precisión para maloclusiones y apiñamiento con SmartTrack.',
         timeEstimate: '6–18 meses',
         href: '/invisalign',
       },
       {
         id: 'invisalign-first-teen',
-        name: 'Invisalign® First & Teen',
+        name: 'Invisalign First & Teen',
         shortDesc: 'Ortodoncia interceptiva infantil y guía de erupción para adolescentes.',
         timeEstimate: '6–14 meses',
         href: '/invisalign#first-teen',
@@ -42,7 +42,7 @@ export const TREATMENTS_NAV_DATA: TreatmentCategory[] = [
       },
       {
         id: 'invisalign-lite-express',
-        name: 'Invisalign® Lite & Express',
+        name: 'Invisalign Lite & Express',
         shortDesc: 'Corrección estética focalizada para recidivas o leves rotaciones anteriores.',
         timeEstimate: '3–6 meses',
         href: '/invisalign#lite-express',
@@ -157,7 +157,7 @@ export function TreatmentsMegaMenu({
             {TREATMENTS_NAV_DATA.map((cat) => (
               <div key={cat.id} className="flex flex-col space-y-4">
                 <div className="flex items-center space-x-2 pb-2 border-b border-line-subtle/60">
-                  <span className="text-[11px] font-mono tracking-clinical uppercase text-ink-muted">
+                  <span className="text-xs font-medium text-accent">
                     {cat.title}
                   </span>
                 </div>

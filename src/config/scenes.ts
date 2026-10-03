@@ -35,15 +35,15 @@ export const SCENES_CONFIG = {
         reflectivity: 0.5,
       },
       aligner: {
-        color: '#F4F9FB', // Plástico médico casi incoloro, cristalino y transparente
-        fresnelColor: '#FFFFFF', // Blanco diamante para reflejos especulares de clínica diáfana
-        deepColor: '#A8C7D2', // Tinte claro y suave de poliuretano (se elimina el azul oscuro #13384D)
-        backColor: '#D2E4EB', // Cara interior clara con volumen sutil
-        opacity: 0.65, // Ligero y transparente
-        fresnelPower: 2.8,
-        baseAlpha: 0.035, // Transparencia central casi pura (3.5%): esmalte visible nítido
-        edgeAlpha: 0.52, // Opacidad suave en tangentes: 52% (silueta fina sin pesadez)
-        extrusion: 0.007, // Extrusión a lo largo de las normales (0.75 mm escala)
+        color: '#EAF6F8', // Plástico biomédico casi incoloro, cristalino y transparente
+        fresnelColor: '#72C2D2', // Tinte cian óptico sutil en bordes y silueta
+        deepColor: '#98C2CF', // Cara interior con volumen sutil
+        backColor: '#C4DEE7', // Volumen interior translúcido
+        opacity: 0.70,
+        fresnelPower: 3.0,
+        baseAlpha: 0.02, // Centro ultra-translúcido (2%): esmalte nítido sin aspecto de escayola
+        edgeAlpha: 0.58, // Borde con tinte cian suave que delimita la silueta sobre fondo claro
+        extrusion: 0.007, // Extrusión de 0.75 mm SmartTrack
       },
     },
   },
@@ -54,16 +54,16 @@ export const SCENES_CONFIG = {
     lookAtDefault: [0, 0, 0] as [number, number, number],
     breakpoints: {
       mobile: {
-        cameraDistance: 4.8,
-        cameraPosition: [0, -0.2, 4.8],
-        modelOffset: [0, 0.60, 0], // En retrato eleva el modelo dejando libre la zona inferior
-        fov: 34,
+        cameraDistance: 5.0,
+        cameraPosition: [0, 0, 5.0],
+        modelOffset: [0, 0, 0],
+        fov: 33,
         dprMax: 1.5,
       } as BreakpointConfig,
       tablet: {
         cameraDistance: 4.4,
         cameraPosition: [0, 0, 4.4],
-        modelOffset: [0, 0.15, 0],
+        modelOffset: [0, 0, 0],
         fov: 32,
         dprMax: 1.75,
       } as BreakpointConfig,
@@ -71,7 +71,7 @@ export const SCENES_CONFIG = {
         cameraDistance: 3.9,
         cameraPosition: [0, 0, 3.9],
         modelOffset: [0, 0, 0],
-        fov: 32,
+        fov: 31,
         dprMax: 2.0,
       } as BreakpointConfig,
       wide: {

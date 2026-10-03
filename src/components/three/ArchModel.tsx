@@ -135,8 +135,10 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
             vec2 center = vUv - vec2(0.5);
             center.x *= 0.82;
             float dist = length(center);
-            float alpha = smoothstep(0.48, 0.04, dist) * 0.12;
-            gl_FragColor = vec4(vec3(0.08, 0.12, 0.13), alpha);
+            float core = smoothstep(0.35, 0.02, dist) * 0.16;
+            float penumbra = smoothstep(0.48, 0.08, dist) * 0.10;
+            float alpha = core + penumbra;
+            gl_FragColor = vec4(vec3(0.08, 0.13, 0.14), alpha);
           }
         `,
         transparent: true,
@@ -158,7 +160,7 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
       });
 
       const alignerBack = upperGltf.scene.clone(true);
-      alignerBack.visible = false;
+      alignerBack.visible = true;
       alignerBack.traverse((c) => {
         if ((c as THREE.Mesh).isMesh) {
           const m = c as THREE.Mesh;
@@ -168,7 +170,7 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
       });
 
       const alignerFront = upperGltf.scene.clone(true);
-      alignerFront.visible = false;
+      alignerFront.visible = true;
       alignerFront.traverse((c) => {
         if ((c as THREE.Mesh).isMesh) {
           const m = c as THREE.Mesh;
@@ -206,7 +208,7 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
       });
 
       const alignerBack = lowerGltf.scene.clone(true);
-      alignerBack.visible = false;
+      alignerBack.visible = true;
       alignerBack.traverse((c) => {
         if ((c as THREE.Mesh).isMesh) {
           const m = c as THREE.Mesh;
@@ -216,7 +218,7 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
       });
 
       const alignerFront = lowerGltf.scene.clone(true);
-      alignerFront.visible = false;
+      alignerFront.visible = true;
       alignerFront.traverse((c) => {
         if ((c as THREE.Mesh).isMesh) {
           const m = c as THREE.Mesh;
@@ -249,9 +251,11 @@ export const ArchModel = forwardRef<ArchModelHandles, { className?: string; tier
       alignerUniforms.uQualityTier.value = isLow ? 0.0 : 1.0;
       const shouldBeVisible =
         alignerUniforms.uReveal.value > 0.005 || alignerUniforms.uScanBeam.value >= 0.0;
+      upperAlignerFront.visible = shouldBeVisible;
+      lowerAlignerFront.visible = shouldBeVisible;
       upperAlignerBack.visible = !isLow && shouldBeVisible;
       lowerAlignerBack.visible = !isLow && shouldBeVisible;
-    }, [tier, alignerUniforms, upperAlignerBack, lowerAlignerBack]);
+    }, [tier, alignerUniforms, upperAlignerFront, lowerAlignerFront, upperAlignerBack, lowerAlignerBack]);
 
     // Exponer API imperativa para que el timeline de GSAP mute directamente sin re-renders
     useImperativeHandle(ref, () => ({

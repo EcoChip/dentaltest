@@ -21,6 +21,17 @@ export const siteContent = {
     philosophy: brandConfig.philosophy,
   },
 
+  // Hero Principal (Inicio)
+  hero: {
+    badge: 'Ortodoncia invisible · Madrid',
+    title: 'Ortodoncia invisible, hecha a tu medida.',
+    subtitle:
+      'Escaneamos tus dientes en 3D en pocos minutos para crear un plan digital que podrás ver antes de empezar. La Dra. Elena Cala te acompaña personalmente en cada paso del tratamiento.',
+    scrollCue: 'Desplaza para explorar',
+    ctaPrimary: 'Pedir primera consulta',
+    ctaSecondary: 'Conocer el tratamiento',
+  },
+
   // Llamadas a la Acción Unificadas (CTAs)
   ctas: {
     primary: 'Reserva tu primera visita',
@@ -28,7 +39,7 @@ export const siteContent = {
     secondary: 'WhatsApp',
     phone: 'Llamar',
     directDiagnosis: 'Pedir consulta de diagnóstico',
-    invisalignDetail: 'Conocer el protocolo Invisalign®',
+    invisalignDetail: 'Conocer el protocolo Invisalign',
   },
 
   // Contacto y Ubicación
@@ -291,7 +302,7 @@ export const siteContent = {
       },
       {
         step: '02',
-        title: 'Planificación ClinCheck®',
+        title: 'Planificación digital ClinCheck',
         description:
           'La Dra. Elena Cala diseña la secuencia matemática de movimientos en el software de planificación, calculando las fuerzas y puntos de apoyo necesarios.',
       },
@@ -305,7 +316,7 @@ export const siteContent = {
         step: '04',
         title: 'Revisiones Periódicas y Retención Final',
         description:
-          'Comprobamos la adaptación oclusal cada 6–8 semanas. Al finalizar, colocamos retenedores nocturnos Vivera® para asegurar la estabilidad definitiva.',
+          'Comprobamos la adaptación oclusal cada 6–8 semanas. Al finalizar, colocamos retenedores nocturnos Vivera para asegurar la estabilidad definitiva.',
       },
     ],
     candidates: {
@@ -337,7 +348,7 @@ export const siteContent = {
       },
       {
         q: '¿Qué ocurre al terminar el tratamiento?',
-        a: 'Alcanzada la oclusión planificada, se fabrican los retenedores nocturnos Vivera® a medida para evitar cualquier movimiento dental de recidiva y mantener la sonrisa estable en el tiempo.',
+        a: 'Alcanzada la oclusión planificada, se fabrican los retenedores nocturnos Vivera a medida para evitar cualquier movimiento dental de recidiva y mantener la sonrisa estable en el tiempo.',
       },
     ],
   },
@@ -355,7 +366,7 @@ export const siteContent = {
     successNextStep:
       'Nos pondremos en contacto por teléfono o WhatsApp para confirmar la fecha y hora que mejor se adapte a su disponibilidad.',
     motives: [
-      { value: 'invisalign', label: 'Ortodoncia Invisible (Invisalign®)' },
+      { value: 'invisalign', label: 'Ortodoncia invisible (Invisalign)' },
       { value: 'estetica', label: 'Carillas y Estética Dental' },
       { value: 'implantes', label: 'Implantes y Cirugía Oral' },
       { value: 'blanqueamiento', label: 'Blanqueamiento Dental' },

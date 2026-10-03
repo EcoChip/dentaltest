@@ -226,7 +226,7 @@ export const Annotations = forwardRef<AnnotationsHandles, { className?: string }
           className="hidden lg:block absolute top-0 left-0 bg-canvas border border-line-strong p-3.5 rounded-card shadow-card max-w-[220px] pointer-events-auto text-left"
         >
           <div className="flex items-center space-x-1.5 mb-1">
-            <span className="text-[10px] tracking-clinical font-mono font-medium text-accent">
+            <span className="text-xs font-medium text-accent">
               0{item.orderNumber} · {item.badge}
             </span>
           </div>

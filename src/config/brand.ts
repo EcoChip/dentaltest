@@ -16,11 +16,11 @@ export const brandConfig = {
   tradeName: 'Clínica Dental Cala & Asociados',
 
   // Lemas institucionales
-  claim: 'Odontología de Precisión y Ortodoncia Invisible',
-  subclaim: 'La odontología estética no transforma tu sonrisa. Revela su armonía natural.',
-  tagline: 'Odontología de Precisión · Madrid',
+  claim: 'Ortodoncia Invisible y Estética Dental',
+  subclaim: 'Ortodoncia invisible, hecha a tu medida.',
+  tagline: 'Ortodoncia invisible · Madrid',
   philosophy:
-    'Planificación digital computacional de fuerzas biomecánicas y mínima intervención tisular. Cada tratamiento se diseña a medida bajo supervisión facultativa continuada.',
+    'Planificación digital en 3D y criterio conservador. Cada tratamiento se diseña a tu medida bajo el acompañamiento continuo de la Dra. Elena Cala.',
 
   // Dominio y URLs
   domain: 'clinicacala.es',

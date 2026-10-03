@@ -138,29 +138,26 @@ export function HomeScrollytelling() {
         {/* Hero Accesible */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-6 shadow-subtle">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-badge mb-6 shadow-subtle">
               <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
-                {clinicConfig.tagline}
+              <span className="text-xs text-ink font-medium">
+                {siteContent.hero.badge}
               </span>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-6xl font-light text-ink tracking-tight leading-[1.05] mb-6">
-              La odontología estética no transforma tu sonrisa.{' '}
-              <span className="italic font-normal text-accent block sm:inline">
-                Revela su armonía natural.
-              </span>
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-ink tracking-tight leading-[1.12] mb-6">
+              {siteContent.hero.title}
             </h1>
 
             <p className="text-base text-ink-secondary leading-relaxed max-w-xl mb-8">
-              Ortodoncia invisible planificada mediante escáner intraoral 3D y simulación computacional de fuerzas biomecánicas. Precisión milimétrica bajo la dirección médica del {clinicConfig.medicalDirector.name}.
+              {siteContent.hero.subtitle}
             </p>
 
             <a
               href="#contacto"
-              className="inline-flex items-center px-6 py-3.5 bg-ink text-canvas hover:bg-accent transition-colors duration-200 text-xs tracking-clinical uppercase font-medium rounded-xs"
+              className="inline-flex items-center px-6 py-3.5 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover transition-colors duration-200 text-sm font-medium rounded-btn shadow-subtle"
             >
-              Pedir primera consulta de diagnóstico
+              {siteContent.hero.ctaPrimary}
             </a>
           </div>
 
@@ -297,6 +294,26 @@ return (
           </div>
         </div>
 
+        {/* Halo Radial Verde Muy Tenue detrás del Modelo 3D (z-0) */}
+        <div
+          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-0 transition-opacity duration-700 hidden lg:block"
+          style={{
+            background:
+              'radial-gradient(ellipse 48% 48% at 72% 50%, rgba(36, 99, 93, 0.08) 0%, rgba(36, 99, 93, 0.02) 48%, transparent 72%)',
+            opacity: is3DReady ? 1 : 0,
+          }}
+          aria-hidden="true"
+        />
+        <div
+          className="fixed top-0 left-0 w-full h-screen h-[100svh] pointer-events-none z-0 transition-opacity duration-700 block lg:hidden"
+          style={{
+            background:
+              'radial-gradient(ellipse 65% 45% at 50% 66%, rgba(36, 99, 93, 0.075) 0%, rgba(36, 99, 93, 0.02) 48%, transparent 72%)',
+            opacity: is3DReady ? 1 : 0,
+          }}
+          aria-hidden="true"
+        />
+
         {/* Canvas Fijo a Pantalla Completa (z-1, detrás del contenido con pointer-events: none) */}
         <div
           ref={canvasContainerRef}
@@ -320,31 +337,37 @@ return (
               ============================================================== */}
           <div
             ref={cardS1Ref}
-            className="fixed top-0 left-0 right-0 w-full h-screen h-[100svh] flex flex-col justify-center pt-20 sm:pt-28 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-auto z-20"
+            className="fixed top-0 left-0 right-0 w-full h-screen h-[100svh] flex flex-col justify-start lg:justify-center pt-20 sm:pt-28 lg:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-auto z-20"
             style={{ opacity: 1 }}
           >
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-6 shadow-subtle">
+            <div className="w-full landscape:max-w-[42%] lg:max-w-[38%] pointer-events-auto">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-badge mb-3 sm:mb-5 shadow-subtle">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
-                  {clinicConfig.tagline}
+                <span className="text-xs text-ink font-medium">
+                  {siteContent.hero.badge}
                 </span>
               </div>
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-ink tracking-tight leading-[1.15] mb-6">
-                La odontología estética no transforma tu sonrisa.{' '}
-                <span className="italic text-accent block sm:inline">
-                  Revela su armonía natural.
-                </span>
+              <h1 className="font-serif text-2xl landscape:text-2xl sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-normal text-ink tracking-tight leading-[1.12] mb-3 sm:mb-5">
+                {siteContent.hero.title}
               </h1>
 
-              <p className="text-base text-ink-secondary leading-relaxed max-w-xl mb-8">
-                Ortodoncia invisible planificada mediante escáner intraoral 3D y simulación de fuerzas biomecánicas. Precisión milimétrica bajo la dirección médica de la {clinicConfig.medicalDirector.name}.
+              <p className="text-sm landscape:text-xs sm:text-base text-ink-secondary leading-relaxed mb-4 landscape:mb-4 sm:mb-7">
+                {siteContent.hero.subtitle}
               </p>
 
-              <div className="flex items-center space-x-3 text-xs tracking-clinical uppercase text-ink-muted">
-                <ArrowDown className="w-4 h-4 text-accent animate-bounce" />
-                <span>Desplaza para observar la anatomía y desarticulación</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
+                <a
+                  href="#contacto"
+                  className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover transition-colors duration-200 text-sm font-medium rounded-btn shadow-subtle"
+                >
+                  {siteContent.hero.ctaPrimary}
+                </a>
+
+                <div className="flex items-center space-x-2 text-xs text-ink-muted">
+                  <ArrowDown className="w-3.5 h-3.5 text-accent animate-bounce" />
+                  <span>{siteContent.hero.scrollCue}</span>
+                </div>
               </div>
             </div>
           </div>

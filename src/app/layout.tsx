@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
-import { Newsreader, Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
+import { Newsreader, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { clinicConfig } from '@/config/clinic.config';
 import { SmoothScrollProvider } from '@/components/layout/SmoothScrollProvider';
@@ -12,23 +12,13 @@ import { CookieBanner } from '@/components/common/CookieBanner';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { getClinicSchema, getWebSiteSchema } from '@/lib/seo/schema';
-import { ThemeSwitcherPreview } from '@/components/common/ThemeSwitcherPreview';
 
-// TEMA A: Serif cálido de bajo contraste, orgánico y humano (Newsreader)
+// Serif cálido humanista de bajo contraste, orgánico y médico (Newsreader)
 const newsreader = Newsreader({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
   variable: '--font-serif-warm',
-  display: 'swap',
-});
-
-// TEMA B: Serif editorial clásico aligerado (Playfair Display)
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif-editorial',
   display: 'swap',
 });
 
@@ -111,32 +101,9 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${newsreader.variable} ${playfair.variable} ${plusJakarta.variable}`}
-      data-theme="A"
+      className={`${newsreader.variable} ${plusJakarta.variable}`}
     >
       <head>
-        {/* Sincronización Inmediata del Tema Visual (?theme=A o ?theme=B) sin parpadeo */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var params = new URLSearchParams(window.location.search);
-                  var theme = params.get('theme');
-                  if (theme === 'A' || theme === 'B') {
-                    localStorage.setItem('cala_theme_choice', theme);
-                    document.documentElement.setAttribute('data-theme', theme);
-                  } else {
-                    var saved = localStorage.getItem('cala_theme_choice');
-                    document.documentElement.setAttribute('data-theme', (saved === 'B' ? 'B' : 'A'));
-                  }
-                } catch (e) {
-                  document.documentElement.setAttribute('data-theme', 'A');
-                }
-              })();
-            `,
-          }}
-        />
         {/* Google Analytics 4 Consent Mode v2 (Estado 'denied' por defecto según RGPD / AEPD) */}
         <script
           dangerouslySetInnerHTML={{
@@ -176,9 +143,6 @@ export default function RootLayout({
           <Footer />
           <PersistentMobileCTA />
           <CookieBanner />
-          <Suspense fallback={null}>
-            <ThemeSwitcherPreview />
-          </Suspense>
         </SmoothScrollProvider>
       </body>
     </html>

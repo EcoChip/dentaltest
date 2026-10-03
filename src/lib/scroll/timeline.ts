@@ -67,6 +67,7 @@ export function setupMasterScrollTimeline({
           bpCfg.modelOffset[1],
           bpCfg.modelOffset[2]
         );
+        sceneHandles.archModel.setAlignerReveal(1.0);
       }
 
       // Crear timeline maestro con scrub estricto
@@ -424,6 +425,20 @@ export function setupMasterScrollTimeline({
       // - Paso 4 (8.0 a 9.0): Oclusión Clase I y destello especular de luz
       // ====================================================================
       master.addLabel('s3_process', 5.0);
+
+      // Transición previa: retiro virtual del alineador para escanear el esmalte dental (4.75 a 5.0)
+      master.to(
+        { reveal: 1 },
+        {
+          reveal: 0,
+          duration: 0.25,
+          ease: 'power1.inOut',
+          onUpdate: function () {
+            sceneHandles.archModel?.setAlignerReveal(this.targets()[0].reveal);
+          },
+        },
+        4.75
+      );
 
       // Paso 1: Escáner intraoral 3D (5.1 a 5.95)
       master.to(

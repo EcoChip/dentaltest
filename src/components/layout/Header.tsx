@@ -181,8 +181,8 @@ export function Header() {
             <span className="font-serif text-xl sm:text-2xl tracking-tight text-ink font-normal group-hover:text-accent transition-colors duration-200">
               {clinicConfig.shortName}
             </span>
-            <span className="text-[10px] tracking-clinical uppercase text-ink-muted hidden sm:inline-block">
-              Odontología de Precisión · Madrid
+            <span className="text-xs text-ink-muted hidden sm:inline-block">
+              {clinicConfig.tagline}
             </span>
           </Link>
 
@@ -208,7 +208,7 @@ export function Header() {
                       aria-expanded={treatmentsDropdownOpen}
                       aria-haspopup="true"
                       aria-controls="treatments-mega-menu"
-                      className={`text-xs uppercase tracking-clinical transition-colors duration-200 inline-flex items-center space-x-1 py-1 focus-visible:outline-accent cursor-pointer ${
+                      className={`text-sm transition-colors duration-200 inline-flex items-center space-x-1.5 py-1 focus-visible:outline-accent cursor-pointer ${
                         isActive || treatmentsDropdownOpen
                           ? 'text-accent font-medium'
                           : 'text-ink-secondary hover:text-ink'
@@ -232,7 +232,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-xs uppercase tracking-clinical transition-colors duration-200 relative py-1 focus-visible:outline-accent ${
+                  className={`text-sm transition-colors duration-200 relative py-1 focus-visible:outline-accent ${
                     isActive ? 'text-accent font-medium' : 'text-ink-secondary hover:text-ink'
                   }`}
                 >
@@ -250,7 +250,7 @@ export function Header() {
             <a
               href={`tel:${siteContent.contact.phoneRaw}`}
               onClick={handlePhoneClick}
-              className="touch-target inline-flex items-center space-x-2 text-xs tracking-clinical uppercase text-ink-secondary hover:text-accent transition-colors duration-200"
+              className="touch-target inline-flex items-center space-x-2 text-sm text-ink-secondary hover:text-accent transition-colors duration-200"
               aria-label={`Llamar a ${siteContent.brand.name} al ${siteContent.contact.phone}`}
             >
               <Phone className="w-3.5 h-3.5 text-accent" />
@@ -260,7 +260,7 @@ export function Header() {
             <Link
               href="/contacto"
               onClick={handleCtaClick}
-              className="touch-target px-5 py-2.5 rounded-btn transition-all duration-200 flex items-center space-x-2 text-xs uppercase tracking-clinical shadow-subtle group bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover"
+              className="touch-target px-5 py-2.5 rounded-btn transition-all duration-200 flex items-center space-x-2 text-sm font-medium shadow-subtle group bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover"
             >
               <span>{siteContent.ctas.primary}</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-btn-primary-text/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />

@@ -38,7 +38,7 @@ export const CameraRig = forwardRef<CameraRigHandles, {}>((props, ref) => {
     getBreakpointConfig: getBreakpoint,
   }));
 
-  // Sincronizar cámara activa de Three.js con nuestra PerspectiveCamera
+  // Sincronizar cámara activa de Three.js con nuestra PerspectiveCamera y aplicar View Offset responsive
   useEffect(() => {
     if (cameraRef.current) {
       set({ camera: cameraRef.current });
@@ -46,6 +46,23 @@ export const CameraRig = forwardRef<CameraRigHandles, {}>((props, ref) => {
       cameraRef.current.fov = bp.fov;
       cameraRef.current.near = SCENES_CONFIG.camera.near;
       cameraRef.current.far = SCENES_CONFIG.camera.far;
+
+      const w = size.width;
+      const h = size.height;
+      const isLandscape = w > h;
+
+      if (w >= 1024 || (isLandscape && w >= 640)) {
+        // Escritorio y horizontal: Texto en columna izquierda (38-40%), modelo desplazado a la derecha
+        // Desplazamiento del eje óptico hacia la derecha (74-76% del ancho) sin distorsión de perspectiva
+        const xOffsetFactor = w >= 1440 ? 0.22 : 0.26;
+        cameraRef.current.setViewOffset(w, h, -w * xOffsetFactor, 0, w, h);
+      } else {
+        // Móvil vertical y tablet vertical: Texto arriba, modelo debajo sin recortes
+        // Desplazamiento hacia la mitad inferior de la pantalla (yOffset de -h * 0.22 a -h * 0.24)
+        const yOffsetFactor = w <= 480 ? 0.24 : 0.20;
+        cameraRef.current.setViewOffset(w, h, 0, -h * yOffsetFactor, w, h);
+      }
+
       cameraRef.current.updateProjectionMatrix();
     }
   }, [size.width, size.height, set]);

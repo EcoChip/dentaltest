@@ -42,7 +42,7 @@ export function createAlignerUniforms(): AlignerUniforms {
     uBaseAlpha: { value: cfg.baseAlpha },
     uEdgeAlpha: { value: cfg.edgeAlpha },
     uOpacity: { value: cfg.opacity },
-    uReveal: { value: 0.0 },
+    uReveal: { value: 1.0 },
     uScanBeam: { value: -1.0 },
     uQualityTier: { value: 1.0 },
   };
@@ -148,14 +148,14 @@ const fragmentShaderFront = `
     float fresnel = clamp(1.0 - NdotV, 0.0, 1.0);
     float fresnelFactor = pow(fresnel, uFresnelPower);
 
-    // Destellos especulares suaves de las fuentes de iluminación clínica
+    // Destellos especulares suaves de las fuentes de iluminación clínica (fino y nítido)
     vec3 lightDir1 = normalize(vec3(3.0, 5.0, 4.0));
     vec3 halfDir1 = normalize(lightDir1 + viewDir);
-    float spec1 = pow(max(dot(normal, halfDir1), 0.0), 38.0);
+    float spec1 = pow(max(dot(normal, halfDir1), 0.0), 52.0);
 
     vec3 lightDir2 = normalize(vec3(-3.5, -1.0, 3.0));
     vec3 halfDir2 = normalize(lightDir2 + viewDir);
-    float spec2 = pow(max(dot(normal, halfDir2), 0.0), 20.0);
+    float spec2 = pow(max(dot(normal, halfDir2), 0.0), 28.0);
 
     // Reborde luminoso fino en los ángulos tangenciales
     float rim = pow(fresnel, 4.2);
@@ -164,17 +164,17 @@ const fragmentShaderFront = `
     vec3 studioReflection = vec3(0.0);
     if (uQualityTier > 0.5) {
       vec3 reflDir = reflect(-viewDir, normal);
-      float softboxTop = smoothstep(0.30, 0.85, reflDir.y) * 0.32;
-      float softboxSide = smoothstep(0.35, 0.90, -reflDir.x) * 0.16;
+      float softboxTop = smoothstep(0.30, 0.85, reflDir.y) * 0.28;
+      float softboxSide = smoothstep(0.35, 0.90, -reflDir.x) * 0.14;
       studioReflection = vec3(softboxTop + softboxSide);
     }
 
-    // Tinte cian levísimo y óptico únicamente en los ángulos extremos de borde (fresnel)
-    vec3 edgeCyan = vec3(0.90, 0.97, 0.99);
-    vec3 baseTranslucent = mix(uColor, edgeCyan, fresnelFactor * 0.40);
-    vec3 alignerColor = mix(baseTranslucent, uFresnelColor, pow(fresnelFactor, 1.3));
-    alignerColor += uFresnelColor * (spec1 * 0.75 + spec2 * 0.30 + rim * 0.35);
-    alignerColor += studioReflection;
+    // Tinte cian óptico sutil en los bordes y silueta tangencial (fresnel)
+    vec3 edgeCyan = vec3(0.42, 0.76, 0.84);
+    vec3 baseTranslucent = mix(uColor, edgeCyan, fresnelFactor * 0.70);
+    vec3 alignerColor = mix(baseTranslucent, uFresnelColor, pow(fresnelFactor, 1.2));
+    alignerColor += vec3(1.0) * (spec1 * 0.85 + spec2 * 0.40) + uFresnelColor * (rim * 0.40);
+    alignerColor += studioReflection * 0.65;
 
     // Resplandor del corte gingival en el frente de revelado
     if (isRevealed) {
@@ -187,11 +187,12 @@ const fragmentShaderFront = `
       alignerColor += vec3(0.15, 0.80, 1.0) * scanGlow * 2.8;
     }
 
-    // Translucidez: centro transparente casi puro (0.035), perfil sutil en tangentes
+    // Translucidez: centro transparente casi puro (alpha muy bajo = 0.02),
+    // presencia sutil en los bordes con tinte cian (fresnelFactor) y destello especular fino
     float alpha = clamp(
-      uBaseAlpha + fresnelFactor * uEdgeAlpha + spec1 * 0.28 + rim * 0.25,
+      uBaseAlpha + fresnelFactor * uEdgeAlpha + spec1 * 0.35 + rim * 0.28,
       0.0,
-      0.84
+      0.72
     );
 
     if (scanGlow > 0.01) {
