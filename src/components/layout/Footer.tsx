@@ -6,6 +6,7 @@ import { clinicConfig } from '@/config/clinic.config';
 import { siteContent } from '@/content/site';
 import { trackEvent, openCookieSettings } from '@/lib/analytics';
 import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react';
+import { NewsletterForm } from '@/components/newsletter/NewsletterForm';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,6 +14,11 @@ export function Footer() {
   return (
     <footer className="bg-surface border-t border-line-subtle text-ink pt-16 pb-24 lg:pb-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        {/* Newsletter Sobria en Footer */}
+        <div className="mb-14">
+          <NewsletterForm sourceLocation="footer" />
+        </div>
+
         {/* Fila Principal de Columnas */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-line-subtle">
           {/* Columna 1: Marca y Filosofía Clínica (4 cols) */}
@@ -70,6 +76,11 @@ export function Footer() {
               <li>
                 <Link href="/invisalign" className="hover:text-accent transition-colors py-0.5 block">
                   Protocolo Invisalign®
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-accent transition-colors py-0.5 block">
+                  Divulgación & Blog
                 </Link>
               </li>
               <li>

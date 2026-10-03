@@ -194,3 +194,47 @@ export function getMedicalProcedureSchema(params: {
     status: 'https://schema.org/ActiveActionStatus',
   };
 }
+
+/**
+ * Esquema Schema.org para artículos de divulgación médica (MedicalWebPage / BlogPosting).
+ */
+export function getMedicalArticleSchema(params: {
+  title: string;
+  description: string;
+  path: string;
+  publishedDate: string;
+  authorName: string;
+  authorId: string;
+  category: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': ['MedicalWebPage', 'BlogPosting'],
+    '@id': `${siteUrl}${params.path}#article`,
+    headline: params.title,
+    description: params.description,
+    url: `${siteUrl}${params.path}`,
+    datePublished: params.publishedDate,
+    dateModified: params.publishedDate,
+    inLanguage: 'es-ES',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}${params.path}`,
+    },
+    author: {
+      '@type': 'Physician',
+      '@id': `${siteUrl}/equipo#${params.authorId}`,
+      name: params.authorName,
+      worksFor: {
+        '@id': `${siteUrl}/#clinic`,
+      },
+    },
+    publisher: {
+      '@type': 'MedicalBusiness',
+      name: clinicConfig.name,
+      url: siteUrl,
+      logo: `${siteUrl}/apple-icon`,
+    },
+    articleSection: params.category,
+  };
+}

@@ -66,6 +66,30 @@ const KNOWN_ROUTES: RouteTarget[] = [
     description: 'Gabinete en Calle Serrano 42, reserva de cita y atención al paciente.',
     keywords: ['contacto', 'cita', 'reservar', 'pedir-cita', 'telefono', 'ubicacion', 'horario', 'mapa', 'direccion'],
   },
+  {
+    path: '/blog',
+    label: 'Divulgación Clínica y Blog',
+    description: 'Artículos sobre biomecánica de alineadores, biomimética y osteointegración.',
+    keywords: ['blog', 'articulos', 'noticias', 'divulgacion', 'publicaciones', 'newsletter'],
+  },
+  {
+    path: '/blog/por-que-0-75-mm-es-el-grosor-optimo-de-un-alineador',
+    label: 'Artículo: Grosor Óptimo de 0,75 mm en Alineadores',
+    description: 'Análisis biomecánico del material SmartTrack® y respuesta periodontal.',
+    keywords: ['0-75-mm', 'grosor-alineador', 'smarttrack', 'fuerza-fisiologica'],
+  },
+  {
+    path: '/blog/carillas-de-porcelana-vs-composite-analisis-biomecanico',
+    label: 'Artículo: Carillas Porcelana vs. Composite a 10 Años',
+    description: 'Supervivencia, resistencia y degradación cromática comparada.',
+    keywords: ['porcelana-vs-composite', 'carillas-vs-composite', 'adhesion-esmalte'],
+  },
+  {
+    path: '/blog/que-ocurre-biologicamente-en-el-hueso-al-colocar-un-implante',
+    label: 'Artículo: Respuesta Biológica Ósea al Implante Dental',
+    description: 'La cascada celular de la osteointegración de 0 a 60 días.',
+    keywords: ['osteointegracion', 'hueso-implante', 'valle-estabilidad', 'titanio'],
+  },
 ];
 
 // Cálculo de distancia Levenshtein simplificada
