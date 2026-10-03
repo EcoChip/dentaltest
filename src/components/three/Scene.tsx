@@ -9,6 +9,7 @@ import { Lighting, LightingHandles } from './Lighting';
 import { Annotations, AnnotationsHandles } from './Annotations';
 import { DepthParticles, DepthParticlesHandles } from './DepthParticles';
 import { RaycastDebugTool } from './RaycastDebugTool';
+import { ModelFraming3DHelper, ModelFramingOverlay } from './ModelFramingDebugTool';
 import { SCENES_CONFIG } from '@/config/scenes';
 
 export interface SceneHandles {
@@ -54,6 +55,11 @@ function SceneBridge({
         invalidate();
         if (onSceneReady) {
           onSceneReady();
+        }
+        if (typeof window !== 'undefined') {
+          (window as unknown as { __threeScene?: unknown; __threeCamera?: unknown; __archModelHandles?: unknown }).__threeScene = scene;
+          (window as unknown as { __threeScene?: unknown; __threeCamera?: unknown; __archModelHandles?: unknown }).__threeCamera = camera;
+          (window as unknown as { __threeScene?: unknown; __threeCamera?: unknown; __archModelHandles?: unknown }).__archModelHandles = archModelRef.current;
         }
       }
     } catch (e) {
@@ -175,12 +181,16 @@ export const Scene = forwardRef<SceneHandles, SceneProps>(
           <Suspense fallback={null}>
             <ArchModel ref={archModelRef} tier={isMobile ? 'low' : 'high'} />
             <RaycastDebugTool />
+            <ModelFraming3DHelper />
             <DepthParticles ref={depthParticlesRef} />
           </Suspense>
         </Canvas>
 
         {/* Overlay DOM de Anotaciones Quirúrgicas Proyectadas */}
         <Annotations ref={annotationsRef} />
+
+        {/* Overlay DOM del Calibrador de Encuadre (?debug) */}
+        <ModelFramingOverlay />
       </div>
     );
   }

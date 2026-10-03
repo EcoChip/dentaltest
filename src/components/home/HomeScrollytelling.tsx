@@ -337,7 +337,7 @@ return (
               ============================================================== */}
           <div
             ref={cardS1Ref}
-            className="fixed top-0 left-0 right-0 w-full h-screen h-[100svh] flex flex-col justify-start lg:justify-center pt-20 sm:pt-28 lg:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-auto z-20"
+            className="fixed top-0 left-0 right-0 w-full h-screen h-[100svh] flex flex-col justify-end landscape:justify-start lg:justify-center pb-12 sm:pb-16 landscape:pb-0 landscape:pt-20 lg:pt-0 lg:pb-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-auto z-20"
             style={{ opacity: 1 }}
           >
             <div className="w-full landscape:max-w-[42%] lg:max-w-[38%] pointer-events-auto">
@@ -409,7 +409,7 @@ return (
           {/* Paso 1: Escáner iTero */}
           <div
             ref={cardS3Step1Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-12 sm:pb-16 lg:pb-0 lg:justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
             <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
@@ -431,7 +431,7 @@ return (
           {/* Paso 2: Plan ClinCheck */}
           <div
             ref={cardS3Step2Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-12 sm:pb-16 lg:pb-0 lg:justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
             <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
@@ -453,7 +453,7 @@ return (
           {/* Paso 3: Serie de Alineadores */}
           <div
             ref={cardS3Step3Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-12 sm:pb-16 lg:pb-0 lg:justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
             <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
@@ -475,7 +475,7 @@ return (
           {/* Paso 4: Retención */}
           <div
             ref={cardS3Step4Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-12 sm:pb-16 lg:pb-0 lg:justify-center px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
             <div className="max-w-md ml-auto pointer-events-auto bg-canvas p-6 sm:p-8 border border-line-strong rounded-card shadow-card">
@@ -499,7 +499,7 @@ return (
               ============================================================== */}
           <div
             ref={cardS4FinalRef}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-center items-center text-center px-6 max-w-4xl mx-auto transition-opacity duration-500 pointer-events-none"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end pb-12 sm:pb-16 lg:pb-0 lg:justify-center items-center text-center px-6 max-w-4xl mx-auto transition-opacity duration-500 pointer-events-none"
             style={{ opacity: 0 }}
           >
             <div className="bg-canvas p-8 sm:p-10 border border-line-strong rounded-card shadow-card pointer-events-auto max-w-2xl">
@@ -522,7 +522,7 @@ return (
           {/* Beat 1: Casos Clínicos Finalizados (1000 a 1100 svh) */}
           <div
             ref={cardS5Beat1Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end md:justify-center pb-12 sm:pb-16 md:pb-0 pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
             <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-card shadow-card">
@@ -563,7 +563,7 @@ return (
           {/* Beat 2: Ejercicio Facultativo Continuado (1100 a 1200 svh) */}
           <div
             ref={cardS5Beat2Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center items-center sm:items-end pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end md:justify-center items-center sm:items-end pb-12 sm:pb-16 md:pb-0 pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
             <div className="max-w-md w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-9 border border-line-strong rounded-card shadow-card">
@@ -604,7 +604,7 @@ return (
           {/* Beat 3: Certificación Oficial Invisalign Apex (1200 a 1300 svh) */}
           <div
             ref={cardS5Beat3Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end md:justify-center pb-12 sm:pb-16 md:pb-0 pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
             <div className="max-w-lg pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-card shadow-card relative overflow-hidden">
@@ -646,7 +646,7 @@ return (
           {/* Beat 4: Previsibilidad Biomecánica & Ghost Arch (1300 a 1400 svh) */}
           <div
             ref={cardS5Beat4Ref}
-            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-start md:justify-center items-center sm:items-end pt-24 sm:pt-28 md:pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
+            className="fixed top-0 left-0 w-full h-screen h-[100svh] flex flex-col justify-end md:justify-center items-center sm:items-end pb-12 sm:pb-16 md:pb-0 pt-0 px-6 sm:px-12 max-w-7xl mx-auto transition-opacity duration-500 pointer-events-none z-20"
             style={{ opacity: 0 }}
           >
             <div className="max-w-lg w-full ml-auto pointer-events-auto bg-canvas p-6 sm:p-10 border border-line-strong rounded-card shadow-card">

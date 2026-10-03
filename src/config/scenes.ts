@@ -8,6 +8,29 @@ export interface BreakpointConfig {
   dprMax: number;
 }
 
+export interface MobileFramingParams {
+  fitMargin: number; // Margen lateral (ej: 0.07 = 7%)
+  offsetY: number; // Factor de desplazamiento vertical setViewOffset (+0.21 hacia zona segura)
+  fov: number;
+  targetOffset: [number, number, number];
+  safeZoneHeight: number; // 0.58 = 58% de la altura útil de la pantalla
+}
+
+export interface DesktopFramingParams {
+  cameraDistance: number;
+  offsetX: number; // Factor de desplazamiento horizontal setViewOffset (-0.24 hacia la derecha)
+  offsetY: number;
+  fov: number;
+  targetOffset: [number, number, number];
+}
+
+export interface SceneFramingPreset {
+  type: 'general' | 'zoom' | 'dolly';
+  pose: 'closed' | 'open';
+  mobile: MobileFramingParams;
+  desktop: DesktopFramingParams;
+}
+
 export const SCENES_CONFIG = {
   models: {
     upperPath: '/models/arcada_superior.glb',
@@ -81,6 +104,185 @@ export const SCENES_CONFIG = {
         fov: 30,
         dprMax: 2.0,
       } as BreakpointConfig,
+    },
+    safeZone: {
+      mobile: {
+        top: 0,
+        bottom: 0.58, // 58% de altura útil superior para el modelo 3D
+        centerFactor: 0.21, // Desplazamiento hacia arriba (+0.21 * h) mediante setViewOffset
+        fitMargin: 0.07, // 7% de margen lateral clínico
+      },
+      desktop: {
+        left: 0.38,
+        right: 1.0,
+        centerFactor: -0.24, // Desplazamiento hacia la derecha (-0.24 * w) mediante setViewOffset
+        fitMargin: 0.08,
+      },
+    },
+    // Encuadre analítico calibrado por escena para móvil y escritorio
+    framingPresets: {
+      s1_intro: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s1_open: {
+        type: 'general',
+        pose: 'open',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, -0.15, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s1_dolly: {
+        type: 'dolly',
+        pose: 'open',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.15,
+          fov: 33,
+          targetOffset: [0, 0.58, -0.3],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 1.15,
+          offsetX: 0,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, -0.04, -0.3],
+        },
+      } as SceneFramingPreset,
+      s2_invisalign: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.7,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s3_scanner: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s3_plan: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s3_aligner: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s4_occlusion: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
+      s5_evidence: {
+        type: 'general',
+        pose: 'closed',
+        mobile: {
+          fitMargin: 0.07,
+          offsetY: 0.21,
+          fov: 33,
+          targetOffset: [0, 0, 0],
+          safeZoneHeight: 0.58,
+        },
+        desktop: {
+          cameraDistance: 3.9,
+          offsetX: -0.25,
+          offsetY: 0,
+          fov: 31,
+          targetOffset: [0, 0, 0],
+        },
+      } as SceneFramingPreset,
     },
   },
   lighting: {

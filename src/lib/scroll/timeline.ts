@@ -60,14 +60,19 @@ export function setupMasterScrollTimeline({
         ? SCENES_CONFIG.camera.breakpoints.mobile
         : SCENES_CONFIG.camera.breakpoints.desktop;
 
+      // Distancia de cámara calculada analíticamente a partir del aspect ratio y bounding box
+      const calculated = sceneHandles.cameraRig?.getCalculatedFraming?.();
+      const cameraDistance = isMobile && calculated?.cameraDistance
+        ? calculated.cameraDistance
+        : bpCfg.cameraDistance;
+
       // Aplicar encuadre inicial responsive al modelo y cámara
       if (sceneHandles.archModel?.mainRig) {
-        sceneHandles.archModel.mainRig.position.set(
-          bpCfg.modelOffset[0],
-          bpCfg.modelOffset[1],
-          bpCfg.modelOffset[2]
-        );
+        sceneHandles.archModel.mainRig.position.set(0, 0, 0);
         sceneHandles.archModel.setAlignerReveal(1.0);
+      }
+      if (sceneHandles.cameraRig?.camera) {
+        sceneHandles.cameraRig.camera.position.z = cameraDistance;
       }
 
       // Crear timeline maestro con scrub estricto
@@ -220,8 +225,8 @@ export function setupMasterScrollTimeline({
         master.to(
           sceneHandles.cameraRig.camera.position,
           {
-            z: bpCfg.cameraDistance - 0.2,
-            y: isMobile ? -0.1 : 0,
+            z: cameraDistance - 0.2,
+            y: 0,
             x: isMobile ? 0 : -0.45,
             duration: 0.5,
             ease: 'power2.inOut',
@@ -363,8 +368,8 @@ export function setupMasterScrollTimeline({
           sceneHandles.cameraRig.camera.position,
           {
             x: isMobile ? 0 : -0.72,
-            z: bpCfg.cameraDistance - 0.2,
-            y: isMobile ? -0.32 : 0.05,
+            z: cameraDistance - 0.2,
+            y: isMobile ? 0 : 0.05,
             duration: 1.5,
             ease: 'power2.inOut',
           },
@@ -484,8 +489,8 @@ export function setupMasterScrollTimeline({
           sceneHandles.cameraRig.camera.position,
           {
             x: 0,
-            y: isMobile ? -0.05 : 0,
-            z: bpCfg.cameraDistance,
+            y: 0,
+            z: cameraDistance,
             duration: 0.9,
             ease: 'power1.inOut',
           },
@@ -585,8 +590,8 @@ export function setupMasterScrollTimeline({
           sceneHandles.cameraRig.camera.position,
           {
             x: 0,
-            y: isMobile ? -0.05 : 0,
-            z: bpCfg.cameraDistance,
+            y: 0,
+            z: cameraDistance,
             duration: 0.8,
             ease: 'power2.out',
           },
@@ -669,8 +674,8 @@ export function setupMasterScrollTimeline({
           sceneHandles.cameraRig.camera.position,
           {
             x: isMobile ? 0 : 0.12,
-            y: isMobile ? -0.05 : 0,
-            z: bpCfg.cameraDistance - (isMobile ? 0.65 : 0.75),
+            y: 0,
+            z: cameraDistance - (isMobile ? 0.65 : 0.75),
             duration: 0.9,
             ease: 'power2.inOut',
           },
@@ -683,7 +688,7 @@ export function setupMasterScrollTimeline({
           sceneHandles.archModel.mainRig.position,
           {
             x: isMobile ? 0 : 0.35,
-            y: isMobile ? -0.65 : 0,
+            y: 0,
             z: 0,
             duration: 0.9,
             ease: 'power2.inOut',
@@ -730,7 +735,7 @@ export function setupMasterScrollTimeline({
           sceneHandles.archModel.mainRig.position,
           {
             x: isMobile ? 0 : -0.35,
-            y: isMobile ? -0.65 : 0,
+            y: 0,
             z: 0,
             duration: 0.9,
             ease: 'power2.inOut',
@@ -745,7 +750,7 @@ export function setupMasterScrollTimeline({
           {
             x: isMobile ? 0 : -0.15,
             y: isMobile ? 0 : 0.02,
-            z: bpCfg.cameraDistance - (isMobile ? 0.2 : 0.25),
+            z: cameraDistance - (isMobile ? 0.2 : 0.25),
             duration: 0.9,
             ease: 'power2.inOut',
           },
@@ -775,7 +780,7 @@ export function setupMasterScrollTimeline({
           sceneHandles.archModel.mainRig.position,
           {
             x: isMobile ? 0 : 0.30,
-            y: isMobile ? -0.65 : 0,
+            y: 0,
             z: 0,
             duration: 0.9,
             ease: 'power2.inOut',
@@ -790,7 +795,7 @@ export function setupMasterScrollTimeline({
           {
             x: isMobile ? 0 : 0.1,
             y: isMobile ? 0 : 0,
-            z: bpCfg.cameraDistance - (isMobile ? 0.35 : 0.4),
+            z: cameraDistance - (isMobile ? 0.35 : 0.4),
             duration: 0.9,
             ease: 'power2.inOut',
           },
@@ -839,7 +844,7 @@ export function setupMasterScrollTimeline({
           sceneHandles.archModel.mainRig.position,
           {
             x: isMobile ? 0 : -0.32,
-            y: isMobile ? -0.65 : 0,
+            y: 0,
             z: 0,
             duration: 0.9,
             ease: 'power2.inOut',
@@ -865,7 +870,7 @@ export function setupMasterScrollTimeline({
           {
             x: isMobile ? 0 : -0.12,
             y: 0,
-            z: bpCfg.cameraDistance - (isMobile ? 0.4 : 0.45),
+            z: cameraDistance - (isMobile ? 0.4 : 0.45),
             duration: 0.9,
             ease: 'power2.inOut',
           },

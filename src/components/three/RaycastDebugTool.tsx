@@ -110,8 +110,29 @@ export function RaycastDebugTool() {
       return null;
     };
 
+    const showToast = (msg: string) => {
+      if (typeof document === 'undefined') return;
+      let el = document.getElementById('cala-raycast-toast');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'cala-raycast-toast';
+        el.className =
+          'fixed top-20 left-1/2 -translate-x-1/2 z-[10000] bg-[#1A1816] text-[#F8F6F1] text-xs px-4 py-2 rounded shadow-xl border border-[#2D6A4F] flex items-center space-x-2 pointer-events-none transition-opacity duration-300';
+        document.body.appendChild(el);
+      }
+      el.innerHTML = `<span class="w-2 h-2 rounded-full bg-[#2D6A4F] animate-ping"></span><span>${msg}</span>`;
+      el.style.opacity = '1';
+      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = setTimeout(() => {
+        if (el) el.style.opacity = '0';
+      }, 3500);
+    };
+
     const handleClick = (e: MouseEvent) => {
-      performRaycast(e.clientX, e.clientY);
+      const hit = performRaycast(e.clientX, e.clientY);
+      if (hit) {
+        showToast(`Anclaje ${hit.mesh.toUpperCase()} copiado: [${hit.localPosition.join(', ')}]`);
+      }
     };
 
     if (typeof window !== 'undefined') {
@@ -138,13 +159,6 @@ export function RaycastDebugTool() {
     };
   }, [gl, camera, scene]);
 
-  if (!toastMessage || typeof document === 'undefined') return null;
-
-  return ReactDOM.createPortal(
-    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] bg-[#1A1816] text-[#F8F6F1] text-xs px-4 py-2 rounded-xs shadow-lifted border border-accent flex items-center space-x-2 animate-in fade-in">
-      <span className="w-2 h-2 rounded-full bg-accent animate-ping" />
-      <span>{toastMessage}</span>
-    </div>,
-    document.body
-  );
+  return null;
 }
+
