@@ -214,11 +214,11 @@ export function TreatmentsMegaMenu({
               </div>
 
               <h4 className="font-serif text-base text-ink mb-1 font-normal tracking-tight">
-                Invisalign® First & Teen
+                Invisalign First & Teen
               </h4>
 
               <p className="text-[11px] text-ink-secondary leading-relaxed mb-4">
-                Corrección preventiva de arcadas en crecimiento con tecnología SmartTrack®. Férulas transparentes extraíbles con guía eruptiva para adolescentes.
+                Corrección preventiva de arcadas en crecimiento con tecnología SmartTrack. Férulas transparentes extraíbles con guía eruptiva para adolescentes.
               </p>
 
               <div className="bg-canvas p-3 rounded-card border border-line-subtle/80 flex items-center space-x-2.5 mb-4">
@@ -235,9 +235,9 @@ export function TreatmentsMegaMenu({
                 trackEvent('nav_featured_click', { treatment: 'invisalign_teen' });
                 onClose();
               }}
-              className="inline-flex items-center justify-between text-xs tracking-clinical uppercase text-accent font-medium hover:text-ink transition-colors group/cta pt-2 border-t border-line-subtle/80"
+              className="inline-flex items-center justify-between text-xs text-accent font-medium hover:text-ink transition-colors group/cta pt-2 border-t border-line-subtle/80"
             >
-              <span>Protocolo Invisalign®</span>
+              <span>Protocolo Invisalign</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform" />
             </Link>
           </div>

@@ -139,7 +139,7 @@ export function Header() {
 
   const navLinks = [
     { href: '/', label: 'Inicio' },
-    { href: '/invisalign', label: 'Invisalign®' },
+    { href: '/invisalign', label: 'Invisalign' },
     { href: '/tratamientos', label: 'Tratamientos', hasDropdown: true },
     { href: '/equipo', label: 'Equipo Médico' },
     { href: '/contacto', label: 'Contacto' },

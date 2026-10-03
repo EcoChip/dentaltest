@@ -206,7 +206,7 @@ export function RouteSuggester() {
             className="p-3 bg-canvas/60 hover:bg-canvas rounded-xs border border-line-subtle hover:border-line-strong text-ink hover:text-accent flex items-center justify-between transition-colors group"
           >
             <div>
-              <span className="font-medium block text-ink group-hover:text-accent">Invisalign®</span>
+              <span className="font-medium block text-ink group-hover:text-accent">Invisalign</span>
               <span className="text-[10px] text-ink-muted">Ortodoncia digital 3D</span>
             </div>
             <ArrowUpRight className="w-3.5 h-3.5 text-ink-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

@@ -75,7 +75,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/invisalign" className="hover:text-accent transition-colors py-0.5 block">
-                  Protocolo Invisalign®
+                  Protocolo Invisalign
                 </Link>
               </li>
               <li>
