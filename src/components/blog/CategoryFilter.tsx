@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { BlogPost, BLOG_CATEGORIES } from '@/content/blog';
 import { Clock, Calendar, ArrowUpRight, User, BookOpen } from 'lucide-react';
+import { isMotionDisabled } from '@/config/motion';
 
 interface CategoryFilterProps {
   posts: BlogPost[];
@@ -11,16 +12,77 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ posts }: CategoryFilterProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('todas');
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const [pillStyle, setPillStyle] = useState<{
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    ready: boolean;
+  }>({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+    ready: false,
+  });
+
+  // Calcular posición del pill deslizante
+  useEffect(() => {
+    const updatePill = () => {
+      const container = tabsContainerRef.current;
+      const activeBtn = buttonRefs.current.get(selectedCategory);
+      if (!container || !activeBtn) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+
+      setPillStyle({
+        left: btnRect.left - containerRect.left,
+        top: btnRect.top - containerRect.top,
+        width: btnRect.width,
+        height: btnRect.height,
+        ready: true,
+      });
+    };
+
+    updatePill();
+    window.addEventListener('resize', updatePill);
+    return () => window.removeEventListener('resize', updatePill);
+  }, [selectedCategory]);
 
   const filteredPosts =
     selectedCategory === 'todas'
       ? posts
       : posts.filter((post) => post.categoryId === selectedCategory);
 
+  const motionDisabled = typeof window !== 'undefined' && isMotionDisabled();
+
   return (
     <div className="space-y-12">
-      {/* Botones de Filtro por Disciplina Clínica */}
-      <div className="flex flex-wrap gap-2 pb-6 border-b border-line-subtle" role="tablist" aria-label="Filtrar por especialidad médica">
+      {/* Botones de Filtro por Disciplina Clínica con Pill Deslizante */}
+      <div
+        ref={tabsContainerRef}
+        className="relative flex flex-wrap gap-2 pb-6 border-b border-line-subtle"
+        role="tablist"
+        aria-label="Filtrar por especialidad médica"
+      >
+        {/* Indicador Deslizante (Pill) */}
+        {pillStyle.ready && (
+          <div
+            className={`absolute bg-btn-primary rounded-btn pointer-events-none shadow-subtle ${
+              motionDisabled ? '' : 'transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
+            }`}
+            style={{
+              transform: `translate3d(${pillStyle.left}px, ${pillStyle.top}px, 0)`,
+              width: pillStyle.width,
+              height: pillStyle.height,
+            }}
+            aria-hidden="true"
+          />
+        )}
+
         {BLOG_CATEGORIES.map((cat) => {
           const isSelected = selectedCategory === cat.id;
           const count =
@@ -31,18 +93,21 @@ export function CategoryFilter({ posts }: CategoryFilterProps) {
           return (
             <button
               key={cat.id}
+              ref={(el) => {
+                if (el) buttonRefs.current.set(cat.id, el);
+              }}
               role="tab"
               aria-selected={isSelected}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`touch-target px-4 py-2 text-xs uppercase tracking-clinical rounded-btn font-medium transition-all duration-200 flex items-center space-x-2 border ${
+              className={`relative z-10 touch-target px-4 py-2 text-xs uppercase tracking-clinical rounded-btn font-medium transition-colors duration-200 flex items-center space-x-2 border cursor-pointer ${
                 isSelected
-                  ? 'bg-btn-primary text-btn-primary-text border-btn-primary shadow-subtle'
+                  ? 'text-btn-primary-text border-transparent'
                   : 'bg-surface text-ink-secondary border-line-subtle hover:border-line-strong hover:text-ink'
               }`}
             >
               <span>{cat.name}</span>
               <span
-                className={`font-mono text-[10px] px-1.5 py-0.5 rounded-badge ${
+                className={`font-mono text-[10px] px-1.5 py-0.5 rounded-badge transition-colors duration-200 ${
                   isSelected ? 'bg-white/20 text-white' : 'bg-canvas text-ink-muted'
                 }`}
               >
@@ -58,7 +123,7 @@ export function CategoryFilter({ posts }: CategoryFilterProps) {
         {filteredPosts.map((post, idx) => (
           <article
             key={post.slug}
-            className="group bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle hover:shadow-card transition-all duration-200 flex flex-col justify-between"
+            className="group bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle flex flex-col justify-between card-interactive"
           >
             <div className="space-y-5">
               {/* Encabezado: Categoría y Tiempo */}

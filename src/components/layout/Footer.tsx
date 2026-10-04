@@ -7,6 +7,7 @@ import { siteContent } from '@/content/site';
 import { trackEvent, openCookieSettings } from '@/lib/analytics';
 import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react';
 import { NewsletterForm } from '@/components/newsletter/NewsletterForm';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -163,23 +164,32 @@ export function Footer() {
 
           {/* Enlaces Legales requeridos por normativa española y LSSI/RGPD */}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs">
-            <Link href="/aviso-legal" className="hover:text-ink transition-colors underline-offset-4 hover:underline">
+            <Link href="/aviso-legal" className="hover:text-ink transition-colors animated-underline">
               Aviso Legal
             </Link>
-            <Link href="/privacidad" className="hover:text-ink transition-colors underline-offset-4 hover:underline">
+            <Link href="/privacidad" className="hover:text-ink transition-colors animated-underline">
               Política de Privacidad
             </Link>
-            <Link href="/cookies" className="hover:text-ink transition-colors underline-offset-4 hover:underline">
+            <Link href="/cookies" className="hover:text-ink transition-colors animated-underline">
               Política de Cookies
             </Link>
             <button
               type="button"
               onClick={() => openCookieSettings()}
-              className="hover:text-ink transition-colors underline-offset-4 hover:underline cursor-pointer text-left"
+              className="hover:text-ink transition-colors animated-underline cursor-pointer text-left"
             >
               Configurar cookies
             </button>
           </div>
+        </div>
+
+        {/* Wordmark Editorial al Pie con Revelado Scroll */}
+        <div className="pt-16 mt-12 border-t border-line-subtle/40 overflow-hidden text-center select-none">
+          <ScrollReveal variant="fade-up" distance={20} delay={0.05}>
+            <span className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-normal text-ink/[0.12] font-light block leading-none py-2">
+              {siteContent.brand.name}
+            </span>
+          </ScrollReveal>
         </div>
       </div>
     </footer>

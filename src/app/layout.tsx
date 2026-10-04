@@ -10,6 +10,8 @@ import { PersistentMobileCTA } from '@/components/layout/PersistentMobileCTA';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { CookieBanner } from '@/components/common/CookieBanner';
 import { PageTransition } from '@/components/layout/PageTransition';
+import { ReadingProgressBar } from '@/components/layout/ReadingProgressBar';
+import { BackToTopButton } from '@/components/layout/BackToTopButton';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { getClinicSchema, getWebSiteSchema } from '@/lib/seo/schema';
 
@@ -126,6 +128,9 @@ export default function RootLayout({
         <JsonLd data={webSiteSchema} />
       </head>
       <body className="font-sans bg-canvas text-ink antialiased selection:bg-accent selection:text-white">
+        {/* Barra milimétrica de progreso de lectura en scroll */}
+        <ReadingProgressBar />
+
         {/* Capa de textura analógica sutil */}
         <div className="analog-grain" aria-hidden="true" />
 
@@ -142,6 +147,7 @@ export default function RootLayout({
           </PageTransition>
           <Footer />
           <PersistentMobileCTA />
+          <BackToTopButton />
           <CookieBanner />
         </SmoothScrollProvider>
       </body>

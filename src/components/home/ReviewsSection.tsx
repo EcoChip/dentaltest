@@ -12,16 +12,37 @@ export function ReviewsSection() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Referencias para arrastre fluido (drag & drop) con inercia
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollStartRef = useRef(0);
+  const velocityRef = useRef(0);
+  const lastXRef = useRef(0);
+  const momentumRafRef = useRef<number | null>(null);
 
   const reviews = reviewsData.reviews;
   const headerInfo = siteContent.reviewsHeader;
 
-  // Actualizar estado de scroll y flechas
+  const cancelMomentum = () => {
+    if (momentumRafRef.current) {
+      cancelAnimationFrame(momentumRafRef.current);
+      momentumRafRef.current = null;
+    }
+  };
+
+  // Actualizar estado de scroll, flechas y barra de progreso
   const checkScrollState = () => {
     const el = scrollContainerRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 10);
     setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 10);
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll > 0) {
+      setScrollProgress(Math.min(1, Math.max(0, el.scrollLeft / maxScroll)));
+    }
   };
 
   useEffect(() => {
@@ -33,10 +54,61 @@ export function ReviewsSection() {
     window.addEventListener('resize', checkScrollState);
 
     return () => {
+      cancelMomentum();
       el.removeEventListener('scroll', checkScrollState);
       window.removeEventListener('resize', checkScrollState);
     };
   }, []);
+
+  // Controladores de arrastre con ratón (Mouse Drag con Momentum)
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    cancelMomentum();
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - el.offsetLeft;
+    scrollStartRef.current = el.scrollLeft;
+    lastXRef.current = e.pageX;
+    velocityRef.current = 0;
+    setIsPaused(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current) return;
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = x - startXRef.current;
+    el.scrollLeft = scrollStartRef.current - walk;
+
+    velocityRef.current = e.pageX - lastXRef.current;
+    lastXRef.current = e.pageX;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+
+    // Aplicar inercia (Momentum Fling)
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    let currentVelocity = velocityRef.current;
+    const applyMomentum = () => {
+      if (Math.abs(currentVelocity) > 0.5) {
+        el.scrollLeft -= currentVelocity * 1.5;
+        currentVelocity *= 0.92; // Factor de fricción suave
+        momentumRafRef.current = requestAnimationFrame(applyMomentum);
+      } else {
+        cancelMomentum();
+      }
+    };
+
+    momentumRafRef.current = requestAnimationFrame(applyMomentum);
+  };
 
   // Autoplay accesible con pausa en hover/foco y respeto de reduced-motion
   useEffect(() => {
@@ -60,6 +132,7 @@ export function ReviewsSection() {
   }, [currentIndex, isPaused, reviews.length]);
 
   const scrollPrev = () => {
+    cancelMomentum();
     const el = scrollContainerRef.current;
     if (!el) return;
     const cardWidth = el.querySelector('article')?.clientWidth || 320;
@@ -67,6 +140,7 @@ export function ReviewsSection() {
   };
 
   const scrollNext = () => {
+    cancelMomentum();
     const el = scrollContainerRef.current;
     if (!el) return;
     const cardWidth = el.querySelector('article')?.clientWidth || 320;
@@ -186,15 +260,21 @@ export function ReviewsSection() {
           </div>
         </div>
 
-        {/* Carrusel con Scroll-Snap y Pausa en Hover/Foco */}
+        {/* Carrusel con Scroll-Snap, Arrastre con Inercia (Momentum) y Pausa en Hover/Foco */}
         <div
           ref={scrollContainerRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
           onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+          onMouseLeave={() => {
+            handleMouseUpOrLeave();
+            setIsPaused(false);
+          }}
           onFocus={() => setIsPaused(true)}
           onBlur={() => setIsPaused(false)}
           data-cursor="drag"
-          className="flex space-x-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none focus:outline-none cursor-grab active:cursor-grabbing"
+          className="flex space-x-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none focus:outline-none cursor-grab active:cursor-grabbing select-none"
           tabIndex={0}
           aria-label="Carrusel de testimonios"
         >
@@ -241,6 +321,21 @@ export function ReviewsSection() {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Barra de progreso de navegación del carrusel */}
+        <div className="mt-4 flex items-center justify-center">
+          <div className="w-48 h-1 bg-line-subtle rounded-full overflow-hidden">
+            <div
+              className="h-full bg-accent rounded-full transition-[width] duration-150 ease-out"
+              style={{ width: `${Math.max(12, Math.round(scrollProgress * 100))}%` }}
+              role="progressbar"
+              aria-valuenow={Math.round(scrollProgress * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Progreso de testimonios"
+            />
+          </div>
         </div>
       </div>
     </section>

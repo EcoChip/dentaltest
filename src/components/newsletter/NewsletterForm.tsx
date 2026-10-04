@@ -66,9 +66,19 @@ export function NewsletterForm({
 
   if (status === 'success') {
     return (
-      <div className={`p-6 bg-surface border border-line-strong rounded-xs shadow-subtle ${className}`}>
+      <div className={`p-6 bg-surface border border-line-strong rounded-xs shadow-subtle animate-in fade-in slide-in-from-bottom-4 duration-300 ${className}`}>
         <div className="flex items-start space-x-3">
-          <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 shrink-0" />
+          <svg
+            className="w-5 h-5 text-accent animate-stroke-draw mt-0.5 shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
           <div className="space-y-1">
             <h4 className="font-serif text-base text-ink font-medium">
               Suscripción confirmada
@@ -113,14 +123,18 @@ export function NewsletterForm({
               disabled={status === 'loading'}
               required
               aria-label="Dirección de correo electrónico para suscripción al boletín"
-              className="touch-target w-full pl-10 pr-4 py-3 bg-canvas border border-line-subtle rounded-input text-xs text-ink placeholder:text-ink-muted focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
+              className={`touch-target w-full pl-10 pr-4 py-3 bg-canvas border rounded-input text-xs text-ink placeholder:text-ink-muted focus:outline-none transition-all duration-200 focus:ring-2 disabled:opacity-50 ${
+                status === 'error' && (!email || !email.includes('@'))
+                  ? 'animate-error-shake border-red-600 focus:border-red-600 focus:ring-red-500/20'
+                  : 'border-line-subtle focus:border-accent focus:ring-accent/25'
+              }`}
             />
           </div>
 
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="touch-target px-6 py-3 bg-btn-primary hover:bg-btn-primary-hover text-btn-primary-text text-xs uppercase tracking-clinical rounded-btn font-medium transition-colors flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 group"
+            className="touch-target px-6 py-3 bg-btn-primary hover:bg-btn-primary-hover text-btn-primary-text text-xs uppercase tracking-clinical rounded-btn font-medium transition-all duration-200 active:scale-[0.98] flex items-center justify-center space-x-2 shrink-0 disabled:opacity-50 group cursor-pointer shadow-subtle"
           >
             {status === 'loading' ? (
               <>

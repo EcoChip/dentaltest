@@ -15,6 +15,7 @@ import {
   RotateCcw,
   Phone,
   ShieldCheck,
+  Loader2,
 } from 'lucide-react';
 
 interface BookingFormProps {
@@ -110,12 +111,22 @@ export function BookingForm({
       {/* ESTADO: ÉXITO */}
       {submissionStatus === 'success' ? (
         <div
-          className="py-8 flex flex-col items-center text-center space-y-6 animate-in fade-in duration-300"
+          className="py-8 flex flex-col items-center text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300"
           role="status"
           aria-live="polite"
         >
           <div className="w-16 h-16 bg-accent-soft border border-accent/30 rounded-full flex items-center justify-center text-accent">
-            <CheckCircle2 className="w-9 h-9 text-accent" />
+            <svg
+              className="w-8 h-8 text-accent animate-stroke-draw"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
           </div>
 
           <div className="space-y-2 max-w-lg">
@@ -218,10 +229,10 @@ export function BookingForm({
                 aria-invalid={!!errors.name}
                 aria-describedby={errors.name ? 'booking_name_error' : undefined}
                 {...register('name')}
-                className={`w-full min-h-[48px] px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-colors ${
+                className={`w-full min-h-[48px] px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-all duration-200 focus:ring-2 ${
                   errors.name
-                    ? 'border-red-600 focus:border-red-600'
-                    : 'border-line-subtle focus:border-accent'
+                    ? 'animate-error-shake border-red-600 focus:border-red-600 focus:ring-red-500/20'
+                    : 'border-line-subtle focus:border-accent focus:ring-accent/25'
                 }`}
               />
               {errors.name && (
@@ -253,10 +264,10 @@ export function BookingForm({
                 aria-invalid={!!errors.phone}
                 aria-describedby={errors.phone ? 'booking_phone_error' : undefined}
                 {...register('phone')}
-                className={`w-full min-h-[48px] px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-colors ${
+                className={`w-full min-h-[48px] px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-all duration-200 focus:ring-2 ${
                   errors.phone
-                    ? 'border-red-600 focus:border-red-600'
-                    : 'border-line-subtle focus:border-accent'
+                    ? 'animate-error-shake border-red-600 focus:border-red-600 focus:ring-red-500/20'
+                    : 'border-line-subtle focus:border-accent focus:ring-accent/25'
                 }`}
               />
               {errors.phone && (
@@ -290,10 +301,10 @@ export function BookingForm({
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? 'booking_email_error' : undefined}
                 {...register('email')}
-                className={`w-full min-h-[48px] px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-colors ${
+                className={`w-full min-h-[48px] px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-all duration-200 focus:ring-2 ${
                   errors.email
-                    ? 'border-red-600 focus:border-red-600'
-                    : 'border-line-subtle focus:border-accent'
+                    ? 'animate-error-shake border-red-600 focus:border-red-600 focus:ring-red-500/20'
+                    : 'border-line-subtle focus:border-accent focus:ring-accent/25'
                 }`}
               />
               {errors.email && (
@@ -318,7 +329,7 @@ export function BookingForm({
               <select
                 id="booking_motive"
                 {...register('motive')}
-                className="w-full min-h-[48px] px-4 py-3 bg-canvas border border-line-subtle focus:border-accent rounded-xs text-base text-ink focus:outline-none transition-colors"
+                className="w-full min-h-[48px] px-4 py-3 bg-canvas border border-line-subtle focus:border-accent focus:ring-2 focus:ring-accent/25 rounded-xs text-base text-ink focus:outline-none transition-all duration-200"
               >
                 {formContent.motives.map((item) => (
                   <option key={item.value} value={item.value}>
@@ -342,7 +353,11 @@ export function BookingForm({
               rows={3}
               placeholder="Indica si prefieres citas de mañana o tarde, o cualquier aclaración sobre tu disponibilidad..."
               {...register('message')}
-              className="w-full px-4 py-3 bg-canvas border border-line-subtle focus:border-accent rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-colors resize-y"
+              className={`w-full px-4 py-3 bg-canvas border rounded-xs text-base text-ink placeholder:text-ink-muted focus:outline-none transition-all duration-200 focus:ring-2 resize-y ${
+                errors.message
+                  ? 'animate-error-shake border-red-600 focus:border-red-600 focus:ring-red-500/20'
+                  : 'border-line-subtle focus:border-accent focus:ring-accent/25'
+              }`}
             />
             {errors.message && (
               <p className="text-xs text-red-600 flex items-center space-x-1 mt-1">
@@ -397,15 +412,20 @@ export function BookingForm({
           <button
             type="submit"
             disabled={isSubmitting || submissionStatus === 'submitting'}
-            className="touch-target w-full min-h-[50px] bg-btn-primary hover:bg-btn-primary-hover text-btn-primary-text text-xs uppercase tracking-clinical py-4 px-6 rounded-btn font-medium transition-colors shadow-subtle flex items-center justify-center space-x-2 group disabled:opacity-50"
+            className="touch-target w-full min-h-[50px] bg-btn-primary hover:bg-btn-primary-hover text-btn-primary-text text-xs uppercase tracking-clinical py-4 px-6 rounded-btn font-medium transition-all duration-200 active:scale-[0.98] shadow-subtle flex items-center justify-center space-x-2 group disabled:opacity-50 cursor-pointer"
           >
-            <Calendar className="w-4 h-4 text-btn-primary-text" />
-            <span>
-              {isSubmitting || submissionStatus === 'submitting'
-                ? 'Procesando solicitud...'
-                : siteContent.ctas.primary}
-            </span>
-            <Send className="w-3.5 h-3.5 text-btn-primary-text/80 group-hover:translate-x-1 transition-transform" />
+            {isSubmitting || submissionStatus === 'submitting' ? (
+              <>
+                <Loader2 className="w-4 h-4 text-btn-primary-text animate-spin shrink-0" />
+                <span>Procesando solicitud...</span>
+              </>
+            ) : (
+              <>
+                <Calendar className="w-4 h-4 text-btn-primary-text" />
+                <span>{siteContent.ctas.primary}</span>
+                <Send className="w-3.5 h-3.5 text-btn-primary-text/80 group-hover:translate-x-1 transition-transform" />
+              </>
+            )}
           </button>
         </form>
       )}
