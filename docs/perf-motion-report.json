@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-10-04T10:00:35.887Z",
+  "desktop": {
+    "sampleCount": 232,
+    "avgFps": 43.5,
+    "minFps": 1.8,
+    "avgFrameTimeMs": 23.01,
+    "maxFrameTimeMs": 550.5,
+    "longTasks": 9,
+    "maxLongTaskMs": 745,
+    "totalLongTaskMs": 2288,
+    "cls": 0.001
+  },
+  "desktopMotionOff": {
+    "sampleCount": 190,
+    "avgFps": 41.7,
+    "minFps": 1.9,
+    "avgFrameTimeMs": 23.97,
+    "maxFrameTimeMs": 533.9,
+    "longTasks": 10,
+    "maxLongTaskMs": 655,
+    "totalLongTaskMs": 2419,
+    "cls": 0.001
+  },
+  "mobile4x": {
+    "sampleCount": 121,
+    "avgFps": 25.9,
+    "minFps": 1.9,
+    "avgFrameTimeMs": 38.61,
+    "maxFrameTimeMs": 533.9,
+    "longTasks": 11,
+    "maxLongTaskMs": 2681,
+    "totalLongTaskMs": 5810,
+    "cls": 0.002
+  }
+}
