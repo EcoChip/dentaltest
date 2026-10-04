@@ -170,7 +170,6 @@ html.lenis, html.lenis body {
 /* Subrayado interactivo: entra de izquierda a derecha, sale por la derecha */
 .animated-underline {
   position: relative;
-  display: inline-block;
 }
 .animated-underline::after {
   content: '';

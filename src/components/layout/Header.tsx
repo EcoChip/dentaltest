@@ -228,17 +228,18 @@ export function Header() {
                       aria-expanded={treatmentsDropdownOpen}
                       aria-haspopup="true"
                       aria-controls="treatments-mega-menu"
-                      className={`text-sm transition-colors duration-200 inline-flex items-center space-x-1.5 py-1 focus-visible:outline-accent cursor-pointer animated-underline ${
+                      className={`text-sm transition-colors duration-200 inline-flex flex-row items-center gap-1.5 py-1 focus-visible:outline-accent cursor-pointer whitespace-nowrap select-none group ${
                         isActive || treatmentsDropdownOpen
                           ? 'text-accent font-medium'
                           : 'text-ink-secondary hover:text-ink'
                       }`}
                     >
-                      <span>{link.label}</span>
+                      <span className="animated-underline">{link.label}</span>
                       <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                          treatmentsDropdownOpen ? 'rotate-180 text-accent' : 'text-ink-muted'
+                        className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${
+                          treatmentsDropdownOpen ? 'rotate-180 text-accent' : 'text-ink-muted group-hover:text-ink'
                         }`}
+                        aria-hidden="true"
                       />
                     </button>
                     {isActive && !treatmentsDropdownOpen && (
@@ -252,7 +253,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm transition-colors duration-200 relative py-1 focus-visible:outline-accent animated-underline ${
+                  className={`text-sm transition-colors duration-200 relative py-1 focus-visible:outline-accent animated-underline whitespace-nowrap ${
                     isActive ? 'text-accent font-medium' : 'text-ink-secondary hover:text-ink'
                   }`}
                 >
@@ -265,7 +266,7 @@ export function Header() {
             })}
           </nav>
 
-          {/* Acciones Rápidas (Teléfono + CTA Primario Unificado con roll y magnetismo) */}
+          {/* Acciones Rápidas (Teléfono + CTA Primario Unificado) */}
           <div className="hidden sm:flex items-center space-x-6">
             <a
               href={`tel:${siteContent.contact.phoneRaw}`}
@@ -282,7 +283,6 @@ export function Header() {
               variant="primary"
               onClick={handleCtaClick}
               showArrow
-              rollText
               size="md"
             >
               {siteContent.ctas.primary}
