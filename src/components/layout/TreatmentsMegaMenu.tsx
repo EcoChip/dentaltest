@@ -154,8 +154,12 @@ export function TreatmentsMegaMenu({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Columnas de Categorías Clínicas (9 columnas de 12) */}
           <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {TREATMENTS_NAV_DATA.map((cat) => (
-              <div key={cat.id} className="flex flex-col space-y-4">
+            {TREATMENTS_NAV_DATA.map((cat, catIdx) => (
+              <div
+                key={cat.id}
+                className="flex flex-col space-y-4 animate-in fade-in slide-in-from-top-2 duration-300 fill-mode-both"
+                style={{ animationDelay: `${catIdx * 60}ms` }}
+              >
                 <div className="flex items-center space-x-2 pb-2 border-b border-line-subtle/60">
                   <span className="text-xs font-medium text-accent">
                     {cat.title}
@@ -163,7 +167,7 @@ export function TreatmentsMegaMenu({
                 </div>
 
                 <div className="flex flex-col space-y-3">
-                  {cat.items.map((item) => (
+                  {cat.items.map((item, itemIdx) => (
                     <Link
                       key={item.id}
                       href={item.href}
@@ -171,7 +175,8 @@ export function TreatmentsMegaMenu({
                         trackEvent('nav_treatment_click', { treatment: item.id });
                         onClose();
                       }}
-                      className="group/item flex flex-col p-2.5 -mx-2.5 rounded-xs transition-colors duration-150 hover:bg-surface focus-visible:outline-accent"
+                      style={{ animationDelay: `${catIdx * 60 + itemIdx * 35}ms` }}
+                      className="group/item flex flex-col p-2.5 -mx-2.5 rounded-xs transition-all duration-200 hover:bg-surface hover:translate-x-1 focus-visible:outline-accent"
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium text-ink group-hover/item:text-accent transition-colors flex items-center space-x-1.5">
@@ -201,7 +206,10 @@ export function TreatmentsMegaMenu({
           </div>
 
           {/* Columna Destacada Lateral: Invisalign First / Teen (3 columnas de 12) */}
-          <div className="lg:col-span-3 bg-surface p-5 rounded-xs border border-line-subtle flex flex-col justify-between h-full">
+          <div
+            className="lg:col-span-3 bg-surface p-5 rounded-xs border border-line-subtle flex flex-col justify-between h-full animate-in fade-in slide-in-from-right-2 duration-300 fill-mode-both"
+            style={{ animationDelay: '180ms' }}
+          >
             <div>
               <div className="flex items-center space-x-2 mb-3">
                 <span className="inline-flex items-center space-x-1 text-[10px] uppercase tracking-clinical bg-accent text-canvas px-2 py-0.5 rounded-2xs font-medium">

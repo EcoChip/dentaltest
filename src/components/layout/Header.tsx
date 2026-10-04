@@ -8,9 +8,11 @@ import { siteContent } from '@/content/site';
 import { trackEvent } from '@/lib/analytics';
 import { Menu, X, Phone, ArrowUpRight, MessageCircle, Calendar, ChevronDown } from 'lucide-react';
 import { TreatmentsMegaMenu, TREATMENTS_NAV_DATA } from './TreatmentsMegaMenu';
+import { Button } from '@/components/ui/Button';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [treatmentsDropdownOpen, setTreatmentsDropdownOpen] = useState(false);
   const [mobileAccordionOpen, setMobileAccordionOpen] = useState(false);
@@ -21,6 +23,7 @@ export function Header() {
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollYRef = useRef(0);
 
   // Hover con delay de gracia (150 ms) para apertura y cierre del mega menú
   const handleTreatmentsMouseEnter = () => {
@@ -51,15 +54,30 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Monitorización de scroll con debounce suave
+  // Monitorización de scroll con detección de dirección (Headroom)
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const currentScrollY = window.scrollY;
+      const diff = currentScrollY - lastScrollYRef.current;
+
+      if (currentScrollY <= 60) {
+        setHeaderVisible(true);
+      } else if (diff > 8 && currentScrollY > 120 && !mobileMenuOpen && !treatmentsDropdownOpen) {
+        // Ocultar cabecera al bajar de forma continua
+        setHeaderVisible(false);
+      } else if (diff < -8) {
+        // Reaparecer inmediatamente al subir
+        setHeaderVisible(true);
+      }
+
+      setScrolled(currentScrollY > 40);
+      lastScrollYRef.current = currentScrollY;
     };
+
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [mobileMenuOpen, treatmentsDropdownOpen]);
 
   // Cerrar menús al cambiar de ruta
   useEffect(() => {
@@ -165,7 +183,9 @@ export function Header() {
     <>
       <header
         ref={headerRef}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          headerVisible ? 'translate-y-0' : '-translate-y-full'
+        } ${
           scrolled
             ? 'bg-canvas/95 backdrop-blur-md border-b border-line-subtle py-3.5 shadow-subtle'
             : 'bg-canvas/95 backdrop-blur-md py-4 lg:py-6 border-b border-line-subtle/40'
@@ -208,7 +228,7 @@ export function Header() {
                       aria-expanded={treatmentsDropdownOpen}
                       aria-haspopup="true"
                       aria-controls="treatments-mega-menu"
-                      className={`text-sm transition-colors duration-200 inline-flex items-center space-x-1.5 py-1 focus-visible:outline-accent cursor-pointer ${
+                      className={`text-sm transition-colors duration-200 inline-flex items-center space-x-1.5 py-1 focus-visible:outline-accent cursor-pointer animated-underline ${
                         isActive || treatmentsDropdownOpen
                           ? 'text-accent font-medium'
                           : 'text-ink-secondary hover:text-ink'
@@ -222,7 +242,7 @@ export function Header() {
                       />
                     </button>
                     {isActive && !treatmentsDropdownOpen && (
-                      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-accent" />
+                      <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-accent" />
                     )}
                   </div>
                 );
@@ -232,52 +252,70 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm transition-colors duration-200 relative py-1 focus-visible:outline-accent ${
+                  className={`text-sm transition-colors duration-200 relative py-1 focus-visible:outline-accent animated-underline ${
                     isActive ? 'text-accent font-medium' : 'text-ink-secondary hover:text-ink'
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 w-full h-[1px] bg-accent" />
+                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-accent" />
                   )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Acciones Rápidas (Teléfono + CTA Primario Unificado) */}
+          {/* Acciones Rápidas (Teléfono + CTA Primario Unificado con roll y magnetismo) */}
           <div className="hidden sm:flex items-center space-x-6">
             <a
               href={`tel:${siteContent.contact.phoneRaw}`}
               onClick={handlePhoneClick}
-              className="touch-target inline-flex items-center space-x-2 text-sm text-ink-secondary hover:text-accent transition-colors duration-200"
+              className="touch-target inline-flex items-center space-x-2 text-sm text-ink-secondary hover:text-accent transition-colors duration-200 group/phone"
               aria-label={`Llamar a ${siteContent.brand.name} al ${siteContent.contact.phone}`}
             >
-              <Phone className="w-3.5 h-3.5 text-accent" />
+              <Phone className="w-3.5 h-3.5 text-accent group-hover/phone:scale-110 transition-transform duration-200" />
               <span>{siteContent.contact.phone}</span>
             </a>
 
-            <Link
+            <Button
               href="/contacto"
+              variant="primary"
               onClick={handleCtaClick}
-              className="touch-target px-5 py-2.5 rounded-btn transition-all duration-200 flex items-center space-x-2 text-sm font-medium shadow-subtle group bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover"
+              showArrow
+              rollText
+              size="md"
             >
-              <span>{siteContent.ctas.primary}</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-btn-primary-text/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
-            </Link>
+              {siteContent.ctas.primary}
+            </Button>
           </div>
 
-          {/* Botón Disparador Menú Móvil */}
+          {/* Botón Disparador Menú Móvil con transformación geométrica a cruz */}
           <button
             ref={toggleBtnRef}
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden touch-target p-2 text-ink hover:text-accent focus-visible:outline-accent min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="lg:hidden touch-target p-2 text-ink hover:text-accent focus-visible:outline-accent min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-menu"
             aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú de navegación'}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <div className="relative w-6 h-4 flex flex-col justify-between items-center" aria-hidden="true">
+              <span
+                className={`w-6 h-0.5 bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] origin-center ${
+                  mobileMenuOpen ? 'translate-y-[7px] rotate-45 bg-accent' : ''
+                }`}
+              />
+              <span
+                className={`w-6 h-0.5 bg-current rounded-full transition-all duration-200 ease-out ${
+                  mobileMenuOpen ? 'opacity-0 scale-x-0' : 'opacity-100'
+                }`}
+              />
+              <span
+                className={`w-6 h-0.5 bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] origin-center ${
+                  mobileMenuOpen ? '-translate-y-[7px] -rotate-45 bg-accent' : ''
+                }`}
+              />
+            </div>
           </button>
         </div>
 
@@ -317,16 +355,20 @@ export function Header() {
           </div>
 
           <div className="flex flex-col space-y-6">
-            <span className="text-[11px] tracking-clinical uppercase text-ink-muted">
+            <span className="text-[11px] tracking-clinical uppercase text-ink-muted animate-in fade-in slide-in-from-top-1 duration-200">
               Navegación Institucional
             </span>
             <nav className="flex flex-col space-y-4" aria-label="Enlaces del menú móvil">
-              {navLinks.map((link) => {
+              {navLinks.map((link, idx) => {
                 const isActive = pathname === link.href;
 
                 if (link.hasDropdown) {
                   return (
-                    <div key={link.href} className="flex flex-col">
+                    <div
+                      key={link.href}
+                      className="flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300 fill-mode-both"
+                      style={{ animationDelay: `${80 + idx * 45}ms` }}
+                    >
                       <div className="flex items-center justify-between min-h-[44px]">
                         <Link
                           href={link.href}
@@ -404,7 +446,8 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`min-h-[44px] flex items-center text-2xl sm:text-3xl font-serif tracking-tight transition-colors ${
+                    style={{ animationDelay: `${80 + idx * 45}ms` }}
+                    className={`min-h-[44px] flex items-center text-2xl sm:text-3xl font-serif tracking-tight transition-colors animate-in fade-in slide-in-from-bottom-2 duration-300 fill-mode-both ${
                       isActive ? 'text-accent italic' : 'text-ink hover:text-accent'
                     }`}
                   >
@@ -415,7 +458,10 @@ export function Header() {
             </nav>
           </div>
 
-          <div className="border-t border-line-subtle pt-6 flex flex-col space-y-4">
+          <div
+            className="border-t border-line-subtle pt-6 flex flex-col space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300 fill-mode-both"
+            style={{ animationDelay: '320ms' }}
+          >
             <span className="text-[11px] tracking-clinical uppercase text-ink-muted">
               Contacto Directo y Cita
             </span>
@@ -424,7 +470,7 @@ export function Header() {
               <a
                 href={`tel:${siteContent.contact.phoneRaw}`}
                 onClick={handlePhoneClick}
-                className="min-h-[44px] px-3 py-2.5 bg-surface border border-line-subtle rounded-xs flex items-center justify-center space-x-2 text-xs text-ink hover:text-accent tracking-clinical uppercase"
+                className="min-h-[44px] px-3 py-2.5 bg-surface border border-line-subtle rounded-xs flex items-center justify-center space-x-2 text-xs text-ink hover:text-accent tracking-clinical uppercase active:scale-[0.97] transition-transform duration-150"
               >
                 <Phone className="w-3.5 h-3.5 text-accent" />
                 <span>{siteContent.contact.phone}</span>
@@ -435,7 +481,7 @@ export function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleWhatsAppClick}
-                className="min-h-[44px] px-3 py-2.5 bg-surface border border-line-subtle rounded-xs flex items-center justify-center space-x-2 text-xs text-ink hover:text-accent tracking-clinical uppercase"
+                className="min-h-[44px] px-3 py-2.5 bg-surface border border-line-subtle rounded-xs flex items-center justify-center space-x-2 text-xs text-ink hover:text-accent tracking-clinical uppercase active:scale-[0.97] transition-transform duration-150"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-accent" />
                 <span>{siteContent.ctas.secondary}</span>
@@ -446,17 +492,20 @@ export function Header() {
               {siteContent.contact.address.street} · {siteContent.contact.address.city}
             </p>
 
-            <Link
+            <Button
               href="/contacto"
+              variant="primary"
               onClick={() => {
                 setMobileMenuOpen(false);
                 handleCtaClick();
               }}
-              className="touch-target min-h-[48px] w-full flex items-center justify-center bg-btn-primary text-btn-primary-text text-xs uppercase tracking-clinical py-3 rounded-btn font-medium hover:bg-btn-primary-hover transition-colors shadow-subtle"
+              showArrow
+              rollText
+              size="lg"
+              className="w-full"
             >
-              <Calendar className="w-4 h-4 mr-2" />
-              <span>{siteContent.ctas.primary}</span>
-            </Link>
+              {siteContent.ctas.primary}
+            </Button>
           </div>
         </div>
       )}

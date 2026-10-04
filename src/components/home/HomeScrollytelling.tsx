@@ -11,6 +11,7 @@ import { ArrowDown, CheckCircle2, ShieldCheck, Sparkles, Award, FileCheck } from
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TrustMetricsSection } from '@/components/home/TrustMetricsSection';
 import { TechnicalBlueprint, TechnicalBlueprintHandles } from './TechnicalBlueprint';
+import { Button } from '@/components/ui/Button';
 
 // Carga diferida de la Escena 3D aislada en su propio componente
 const Scene = dynamic(() => import('@/components/three/Scene').then((mod) => mod.Scene), {
@@ -357,12 +358,15 @@ return (
               </p>
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
-                <a
+                <Button
                   href="#contacto"
-                  className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover transition-colors duration-200 text-sm font-medium rounded-btn shadow-subtle"
+                  variant="primary"
+                  showArrow={false}
+                  rollText
+                  size="md"
                 >
                   {siteContent.hero.ctaPrimary}
-                </a>
+                </Button>
 
                 <div className="flex items-center space-x-2 text-xs text-ink-muted">
                   <ArrowDown className="w-3.5 h-3.5 text-accent animate-bounce" />

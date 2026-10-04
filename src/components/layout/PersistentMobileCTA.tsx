@@ -73,7 +73,7 @@ export function PersistentMobileCTA() {
         <a
           href={`tel:${siteContent.contact.phoneRaw}`}
           onClick={() => trackEvent('phone_click', { location: 'sticky_mobile_bar' })}
-          className="col-span-3 min-h-[44px] py-2 px-1 bg-surface hover:bg-surface-elevated border border-line-subtle rounded-xs flex flex-col items-center justify-center text-center transition-colors focus-visible:outline-accent active:bg-line-subtle"
+          className="col-span-3 min-h-[44px] py-2 px-1 bg-surface hover:bg-surface-elevated border border-line-subtle rounded-xs flex flex-col items-center justify-center text-center transition-colors focus-visible:outline-accent active:bg-line-subtle active:scale-[0.97] transition-transform duration-150"
           aria-label={`Llamar por teléfono al ${siteContent.contact.phone}`}
         >
           <Phone className="w-3.5 h-3.5 text-ink mb-0.5" />
@@ -88,7 +88,7 @@ export function PersistentMobileCTA() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackEvent('whatsapp_click', { location: 'sticky_mobile_bar' })}
-          className="col-span-3 min-h-[44px] py-2 px-1 bg-surface hover:bg-surface-elevated border border-line-subtle rounded-xs flex flex-col items-center justify-center text-center transition-colors focus-visible:outline-accent active:bg-line-subtle"
+          className="col-span-3 min-h-[44px] py-2 px-1 bg-surface hover:bg-surface-elevated border border-line-subtle rounded-xs flex flex-col items-center justify-center text-center transition-colors focus-visible:outline-accent active:bg-line-subtle active:scale-[0.97] transition-transform duration-150"
           aria-label="Abrir chat de WhatsApp para consulta"
         >
           <MessageCircle className="w-3.5 h-3.5 text-accent mb-0.5" />
@@ -97,11 +97,11 @@ export function PersistentMobileCTA() {
           </span>
         </a>
 
-        {/* CTA Primario Unificado (6 cols) */}
+        {/* CTA Primario Unificado con pulso periódico suave y escala activa (6 cols) */}
         <Link
           href="/contacto"
           onClick={() => trackEvent('cta_primary_click', { location: 'sticky_mobile_bar' })}
-          className="col-span-6 min-h-[44px] py-2 px-2 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover rounded-btn flex items-center justify-center text-center transition-colors focus-visible:outline-accent shadow-subtle group active:scale-[0.99]"
+          className="col-span-6 min-h-[44px] py-2 px-2 bg-btn-primary text-btn-primary-text hover:bg-btn-primary-hover rounded-btn flex items-center justify-center text-center transition-colors focus-visible:outline-accent shadow-subtle group active:scale-[0.97] transition-transform duration-150 animate-cta-pulse"
           aria-label="Ir al formulario de reserva de visita"
         >
           <Calendar className="w-3.5 h-3.5 text-btn-primary-text mr-1.5 shrink-0" />
