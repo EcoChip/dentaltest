@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import reviewsData from '@/data/reviews.placeholder.json';
 import { siteContent } from '@/content/site';
 import { Star, ShieldAlert, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
 
 export function ReviewsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -81,53 +82,59 @@ export function ReviewsSection() {
         {/* Cabecera y Valoración Media */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-8">
           <div className="max-w-xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
-                Testimonios y Experiencia de Paciente
-              </span>
-            </div>
-            <h2
-              id="reviews-title"
-              className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ink tracking-tight leading-[1.1]"
-            >
-              Evaluaciones clínicas de pacientes en tratamiento activo
-            </h2>
+            <ScrollReveal variant="fade-up" distance={12} delay={0.05}>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
+                  Testimonios y Experiencia de Paciente
+                </span>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal variant="mask-line" delay={0.1}>
+              <h2
+                id="reviews-title"
+                className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ink tracking-tight leading-[1.1]"
+              >
+                Evaluaciones clínicas de pacientes en tratamiento activo
+              </h2>
+            </ScrollReveal>
           </div>
 
           {/* Bloque de Calificación Global de Google */}
-          <div className="bg-surface border border-line-strong p-6 rounded-xs shrink-0 flex items-center space-x-6 shadow-subtle">
-            <div className="text-center border-r border-line-subtle pr-6">
-              <span className="font-serif text-4xl sm:text-5xl text-ink font-light block leading-none tabular-numbers">
-                {headerInfo.globalRating}
-              </span>
-              <span className="text-[10px] uppercase tracking-clinical text-ink-muted">
-                sobre {headerInfo.maxRating}
-              </span>
-            </div>
-            <div>
-              <div
-                className="flex items-center space-x-1 mb-1.5 text-accent"
-                aria-label={`Calificación de ${headerInfo.globalRating} sobre 5 estrellas`}
-              >
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <div className="bg-surface border border-line-strong p-6 rounded-xs shrink-0 flex items-center space-x-6 shadow-subtle card-interactive">
+              <div className="text-center border-r border-line-subtle pr-6">
+                <span className="font-serif text-4xl sm:text-5xl text-ink font-light block leading-none tabular-numbers">
+                  {headerInfo.globalRating}
+                </span>
+                <span className="text-[10px] uppercase tracking-clinical text-ink-muted">
+                  sobre {headerInfo.maxRating}
+                </span>
               </div>
-              <p className="text-xs text-ink font-medium">
-                {headerInfo.totalReviews} opiniones verificadas
-              </p>
-              <a
-                href={headerInfo.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-accent hover:underline flex items-center space-x-1 mt-1"
-              >
-                <span>{headerInfo.sourceName}</span>
-                <ArrowUpRight className="w-3 h-3" />
-              </a>
+              <div>
+                <div
+                  className="flex items-center space-x-1 mb-1.5 text-accent"
+                  aria-label={`Calificación de ${headerInfo.globalRating} sobre 5 estrellas`}
+                >
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                  ))}
+                </div>
+                <p className="text-xs text-ink font-medium">
+                  {headerInfo.totalReviews} opiniones verificadas
+                </p>
+                <a
+                  href={headerInfo.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-accent hover:underline flex items-center space-x-1 mt-1"
+                >
+                  <span>{headerInfo.sourceName}</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* Banner de Aviso de Confidencialidad y Marcador Obligatorio */}
@@ -186,14 +193,15 @@ export function ReviewsSection() {
           onMouseLeave={() => setIsPaused(false)}
           onFocus={() => setIsPaused(true)}
           onBlur={() => setIsPaused(false)}
-          className="flex space-x-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none focus:outline-none"
+          data-cursor="drag"
+          className="flex space-x-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none focus:outline-none cursor-grab active:cursor-grabbing"
           tabIndex={0}
           aria-label="Carrusel de testimonios"
         >
           {reviews.map((rev) => (
             <article
               key={rev.id}
-              className="w-[300px] sm:w-[360px] lg:w-[380px] shrink-0 snap-start bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle flex flex-col justify-between transition-colors focus-within:border-accent"
+              className="w-[300px] sm:w-[360px] lg:w-[380px] shrink-0 snap-start bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle flex flex-col justify-between card-interactive focus-within:border-accent"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">

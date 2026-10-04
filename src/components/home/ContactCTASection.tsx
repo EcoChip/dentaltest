@@ -14,6 +14,8 @@ import {
   Train,
 } from 'lucide-react';
 
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
+
 export function ContactCTASection() {
   const formContent = siteContent.form;
   const contact = siteContent.contact;
@@ -31,21 +33,27 @@ export function ContactCTASection() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Cabecera Principal a Pantalla Completa */}
         <div className="max-w-3xl mb-16 lg:mb-20">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-            <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
-              Consulta de Valoración Inicial
-            </span>
-          </div>
-          <h2
-            id="contact-heading"
-            className="font-serif text-3xl sm:text-5xl lg:text-6xl text-ink tracking-tight leading-[1.08] mb-6"
-          >
-            {formContent.title}
-          </h2>
-          <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
-            {formContent.subtitle}
-          </p>
+          <ScrollReveal variant="fade-up" distance={12} delay={0.05}>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
+                Consulta de Valoración Inicial
+              </span>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal variant="mask-line" delay={0.1}>
+            <h2
+              id="contact-heading"
+              className="font-serif text-3xl sm:text-5xl lg:text-6xl text-ink tracking-tight leading-[1.08] mb-6"
+            >
+              {formContent.title}
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
+              {formContent.subtitle}
+            </p>
+          </ScrollReveal>
         </div>
 
         {/* Estructura en 2 Grandes Bloques: Formulario (7 cols) + Información y Mapa (5 cols) */}

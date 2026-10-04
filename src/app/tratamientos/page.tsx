@@ -19,6 +19,9 @@ import {
   Activity,
   Scan,
 } from 'lucide-react';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
+import { Parallax } from '@/components/motion/Parallax';
+import { Button } from '@/components/ui/Button';
 
 export const metadata: Metadata = {
   title: `Tratamientos Odontológicos en Madrid · Especialidades de Preservación | ${brandConfig.shortName}`,
@@ -88,72 +91,84 @@ export default function TreatmentsIndexPage() {
 
         {/* Cabecera Editorial */}
         <div className="max-w-3xl mb-16 lg:mb-20">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-            <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
-              Directorio de Disciplinas Clínicas
-            </span>
-          </div>
+          <ScrollReveal variant="fade-up" distance={12} delay={0.05}>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-surface border border-line-subtle rounded-xs mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold">
+                Directorio de Disciplinas Clínicas
+              </span>
+            </div>
+          </ScrollReveal>
 
-          <h1 className="font-serif text-4xl sm:text-6xl text-ink tracking-tight mb-6 leading-[1.08]">
-            Disciplinas Odontológicas & Protocolos de Preservación
-          </h1>
+          <ScrollReveal variant="mask-line" delay={0.1}>
+            <h1 className="font-serif text-4xl sm:text-6xl text-ink tracking-tight mb-6 leading-[1.08]">
+              Disciplinas Odontológicas & Protocolos de Preservación
+            </h1>
+          </ScrollReveal>
 
-          <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
-            Abordaje integral de la salud bucodental bajo el principio innegociable de mínima intervención y respeto biológico del tejido sano. Planificación tridimensional asistida por ordenador y ejecución microscópica en el Barrio de Salamanca, Madrid.
-          </p>
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
+              Abordaje integral de la salud bucodental bajo el principio innegociable de mínima intervención y respeto biológico del tejido sano. Planificación tridimensional asistida por ordenador y ejecución microscópica en el Barrio de Salamanca, Madrid.
+            </p>
+          </ScrollReveal>
         </div>
 
         {/* TRATAMIENTO INSIGNIA DESTACADO: INVISALIGN® */}
-        <div className="mb-20 bg-surface border border-line-strong p-8 sm:p-12 lg:p-14 rounded-xs shadow-card relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+        <ScrollReveal variant="fade-up" delay={0.15} className="mb-20">
+          <div className="bg-surface border border-line-strong p-8 sm:p-12 lg:p-14 rounded-xs shadow-card relative overflow-hidden card-interactive">
+            <Parallax speed={0.05} className="absolute top-0 right-0 w-72 h-72 pointer-events-none">
+              <div className="w-full h-full bg-accent/5 rounded-full blur-3xl" />
+            </Parallax>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="lg:col-span-8 space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] uppercase tracking-clinical font-semibold px-2.5 py-1 bg-accent-soft text-accent rounded-xs">
-                  Tratamiento Insignia
-                </span>
-                <span className="text-xs font-mono text-ink-muted">
-                  Alineadores SmartTrack® de 0,75 mm
-                </span>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+              <div className="lg:col-span-8 space-y-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[10px] uppercase tracking-clinical font-semibold px-2.5 py-1 bg-accent-soft text-accent rounded-xs">
+                    Tratamiento Insignia
+                  </span>
+                  <span className="text-xs font-mono text-ink-muted">
+                    Alineadores SmartTrack® de 0,75 mm
+                  </span>
+                </div>
+
+                <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
+                  Ortodoncia Invisible Invisalign®
+                </h2>
+
+                <p className="text-sm sm:text-base text-ink-secondary leading-relaxed max-w-2xl">
+                  Alineación dental de alta precisión mediante férulas transparentes secuenciales y planificación computacional ClinCheck® 3D. Microdesplazamiento fisiológico continuo supervisado por la {brandConfig.medicalDirector.name}.
+                </p>
+
+                <div className="flex flex-wrap gap-4 pt-2 text-xs text-ink-secondary">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <span>Escáner intraoral 3D sin pastas</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <span>Sin rozaduras metálicas</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <span>Simulación digital antes de iniciar</span>
+                  </div>
+                </div>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
-                Ortodoncia Invisible Invisalign®
-              </h2>
-
-              <p className="text-sm sm:text-base text-ink-secondary leading-relaxed max-w-2xl">
-                Alineación dental de alta precisión mediante férulas transparentes secuenciales y planificación computacional ClinCheck® 3D. Microdesplazamiento fisiológico continuo supervisado por la {brandConfig.medicalDirector.name}.
-              </p>
-
-              <div className="flex flex-wrap gap-4 pt-2 text-xs text-ink-secondary">
-                <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
-                  <span>Escáner intraoral 3D sin pastas</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
-                  <span>Sin rozaduras metálicas</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
-                  <span>Simulación digital antes de iniciar</span>
-                </div>
+              <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-center items-start lg:items-end gap-4">
+                <Button
+                  href="/invisalign"
+                  variant="primary"
+                  size="lg"
+                  showArrow
+                  className="w-full sm:w-auto text-center"
+                >
+                  Explorar Protocolo 3D
+                </Button>
               </div>
-            </div>
-
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-center items-start lg:items-end gap-4">
-              <Link
-                href="/invisalign"
-                className="touch-target w-full sm:w-auto text-center px-8 py-4 bg-ink text-canvas hover:bg-accent text-xs uppercase tracking-clinical rounded-xs font-medium transition-colors flex items-center justify-center space-x-2 shadow-subtle group"
-              >
-                <span>Explorar Protocolo 3D</span>
-                <ArrowUpRight className="w-4 h-4 text-canvas/70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* DIRECTORIO DE ESPECIALIDADES CLÍNICAS INDIVIDUALES */}
         <div className="space-y-8 mb-24">
@@ -166,13 +181,18 @@ export default function TreatmentsIndexPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <ScrollReveal
+            variant="stagger"
+            stagger={0.06}
+            delay={0.15}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {TREATMENT_SLUGS.map((slug, idx) => {
               const item = TREATMENTS_DATA[slug];
               return (
                 <article
                   key={slug}
-                  className="group bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle hover:shadow-card transition-all duration-200 flex flex-col justify-between"
+                  className="group bg-surface border border-line-subtle hover:border-line-strong p-8 rounded-xs shadow-subtle card-interactive flex flex-col justify-between"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -210,7 +230,7 @@ export default function TreatmentsIndexPage() {
                 </article>
               );
             })}
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* PILARES BIOLÓGICOS Y TECNOLÓGICOS */}

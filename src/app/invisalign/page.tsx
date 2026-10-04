@@ -15,6 +15,7 @@ import {
   Scan,
   ShieldCheck,
 } from 'lucide-react';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
 
 import { brandConfig } from '@/config/brand';
 
@@ -50,23 +51,29 @@ export default function InvisalignPage() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Cabecera Editorial */}
         <div className="max-w-3xl mb-12">
-          <div className="flex items-center space-x-2 text-xs uppercase tracking-clinical text-accent font-medium mb-3">
-            <Link href="/" className="text-ink-muted hover:text-ink">
-              Inicio
-            </Link>
-            <span>/</span>
-            <span>Especialidades</span>
-            <span>/</span>
-            <span>Ortodoncia Invisible</span>
-          </div>
+          <ScrollReveal variant="fade-up" distance={12} delay={0.05}>
+            <div className="flex items-center space-x-2 text-xs uppercase tracking-clinical text-accent font-medium mb-3">
+              <Link href="/" className="text-ink-muted hover:text-ink">
+                Inicio
+              </Link>
+              <span>/</span>
+              <span>Especialidades</span>
+              <span>/</span>
+              <span>Ortodoncia Invisible</span>
+            </div>
+          </ScrollReveal>
 
-          <h1 className="font-serif text-3xl sm:text-5xl text-ink tracking-tight mb-6 leading-snug">
-            {invisalign.heroTitle}
-          </h1>
+          <ScrollReveal variant="mask-line" delay={0.1}>
+            <h1 className="font-serif text-3xl sm:text-5xl text-ink tracking-tight mb-6 leading-snug">
+              {invisalign.heroTitle}
+            </h1>
+          </ScrollReveal>
 
-          <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
-            {invisalign.heroSubtitle}
-          </p>
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
+              {invisalign.heroSubtitle}
+            </p>
+          </ScrollReveal>
         </div>
 
         {/* Visor 3D Ligero y Explicación SmartTrack */}
@@ -75,7 +82,7 @@ export default function InvisalignPage() {
             <InvisalignViewerSection />
           </div>
 
-          <div className="lg:col-span-5 bg-surface border border-line-strong p-8 sm:p-10 rounded-card shadow-subtle flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-surface border border-line-strong p-8 sm:p-10 rounded-card shadow-subtle flex flex-col justify-between card-interactive">
             <div className="space-y-4">
               <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block">
                 El material
@@ -114,20 +121,25 @@ export default function InvisalignPage() {
 
         {/* Proceso Clínico Paso a Paso */}
         <div className="mb-24">
-          <div className="max-w-2xl mb-12">
+          <ScrollReveal variant="fade-up" className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-2">
               Protocolo Terapéutico
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
               El proceso de tratamiento en 4 etapas protocolizadas
             </h2>
-          </div>
+          </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <ScrollReveal
+            variant="stagger"
+            stagger={0.06}
+            delay={0.15}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
             {invisalign.processSteps.map((step) => (
               <div
                 key={step.step}
-                className="bg-surface border border-line-subtle p-6 sm:p-8 rounded-xs shadow-subtle flex flex-col justify-between"
+                className="bg-surface border border-line-subtle p-6 sm:p-8 rounded-xs shadow-subtle card-interactive flex flex-col justify-between"
               >
                 <div>
                   <span className="font-serif text-2xl sm:text-3xl text-accent mb-4 block tabular-numbers">
@@ -142,7 +154,7 @@ export default function InvisalignPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* Comparativa Sobria: Alineadores vs Brackets */}

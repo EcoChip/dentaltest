@@ -14,6 +14,8 @@ import {
   HeartHandshake,
   Microscope,
 } from 'lucide-react';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
+import { Button } from '@/components/ui/Button';
 
 import { brandConfig } from '@/config/brand';
 
@@ -70,33 +72,44 @@ export default function TeamPage() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Cabecera Editorial */}
         <div className="max-w-3xl mb-16">
-          <div className="flex items-center space-x-2 text-xs uppercase tracking-clinical text-accent font-medium mb-3">
-            <Link href="/" className="text-ink-muted hover:text-ink">
-              Inicio
-            </Link>
-            <span>/</span>
-            <span>Equipo Médico</span>
-          </div>
+          <ScrollReveal variant="fade-up" distance={12} delay={0.05}>
+            <div className="flex items-center space-x-2 text-xs uppercase tracking-clinical text-accent font-medium mb-3">
+              <Link href="/" className="text-ink-muted hover:text-ink">
+                Inicio
+              </Link>
+              <span>/</span>
+              <span>Equipo Médico</span>
+            </div>
+          </ScrollReveal>
 
-          <h1 className="font-serif text-4xl sm:text-6xl text-ink tracking-tight mb-6 leading-[1.08]">
-            Cuadro Facultativo & Filosofía Biológica
-          </h1>
+          <ScrollReveal variant="mask-line" delay={0.1}>
+            <h1 className="font-serif text-4xl sm:text-6xl text-ink tracking-tight mb-6 leading-[1.08]">
+              Cuadro Facultativo & Filosofía Biológica
+            </h1>
+          </ScrollReveal>
 
-          <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
-            Nuestros doctores aúnan dedicación exclusiva por especialidad, formación universitaria continuada y docencia en posgrado. Cada tratamiento se diseña de forma colegiada para garantizar la máxima estabilidad funcional y biológica.
-          </p>
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
+              Nuestros doctores aúnan dedicación exclusiva por especialidad, formación universitaria continuada y docencia en posgrado. Cada tratamiento se diseña de forma colegiada para garantizar la máxima estabilidad funcional y biológica.
+            </p>
+          </ScrollReveal>
         </div>
 
         {/* Listado de Perfiles Médicos */}
-        <div className="space-y-16 mb-24">
+        <ScrollReveal
+          variant="stagger"
+          stagger={0.08}
+          delay={0.15}
+          className="space-y-16 mb-24"
+        >
           {team.map((doctor, index) => (
             <article
               key={doctor.id}
-              className="bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+              className="bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-start card-interactive"
             >
               {/* Columna Izquierda: Retrato / Placeholder Editorial (5 cols) */}
               <div className="lg:col-span-5">
-                <div className="aspect-[4/5] bg-canvas border border-line-subtle rounded-xs p-6 flex flex-col justify-between relative overflow-hidden">
+                <div className="aspect-[4/5] bg-canvas border border-line-subtle rounded-xs p-6 flex flex-col justify-between relative overflow-hidden card-zoom-img">
                   <div className="flex items-center justify-between z-10">
                     <span className="text-[10px] font-mono uppercase tracking-clinical px-2.5 py-1 bg-surface text-ink font-semibold rounded-xs border border-line-subtle">
                       {doctor.collegiateNumber}
@@ -120,6 +133,9 @@ export default function TeamPage() {
                       {doctor.name}
                     </h2>
                   </div>
+
+                  {/* Sutil zoom target */}
+                  <div className="zoom-target absolute inset-0 bg-gradient-to-tr from-accent/5 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
 
@@ -147,37 +163,43 @@ export default function TeamPage() {
                   <span className="text-xs text-ink-muted">
                     Consulta individualizada con cita previa
                   </span>
-                  <Link
+                  <Button
                     href={`/contacto?doctor=${doctor.id}`}
-                    className="touch-target px-4 py-2 bg-ink text-canvas hover:bg-accent text-xs uppercase tracking-clinical rounded-xs transition-colors flex items-center space-x-1.5"
+                    variant="primary"
+                    size="sm"
+                    showArrow
                   >
-                    <span>Pedir Consulta</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
+                    Pedir Consulta
+                  </Button>
                 </div>
               </div>
             </article>
           ))}
-        </div>
+        </ScrollReveal>
 
         {/* Valores Éticos de la Clínica */}
         <div className="mb-24 bg-surface border border-line-strong p-8 sm:p-12 rounded-xs shadow-subtle">
-          <div className="max-w-2xl mb-12">
+          <ScrollReveal variant="fade-up" className="max-w-2xl mb-12">
             <span className="text-[10px] uppercase tracking-clinical text-accent font-semibold block mb-2">
               Compromiso Deontológico
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
               Los principios que rigen nuestra práctica médica
             </h2>
-          </div>
+          </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <ScrollReveal
+            variant="stagger"
+            stagger={0.06}
+            delay={0.15}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             {clinicalValues.map((val) => {
               const Icon = val.icon;
               return (
                 <div
                   key={val.title}
-                  className="bg-canvas border border-line-subtle p-6 rounded-xs space-y-3"
+                  className="bg-canvas border border-line-subtle p-6 rounded-xs space-y-3 card-interactive"
                 >
                   <Icon className="w-6 h-6 text-accent mb-2" />
                   <h3 className="font-serif text-xl text-ink tracking-tight">
@@ -189,7 +211,7 @@ export default function TeamPage() {
                 </div>
               );
             })}
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* CTA Global */}

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { siteContent } from '@/content/site';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
 
 export function TreatmentsSummarySection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -18,31 +19,42 @@ export function TreatmentsSummarySection() {
         {/* Cabecera Editorial */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 lg:mb-20 gap-8">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-canvas border border-line-subtle rounded-xs mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
-                Disciplinas Odontológicas
-              </span>
-            </div>
-            <h2
-              id="treatments-summary-heading"
-              className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ink tracking-tight leading-[1.1]"
-            >
-              Odontología de mínima invasión y preservación biológica
-            </h2>
+            <ScrollReveal variant="fade-up" distance={12} delay={0.05}>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-canvas border border-line-subtle rounded-xs mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                <span className="text-[10px] tracking-clinical uppercase text-ink font-medium">
+                  Disciplinas Odontológicas
+                </span>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal variant="mask-line" delay={0.1}>
+              <h2
+                id="treatments-summary-heading"
+                className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ink tracking-tight leading-[1.1]"
+              >
+                Odontología de mínima invasión y preservación biológica
+              </h2>
+            </ScrollReveal>
           </div>
 
-          <Link
-            href="/tratamientos"
-            className="touch-target inline-flex items-center space-x-2 text-xs uppercase tracking-clinical text-ink hover:text-accent font-medium pb-1 border-b border-ink hover:border-accent transition-colors shrink-0"
-          >
-            <span>Ver Catálogo Completo de Tratamientos</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </Link>
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <Link
+              href="/tratamientos"
+              className="touch-target inline-flex items-center space-x-2 text-xs uppercase tracking-clinical text-ink hover:text-accent font-medium pb-1 border-b border-ink hover:border-accent transition-colors shrink-0"
+            >
+              <span>Ver Catálogo Completo de Tratamientos</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          </ScrollReveal>
         </div>
 
-        {/* Lista Editorial con Hover Avanzado (Sin tarjetas repetidas) */}
-        <div className="border-t border-line-strong divide-y divide-line-subtle">
+        {/* Lista Editorial con Hover Avanzado */}
+        <ScrollReveal
+          variant="stagger"
+          stagger={0.06}
+          delay={0.15}
+          className="border-t border-line-strong divide-y divide-line-subtle"
+        >
           {treatments.map((treatment, index) => {
             const isHovered = hoveredIndex === index;
             const targetUrl =
@@ -104,7 +116,7 @@ export function TreatmentsSummarySection() {
               </Link>
             );
           })}
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
